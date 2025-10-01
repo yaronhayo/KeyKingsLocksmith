@@ -1,0 +1,175 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Card from '../../components/ui/Card.astro';
+import Button from '../../components/ui/Button.astro';
+import { companyConfig, getPhoneLink } from '../../data/company';
+
+const title = `All Services - ${companyConfig.name}`;
+const description = 'Complete locksmith services for residential, commercial, automotive, and emergency needs in Anderson, SC and surrounding areas.';
+
+// Fetch all services
+const allServices = await getCollection('services');
+
+// Group services by category
+const servicesByCategory = allServices.reduce((acc, service) => {
+  const category = service.data.category || 'other';
+  if (!acc[category]) {
+    acc[category] = [];
+  }
+  acc[category].push(service);
+  return acc;
+}, {} as Record<string, typeof allServices>);
+
+const categoryLabels: Record<string, string> = {
+  residential: 'Residential Services',
+  commercial: 'Commercial Services',
+  automotive: 'Automotive Services',
+  emergency: 'Emergency Services',
+  other: 'Other Services',
+};
+
+const categoryIcons: Record<string, string> = {
+  residential: '🏠',
+  commercial: '🏢',
+  automotive: '🚗',
+  emergency: '🚨',
+  other: '🔧',
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+
+  <main>
+    <!-- Page Header -->
+    <section class="bg-gradient-to-br from-primary-600 to-secondary-600 text-white py-16">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">Our Services</h1>
+          <p class="text-xl text-white/90 mb-8">
+            Professional locksmith solutions for every need. Licensed, insured, and available 24/7 for emergencies.
+          </p>
+          <a href={getPhoneLink()}>
+            <Button variant="secondary" size="lg">
+              <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+              </svg>
+              Call Now: {companyConfig.contact.phone.display}
+            </Button>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services by Category -->
+    {Object.entries(servicesByCategory).map(([category, services]) => (
+      <section class="py-16">
+        <div class="container mx-auto px-4">
+          <div class="mb-12">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-5xl">{categoryIcons[category]}</span>
+              <h2 class="text-3xl font-bold text-gray-900">
+                {categoryLabels[category] || category}
+              </h2>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((service) => (
+              <Card variant="elevated" class="h-full flex flex-col">
+                <div class="flex-1">
+                  {service.data.icon && (
+                    <div class="text-5xl mb-4">{service.data.icon}</div>
+                  )}
+
+                  <h3 class="text-2xl font-bold text-gray-900 mb-3">
+                    {service.data.title}
+                  </h3>
+
+                  <p class="text-gray-600 mb-4">
+                    {service.data.description}
+                  </p>
+
+                  {service.data.features && service.data.features.length > 0 && (
+                    <ul class="space-y-2 mb-4">
+                      {service.data.features.slice(0, 3).map((feature) => (
+                        <li class="flex items-start gap-2 text-sm text-gray-700">
+                          <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                          </svg>
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <div class="flex flex-wrap gap-2 mb-4">
+                    {service.data.featured && (
+                      <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded-full">
+                        ⭐ Popular
+                      </span>
+                    )}
+                    {service.data.emergency && (
+                      <span class="px-3 py-1 bg-red-100 text-red-800 text-xs font-semibold rounded-full">
+                        🚨 24/7
+                      </span>
+                    )}
+                  </div>
+
+                  {service.data.pricing && (
+                    <p class="text-2xl font-bold text-primary-600 mb-4">
+                      {service.data.pricing}
+                    </p>
+                  )}
+
+                  {service.data.responseTime && (
+                    <p class="text-sm text-gray-600 mb-4">
+                      ⏱️ {service.data.responseTime}
+                    </p>
+                  )}
+                </div>
+
+                <div class="mt-4">
+                  <a href={`/services/${service.slug}`} class="block">
+                    <Button variant="primary" fullWidth={true}>
+                      Learn More & Book
+                    </Button>
+                  </a>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))}
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-gradient-to-br from-primary-600 to-secondary-600 text-white">
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          Don't See What You Need?
+        </h2>
+        <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+          We offer many specialized locksmith services. Contact us to discuss your specific needs.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href={getPhoneLink()}>
+            <Button variant="secondary" size="lg">
+              Call Us Now
+            </Button>
+          </a>
+          <a href="/contact">
+            <Button variant="outline" size="lg" class="border-white text-white hover:bg-white hover:text-primary-600">
+              Send Message
+            </Button>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

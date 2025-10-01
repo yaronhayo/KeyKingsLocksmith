@@ -1,0 +1,59 @@
+---
+// Google Tag Manager component
+export interface Props {
+  containerId?: string;
+}
+
+const { containerId = import.meta.env.PUBLIC_GTM_CONTAINER_ID } = Astro.props;
+
+// Only load GTM in production
+const isProduction = import.meta.env.PROD;
+---
+
+{isProduction && containerId && (
+  <>
+    <!-- Google Tag Manager -->
+    <script define:vars={{ containerId }}>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer',containerId);
+    </script>
+    <!-- End Google Tag Manager -->
+  </>
+)}
+
+<!-- Google Tag Manager (noscript) - Add this to body -->
+{isProduction && containerId && (
+  <noscript>
+    <iframe
+      src={`https://www.googletagmanager.com/ns.html?id=${containerId}`}
+      height="0"
+      width="0"
+      style="display:none;visibility:hidden"
+    ></iframe>
+  </noscript>
+)}
+
+<!--
+Usage:
+1. Add to BaseLayout.astro:
+   - In <head>: <GoogleTagManager />
+   - After <body>: <GoogleTagManager /> (for noscript fallback)
+
+2. Set environment variable: PUBLIC_GTM_CONTAINER_ID=GTM-XXXXXXX
+
+3. GTM will only load in production builds
+
+Track custom events via dataLayer:
+<script>
+  if (typeof dataLayer !== 'undefined') {
+    dataLayer.push({
+      'event': 'form_submission',
+      'form_type': 'booking',
+      'conversion_value': 1
+    });
+  }
+</script>
+-->
