@@ -1,0 +1,72 @@
+---
+import { companyConfig, getPhoneLink, getFormattedPhone, getEmailLink } from '../../data/company';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-gray-900 text-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <!-- Company Info -->
+      <div>
+        <h3 class="text-xl font-bold mb-4">{companyConfig.name}</h3>
+        <p class="text-gray-400 mb-4">{companyConfig.tagline}</p>
+        <p class="text-sm text-gray-400">
+          Licensed, bonded & insured since {companyConfig.establishedYear}
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+        <ul class="space-y-2">
+          <li><a href="/" class="text-gray-400 hover:text-white">Home</a></li>
+          <li><a href="/services" class="text-gray-400 hover:text-white">Services</a></li>
+          <li><a href="/service-areas" class="text-gray-400 hover:text-white">Service Areas</a></li>
+          <li><a href="/about" class="text-gray-400 hover:text-white">About</a></li>
+          <li><a href="/contact" class="text-gray-400 hover:text-white">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Services -->
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Services</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li>Residential Locksmith</li>
+          <li>Commercial Locksmith</li>
+          <li>Automotive Locksmith</li>
+          <li>Emergency Services</li>
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Contact Us</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li>
+            <a href={getPhoneLink()} class="hover:text-white">
+              {getFormattedPhone()}
+            </a>
+          </li>
+          <li>
+            <a href={getEmailLink()} class="hover:text-white">
+              {companyConfig.contact.email.primary}
+            </a>
+          </li>
+          <li>
+            {companyConfig.contact.address.formatted}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
+      <p>&copy; {currentYear} {companyConfig.name}. All rights reserved.</p>
+      <div class="mt-2 space-x-4">
+        <a href="/privacy-policy" class="hover:text-white">Privacy Policy</a>
+        <a href="/terms-conditions" class="hover:text-white">Terms & Conditions</a>
+      </div>
+    </div>
+  </div>
+</footer>

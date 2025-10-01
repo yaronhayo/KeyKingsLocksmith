@@ -1,0 +1,111 @@
+---
+import { companyConfig } from '../data/company';
+import { getSchemaOrgData } from '../data/company';
+import '../styles/globals.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string[];
+  image?: string;
+  canonical?: string;
+}
+
+const {
+  title = companyConfig.seo.defaultTitle,
+  description = companyConfig.seo.defaultDescription,
+  keywords = companyConfig.seo.keywords,
+  image = companyConfig.seo.openGraph.image,
+  canonical
+} = Astro.props;
+
+const schemaData = getSchemaOrgData();
+const pageUrl = canonical || Astro.url.href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords.join(', ')} />
+    <link rel="canonical" href={pageUrl} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:site_name" content={companyConfig.seo.openGraph.siteName} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={pageUrl} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={image} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+
+    <!-- Vercel Analytics -->
+    {import.meta.env.PROD && (
+      <>
+        <script async src="https://cdn.vercel-insights.com/v1/script.debug.js"></script>
+        <script async src="https://va.vercel-scripts.com/v1/speed-insights/script.debug.js"></script>
+      </>
+    )}
+  </head>
+  <body class="antialiased">
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --color-primary: #dc143c;
+    --color-secondary: #ff4500;
+    --color-accent: #1c1c1c;
+    --color-background: #ffffff;
+    --color-text: #2d3748;
+    --color-muted: #718096;
+    --color-success: #38a169;
+    --color-warning: #dd6b20;
+    --color-error: #e53e3e;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--color-text);
+    background-color: var(--color-background);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-top: 0;
+  }
+</style>

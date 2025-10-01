@@ -1,0 +1,387 @@
+---
+// Enhanced booking form with validation and lead tracking
+import Button from '../ui/Button.astro';
+
+export interface Props {
+  class?: string;
+  showTitle?: boolean;
+  urgencyDefault?: 'asap' | 'same-day' | 'few-days' | 'few-weeks' | 'other';
+}
+
+const {
+  class: className = '',
+  showTitle = true,
+  urgencyDefault = 'asap',
+} = Astro.props;
+---
+
+<div class={`booking-form-container ${className}`}>
+  {showTitle && (
+    <div class="mb-6">
+      <h3 class="text-2xl font-bold text-gray-900 mb-2">Get Fast Service</h3>
+      <p class="text-gray-600">Fill out the form and we'll call you within 30 minutes</p>
+    </div>
+  )}
+
+  <form id="booking-form" class="space-y-4">
+    <!-- Name -->
+    <div>
+      <label for="booking-name" class="block text-sm font-semibold text-gray-700 mb-2">
+        Full Name <span class="text-red-600">*</span>
+      </label>
+      <input
+        type="text"
+        id="booking-name"
+        name="name"
+        required
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+        placeholder="John Smith"
+      />
+      <div class="error-message hidden text-red-600 text-sm mt-1" data-field="name"></div>
+    </div>
+
+    <!-- Phone -->
+    <div>
+      <label for="booking-phone" class="block text-sm font-semibold text-gray-700 mb-2">
+        Phone Number <span class="text-red-600">*</span>
+      </label>
+      <input
+        type="tel"
+        id="booking-phone"
+        name="phone"
+        required
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+        placeholder="(864) 555-0123"
+      />
+      <div class="error-message hidden text-red-600 text-sm mt-1" data-field="phone"></div>
+    </div>
+
+    <!-- Email (Optional) -->
+    <div>
+      <label for="booking-email" class="block text-sm font-semibold text-gray-700 mb-2">
+        Email <span class="text-gray-500 text-xs">(Optional)</span>
+      </label>
+      <input
+        type="email"
+        id="booking-email"
+        name="email"
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+        placeholder="john@example.com"
+      />
+      <div class="error-message hidden text-red-600 text-sm mt-1" data-field="email"></div>
+    </div>
+
+    <!-- Address -->
+    <div>
+      <label for="booking-address" class="block text-sm font-semibold text-gray-700 mb-2">
+        Service Address <span class="text-red-600">*</span>
+      </label>
+      <input
+        type="text"
+        id="booking-address"
+        name="address"
+        required
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+        placeholder="123 Main St, Anderson, SC 29621"
+      />
+      <div class="error-message hidden text-red-600 text-sm mt-1" data-field="address"></div>
+    </div>
+
+    <!-- Service Type -->
+    <div>
+      <label for="booking-service-type" class="block text-sm font-semibold text-gray-700 mb-2">
+        Service Needed <span class="text-red-600">*</span>
+      </label>
+      <select
+        id="booking-service-type"
+        name="serviceType"
+        required
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+      >
+        <option value="">Select a service...</option>
+        <option value="Car Lockout">Car Lockout</option>
+        <option value="House Lockout">House Lockout</option>
+        <option value="Lock Rekey">Lock Rekey</option>
+        <option value="Key Replacement">Key Replacement</option>
+        <option value="Commercial Locksmith">Commercial Locksmith</option>
+        <option value="Emergency Service">Emergency Service</option>
+        <option value="Other">Other</option>
+      </select>
+      <div class="error-message hidden text-red-600 text-sm mt-1" data-field="serviceType"></div>
+    </div>
+
+    <!-- Urgency -->
+    <div>
+      <label for="booking-urgency" class="block text-sm font-semibold text-gray-700 mb-2">
+        When do you need service? <span class="text-red-600">*</span>
+      </label>
+      <select
+        id="booking-urgency"
+        name="urgency"
+        required
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+      >
+        <option value="asap" selected={urgencyDefault === 'asap'}>As soon as possible (Emergency)</option>
+        <option value="same-day" selected={urgencyDefault === 'same-day'}>Today</option>
+        <option value="few-days" selected={urgencyDefault === 'few-days'}>Within a few days</option>
+        <option value="few-weeks" selected={urgencyDefault === 'few-weeks'}>Within a few weeks</option>
+        <option value="other" selected={urgencyDefault === 'other'}>Just getting information</option>
+      </select>
+      <div class="error-message hidden text-red-600 text-sm mt-1" data-field="urgency"></div>
+    </div>
+
+    <!-- Notes (Optional) -->
+    <div>
+      <label for="booking-notes" class="block text-sm font-semibold text-gray-700 mb-2">
+        Additional Details <span class="text-gray-500 text-xs">(Optional)</span>
+      </label>
+      <textarea
+        id="booking-notes"
+        name="notes"
+        rows="3"
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none"
+        placeholder="Any additional information that would help us serve you better..."
+      ></textarea>
+    </div>
+
+    <!-- Honeypot (spam protection) -->
+    <input type="text" name="website" class="hidden" tabindex="-1" autocomplete="off" />
+
+    <!-- Submit Button -->
+    <Button
+      type="submit"
+      variant="primary"
+      size="lg"
+      fullWidth={true}
+      class="booking-submit-btn"
+    >
+      <span class="btn-text">Request Service</span>
+      <span class="btn-loading hidden">Sending...</span>
+    </Button>
+
+    <!-- Success Message -->
+    <div id="booking-success" class="hidden p-4 bg-green-50 border-l-4 border-green-500 rounded-lg">
+      <div class="flex items-start">
+        <span class="text-2xl mr-3">✓</span>
+        <div>
+          <h4 class="font-bold text-green-900">Request Received!</h4>
+          <p class="text-green-700 text-sm mt-1">
+            We'll call you shortly at the number you provided. Average response time: 30 minutes.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    <div id="booking-error" class="hidden p-4 bg-red-50 border-l-4 border-red-500 rounded-lg">
+      <div class="flex items-start">
+        <span class="text-2xl mr-3">✕</span>
+        <div>
+          <h4 class="font-bold text-red-900">Submission Failed</h4>
+          <p class="text-red-700 text-sm mt-1" id="booking-error-message">
+            Please try again or call us directly at (864) 900-9597.
+          </p>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  import { submitBookingForm, validateForm, handleFormError, trackFormSuccess } from '../../lib/api/client';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('booking-form') as HTMLFormElement;
+    if (!form) return;
+
+    const submitBtn = form.querySelector('.booking-submit-btn') as HTMLButtonElement;
+    const btnText = submitBtn?.querySelector('.btn-text');
+    const btnLoading = submitBtn?.querySelector('.btn-loading');
+    const successMessage = document.getElementById('booking-success');
+    const errorMessage = document.getElementById('booking-error');
+    const errorMessageText = document.getElementById('booking-error-message');
+
+    // Clear previous errors
+    const clearErrors = () => {
+      form.querySelectorAll('.error-message').forEach((el) => {
+        el.classList.add('hidden');
+      });
+      form.querySelectorAll('input, select, textarea').forEach((el) => {
+        el.classList.remove('border-red-500');
+      });
+      errorMessage?.classList.add('hidden');
+    };
+
+    // Show field error
+    const showFieldError = (field: string, message: string) => {
+      const errorEl = form.querySelector(`.error-message[data-field="${field}"]`);
+      const inputEl = form.querySelector(`[name="${field}"]`);
+      if (errorEl && inputEl) {
+        errorEl.textContent = message;
+        errorEl.classList.remove('hidden');
+        inputEl.classList.add('border-red-500');
+      }
+    };
+
+    // Validate individual fields
+    const validateField = (field: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement) => {
+      const name = field.name;
+      const value = field.value.trim();
+
+      if (name === 'name') {
+        const error = validateForm.name(value);
+        if (error) {
+          showFieldError(name, error);
+          return false;
+        }
+      } else if (name === 'phone') {
+        const error = validateForm.phone(value);
+        if (error) {
+          showFieldError(name, error);
+          return false;
+        }
+      } else if (name === 'email' && value) {
+        const error = validateForm.email(value);
+        if (error) {
+          showFieldError(name, error);
+          return false;
+        }
+      } else if (name === 'address') {
+        const error = validateForm.address(value);
+        if (error) {
+          showFieldError(name, error);
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    // Real-time validation on blur
+    form.querySelectorAll('input, select, textarea').forEach((field) => {
+      field.addEventListener('blur', () => {
+        if ((field as HTMLInputElement).value.trim()) {
+          validateField(field as HTMLInputElement);
+        }
+      });
+    });
+
+    // Form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      // Check honeypot
+      const honeypot = (form.querySelector('[name="website"]') as HTMLInputElement)?.value;
+      if (honeypot) {
+        console.log('Spam detected');
+        return;
+      }
+
+      // Get form data
+      const formData = new FormData(form);
+      const data = {
+        name: formData.get('name') as string,
+        phone: formData.get('phone') as string,
+        email: (formData.get('email') as string) || undefined,
+        address: formData.get('address') as string,
+        serviceType: formData.get('serviceType') as string,
+        urgency: formData.get('urgency') as 'asap' | 'same-day' | 'few-days' | 'few-weeks' | 'other',
+        notes: (formData.get('notes') as string) || undefined,
+      };
+
+      // Validate all fields
+      let isValid = true;
+      if (validateForm.name(data.name)) {
+        showFieldError('name', validateForm.name(data.name) || '');
+        isValid = false;
+      }
+      if (validateForm.phone(data.phone)) {
+        showFieldError('phone', validateForm.phone(data.phone) || '');
+        isValid = false;
+      }
+      if (data.email && validateForm.email(data.email)) {
+        showFieldError('email', validateForm.email(data.email) || '');
+        isValid = false;
+      }
+      if (validateForm.address(data.address)) {
+        showFieldError('address', validateForm.address(data.address) || '');
+        isValid = false;
+      }
+
+      if (!isValid) return;
+
+      // Show loading state
+      if (submitBtn && btnText && btnLoading) {
+        submitBtn.disabled = true;
+        btnText.classList.add('hidden');
+        btnLoading.classList.remove('hidden');
+      }
+
+      try {
+        // Submit form
+        const response = await submitBookingForm(data);
+
+        if (response.success) {
+          // Show success message
+          successMessage?.classList.remove('hidden');
+          form.reset();
+
+          // Track conversion
+          trackFormSuccess('booking');
+
+          // Scroll to success message
+          successMessage?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+          // Hide form after 3 seconds
+          setTimeout(() => {
+            form.style.display = 'none';
+          }, 3000);
+        } else {
+          throw new Error(response.error?.message || 'Submission failed');
+        }
+      } catch (error) {
+        console.error('Booking form error:', error);
+
+        const errorMsg = handleFormError(error);
+        if (errorMessageText) {
+          errorMessageText.textContent = errorMsg;
+        }
+        errorMessage?.classList.remove('hidden');
+
+        // Scroll to error
+        errorMessage?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } finally {
+        // Reset button state
+        if (submitBtn && btnText && btnLoading) {
+          submitBtn.disabled = false;
+          btnText.classList.remove('hidden');
+          btnLoading.classList.add('hidden');
+        }
+      }
+    });
+  });
+</script>
+
+<style>
+  .booking-form-container input:focus,
+  .booking-form-container select:focus,
+  .booking-form-container textarea:focus {
+    outline: none;
+  }
+
+  .error-message {
+    animation: slideDown 0.2s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

@@ -1,0 +1,74 @@
+---
+// Structured Data / Schema.org markup
+import { getSchemaOrgData } from '../../data/company';
+
+export interface Props {
+  type?: 'organization' | 'service' | 'article' | 'breadcrumb' | 'faq';
+  data?: any;
+}
+
+const { type = 'organization', data } = Astro.props;
+
+const baseSchema = getSchemaOrgData();
+
+let schemaData: any = baseSchema;
+
+if (type === 'service' && data) {
+  schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": data.title,
+    "description": data.description,
+    "provider": baseSchema,
+    "areaServed": baseSchema.areaServed,
+    "serviceType": data.serviceType || "Locksmith Service",
+  };
+}
+
+if (type === 'article' && data) {
+  schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": data.title,
+    "description": data.description,
+    "image": data.image,
+    "datePublished": data.publishDate,
+    "dateModified": data.updatedDate || data.publishDate,
+    "author": {
+      "@type": "Person",
+      "name": data.author || baseSchema.name,
+    },
+    "publisher": baseSchema,
+  };
+}
+
+if (type === 'faq' && data) {
+  schemaData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": data.map((item: any) => ({
+      "@type": "Question",
+      "name": item.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.answer,
+      },
+    })),
+  };
+}
+
+if (type === 'breadcrumb' && data) {
+  schemaData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": data.map((item: any, index: number) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": item.name,
+      "item": item.url,
+    })),
+  };
+}
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schemaData)} />

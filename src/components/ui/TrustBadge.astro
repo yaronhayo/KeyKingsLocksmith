@@ -1,0 +1,97 @@
+---
+// Credential display component for trust building
+export interface Props {
+  type: 'licensed' | 'bonded' | 'insured' | 'certified' | 'years' | 'customers' | 'rating';
+  value?: string | number;
+  label?: string;
+  icon?: string;
+  variant?: 'default' | 'compact' | 'detailed';
+  class?: string;
+}
+
+const {
+  type,
+  value,
+  label,
+  icon,
+  variant = 'default',
+  class: className = '',
+} = Astro.props;
+
+const badges = {
+  licensed: {
+    icon: '🔐',
+    label: 'Licensed',
+    description: 'State Licensed Professional',
+    color: 'text-blue-600 bg-blue-50 border-blue-200',
+  },
+  bonded: {
+    icon: '🛡️',
+    label: 'Bonded',
+    description: 'Bonded for Your Protection',
+    color: 'text-green-600 bg-green-50 border-green-200',
+  },
+  insured: {
+    icon: '✅',
+    label: 'Insured',
+    description: '$1M Liability Insurance',
+    color: 'text-purple-600 bg-purple-50 border-purple-200',
+  },
+  certified: {
+    icon: '⭐',
+    label: 'Certified',
+    description: 'ALOA Certified Professional',
+    color: 'text-yellow-600 bg-yellow-50 border-yellow-200',
+  },
+  years: {
+    icon: '📅',
+    label: 'Experience',
+    description: `${value || '9'}+ Years in Business`,
+    color: 'text-indigo-600 bg-indigo-50 border-indigo-200',
+  },
+  customers: {
+    icon: '👥',
+    label: 'Customers Served',
+    description: `${value || '5,000'}+ Happy Customers`,
+    color: 'text-pink-600 bg-pink-50 border-pink-200',
+  },
+  rating: {
+    icon: '⭐',
+    label: 'Rating',
+    description: `${value || '4.9'} Star Average`,
+    color: 'text-amber-600 bg-amber-50 border-amber-200',
+  },
+};
+
+const badge = badges[type];
+const displayIcon = icon || badge.icon;
+const displayLabel = label || badge.label;
+---
+
+{variant === 'compact' && (
+  <div class={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border ${badge.color} ${className}`}>
+    <span class="text-lg">{displayIcon}</span>
+    <span class="text-sm font-semibold">{displayLabel}</span>
+  </div>
+)}
+
+{variant === 'default' && (
+  <div class={`flex items-center gap-3 p-4 rounded-lg border ${badge.color} ${className}`}>
+    <span class="text-2xl">{displayIcon}</span>
+    <div>
+      <div class="font-bold text-sm uppercase tracking-wide">{displayLabel}</div>
+      {value && <div class="text-lg font-semibold">{value}</div>}
+    </div>
+  </div>
+)}
+
+{variant === 'detailed' && (
+  <div class={`p-6 rounded-lg border ${badge.color} ${className}`}>
+    <div class="flex items-center gap-3 mb-2">
+      <span class="text-3xl">{displayIcon}</span>
+      <div class="font-bold text-lg">{displayLabel}</div>
+    </div>
+    <p class="text-sm">{badge.description}</p>
+    {value && <div class="mt-2 text-2xl font-bold">{value}</div>}
+  </div>
+)}

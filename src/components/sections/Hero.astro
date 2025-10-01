@@ -1,0 +1,151 @@
+---
+// Hero section with booking form
+import { companyConfig, trustSignals } from '../../data/company';
+import BookingForm from '../forms/BookingForm.astro';
+import TrustBadge from '../ui/TrustBadge.astro';
+
+export interface Props {
+  class?: string;
+  showForm?: boolean;
+  urgency?: 'asap' | 'same-day' | 'few-days' | 'few-weeks' | 'other';
+}
+
+const {
+  class: className = '',
+  showForm = true,
+  urgency = 'asap',
+} = Astro.props;
+---
+
+<section class={`hero-section relative min-h-[90vh] flex items-center ${className}`}>
+  <!-- Background Image -->
+  <div class="absolute inset-0 z-0">
+    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/70 to-black/50 z-10"></div>
+    <img
+      src="/images/hero/locksmith-service-hero.jpg"
+      alt="Professional locksmith service"
+      class="w-full h-full object-cover"
+      loading="eager"
+    />
+  </div>
+
+  <!-- Content -->
+  <div class="container mx-auto px-4 py-16 relative z-20">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Left Column - Headline & USPs -->
+      <div class="text-white space-y-8">
+        <!-- Emergency Badge -->
+        {urgency === 'asap' && (
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 rounded-full animate-pulse-slow">
+            <span class="text-2xl">🚨</span>
+            <span class="font-bold">24/7 Emergency Service Available</span>
+          </div>
+        )}
+
+        <!-- Main Headline -->
+        <div>
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
+            {companyConfig.name.split(' ').map((word, i) => (
+              <span class={i === 0 ? 'text-primary-400' : ''}>{word} </span>
+            ))}
+          </h1>
+          <p class="text-xl md:text-2xl text-gray-200 mb-6">
+            {companyConfig.tagline}
+          </p>
+          <p class="text-lg text-gray-300">
+            Licensed, bonded & insured locksmith serving {companyConfig.serviceAreas.primary.join(', ')} and surrounding areas.
+          </p>
+        </div>
+
+        <!-- Key Features -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            <svg class="w-6 h-6 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-lg">Average 30-minute response time</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <svg class="w-6 h-6 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-lg">{trustSignals.customersServed} happy customers since {companyConfig.establishedYear}</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <svg class="w-6 h-6 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-lg">Upfront pricing with no hidden fees</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <svg class="w-6 h-6 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-lg">100% satisfaction guaranteed</span>
+          </div>
+        </div>
+
+        <!-- Trust Badges -->
+        <div class="flex flex-wrap gap-3">
+          <TrustBadge type="licensed" variant="compact" />
+          <TrustBadge type="bonded" variant="compact" />
+          <TrustBadge type="insured" variant="compact" />
+          <TrustBadge type="rating" value="4.9" variant="compact" />
+        </div>
+
+        <!-- Emergency CTA -->
+        <div class="flex flex-wrap items-center gap-4">
+          <a
+            href={`tel:${companyConfig.contact.phone.formatted}`}
+            class="inline-flex items-center gap-3 px-8 py-4 bg-primary-600 text-white font-bold text-lg rounded-lg hover:bg-primary-700 transition-all transform hover:scale-105 shadow-lg"
+          >
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+            </svg>
+            <span>{companyConfig.contact.phone.display}</span>
+          </a>
+          <span class="text-gray-300 text-sm">
+            Call now for immediate assistance
+          </span>
+        </div>
+      </div>
+
+      <!-- Right Column - Booking Form -->
+      {showForm && (
+        <div class="lg:mt-0">
+          <div class="bg-white rounded-2xl shadow-2xl p-8">
+            <BookingForm showTitle={true} urgencyDefault={urgency} />
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+
+  <!-- Bottom Wave -->
+  <div class="absolute bottom-0 left-0 right-0 z-10">
+    <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto">
+      <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white"/>
+    </svg>
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    position: relative;
+  }
+
+  @media (max-width: 1023px) {
+    .hero-section {
+      min-height: auto;
+      padding-top: 2rem;
+      padding-bottom: 4rem;
+    }
+  }
+
+  /* Ensure text is readable */
+  .hero-section h1,
+  .hero-section p,
+  .hero-section span {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+</style>

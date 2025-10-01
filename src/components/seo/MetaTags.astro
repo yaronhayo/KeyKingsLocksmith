@@ -1,0 +1,81 @@
+---
+// SEO Meta tags component
+import { companyConfig } from '../../data/company';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string[];
+  canonical?: string;
+  ogImage?: string;
+  ogType?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
+}
+
+const {
+  title,
+  description,
+  keywords,
+  canonical,
+  ogImage,
+  ogType = 'website',
+  noindex = false,
+  nofollow = false,
+} = Astro.props;
+
+const siteUrl = import.meta.env.SITE_URL || 'https://keykingslocksmithsc.com';
+const currentUrl = canonical || new URL(Astro.url.pathname, siteUrl).href;
+
+const pageTitle = title
+  ? `${title} | ${companyConfig.name}`
+  : companyConfig.seo.defaultTitle;
+
+const pageDescription = description || companyConfig.seo.defaultDescription;
+const pageKeywords = keywords || companyConfig.seo.keywords;
+const pageImage = ogImage || `${siteUrl}${companyConfig.seo.openGraph.image}`;
+---
+
+<!-- Primary Meta Tags -->
+<title>{pageTitle}</title>
+<meta name="title" content={pageTitle} />
+<meta name="description" content={pageDescription} />
+<meta name="keywords" content={pageKeywords.join(', ')} />
+<link rel="canonical" href={currentUrl} />
+
+<!-- Robots -->
+<meta name="robots" content={`${noindex ? 'noindex' : 'index'}, ${nofollow ? 'nofollow' : 'follow'}`} />
+<meta name="googlebot" content={`${noindex ? 'noindex' : 'index'}, ${nofollow ? 'nofollow' : 'follow'}`} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={currentUrl} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={pageDescription} />
+<meta property="og:image" content={pageImage} />
+<meta property="og:image:width" content={companyConfig.seo.openGraph.imageWidth?.toString() || '1200'} />
+<meta property="og:image:height" content={companyConfig.seo.openGraph.imageHeight?.toString() || '630'} />
+<meta property="og:site_name" content={companyConfig.seo.openGraph.siteName} />
+<meta property="og:locale" content="en_US" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content={companyConfig.seo.twitter.card} />
+<meta property="twitter:url" content={currentUrl} />
+<meta property="twitter:title" content={pageTitle} />
+<meta property="twitter:description" content={pageDescription} />
+<meta property="twitter:image" content={pageImage} />
+{companyConfig.seo.twitter.site && <meta property="twitter:site" content={companyConfig.seo.twitter.site} />}
+{companyConfig.seo.twitter.creator && <meta property="twitter:creator" content={companyConfig.seo.twitter.creator} />}
+
+<!-- Business Information -->
+<meta name="geo.region" content="US-SC" />
+<meta name="geo.placename" content="Anderson" />
+<meta name="geo.position" content={`${companyConfig.contact.address.coordinates?.lat};${companyConfig.contact.address.coordinates?.lng}`} />
+<meta name="ICBM" content={`${companyConfig.contact.address.coordinates?.lat}, ${companyConfig.contact.address.coordinates?.lng}`} />
+
+<!-- Mobile -->
+<meta name="format-detection" content="telephone=yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content={companyConfig.name} />

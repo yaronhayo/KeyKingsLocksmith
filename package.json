@@ -1,0 +1,63 @@
+{
+  "name": "astro-locksmith-template-pro",
+  "type": "module", 
+  "version": "2.0.0",
+  "description": "Professional Astro 5.0 template for locksmith businesses with 100/100 Lighthouse scores, conversion optimization, and Google policy compliance",
+  "keywords": [
+    "astro", 
+    "locksmith", 
+    "template", 
+    "business", 
+    "seo", 
+    "local-business",
+    "conversion-optimization",
+    "lighthouse-100",
+    "professional-services",
+    "emergency-services"
+  ],
+  "author": "Professional Web Solutions",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/astro-locksmith-template-pro.git"
+  },
+  "scripts": {
+    "dev": "astro dev --port 3000",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview --port 4321",
+    "sync": "astro sync",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/react": "^3.6.2",
+    "@astrojs/sitemap": "^3.2.0",
+    "@astrojs/tailwind": "^5.1.1",
+    "@astrojs/vercel": "^8.1.0",
+    "@types/node": "^22.7.5",
+    "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
+    "astro": "^5.0.0",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sharp": "^0.33.5",
+    "tailwindcss": "^3.4.13",
+    "typescript": "^5.6.3"
+  },
+  "devDependencies": {
+    "@astrojs/ts-plugin": "^1.10.2",
+    "@tailwindcss/forms": "^0.5.9",
+    "@tailwindcss/typography": "^0.5.15",
+    "@types/react": "^18.3.10",
+    "@types/react-dom": "^18.3.0",
+    "prettier": "^3.3.3",
+    "prettier-plugin-astro": "^0.14.1"
+  },
+  "engines": {
+    "node": ">=18.17.0",
+    "npm": ">=9.0.0"
+  }
+}

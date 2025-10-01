@@ -1,0 +1,175 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import ContactForm from '../components/forms/ContactForm.astro';
+import { companyConfig, getPhoneLink, getEmailLink, getGoogleMapsLink } from '../data/company';
+
+const title = 'Contact Us - Key Kings Locksmith';
+const description = 'Get in touch with Key Kings Locksmith. Call (864) 900-9597 or send us a message. Average response time: 30 minutes.';
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+
+  <main>
+    <!-- Page Header -->
+    <section class="bg-gradient-to-br from-primary-600 to-secondary-600 text-white py-16">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
+          <p class="text-xl text-white/90">
+            We're here to help! Reach out and we'll respond as quickly as possible.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-16">
+      <div class="container mx-auto px-4">
+        <div class="grid lg:grid-cols-2 gap-12">
+          <!-- Contact Information -->
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Get in Touch</h2>
+            <p class="text-lg text-gray-600 mb-8">
+              Have a question or need locksmith services? We're available {companyConfig.emergency.available247 ? '24/7 for emergencies' : 'during business hours'} and ready to help.
+            </p>
+
+            <!-- Contact Methods -->
+            <div class="space-y-6">
+              <!-- Phone -->
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-bold text-gray-900 mb-1">Phone</h3>
+                  <a href={getPhoneLink()} class="text-lg text-primary-600 hover:text-primary-700 font-semibold">
+                    {companyConfig.contact.phone.display}
+                  </a>
+                  <p class="text-sm text-gray-600 mt-1">
+                    {companyConfig.emergency.message}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-bold text-gray-900 mb-1">Email</h3>
+                  <a href={getEmailLink()} class="text-lg text-primary-600 hover:text-primary-700">
+                    {companyConfig.contact.email.primary}
+                  </a>
+                  <p class="text-sm text-gray-600 mt-1">
+                    We'll respond within 24 hours
+                  </p>
+                </div>
+              </div>
+
+              <!-- Address -->
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-bold text-gray-900 mb-1">Address</h3>
+                  <address class="not-italic text-gray-700">
+                    {companyConfig.contact.address.street}<br>
+                    {companyConfig.contact.address.city}, {companyConfig.contact.address.state} {companyConfig.contact.address.zipCode}
+                  </address>
+                  <a
+                    href={getGoogleMapsLink()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-sm text-primary-600 hover:text-primary-700 mt-2 inline-block"
+                  >
+                    Get Directions →
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Business Hours -->
+            <div class="mt-8 p-6 bg-gray-50 rounded-lg">
+              <h3 class="font-bold text-gray-900 mb-4">Business Hours</h3>
+              <div class="space-y-2 text-sm">
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Monday:</span>
+                  <span class="font-semibold text-gray-900">{companyConfig.hours.monday.label}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Tuesday:</span>
+                  <span class="font-semibold text-gray-900">{companyConfig.hours.tuesday.label}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Wednesday:</span>
+                  <span class="font-semibold text-gray-900">{companyConfig.hours.wednesday.label}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Thursday:</span>
+                  <span class="font-semibold text-gray-900">{companyConfig.hours.thursday.label}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Friday:</span>
+                  <span class="font-semibold text-gray-900">{companyConfig.hours.friday.label}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Saturday:</span>
+                  <span class="font-semibold text-gray-900">{companyConfig.hours.saturday.label}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Sunday:</span>
+                  <span class="font-semibold text-gray-900">{companyConfig.hours.sunday.label}</span>
+                </div>
+              </div>
+              {companyConfig.emergency.available247 && (
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                  <p class="text-sm text-primary-600 font-semibold">
+                    {companyConfig.emergency.message}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <div>
+            <div class="bg-white rounded-xl shadow-lg p-8 border border-gray-200">
+              <ContactForm showTitle={true} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Service Areas Quick Links -->
+    <section class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">Service Areas</h2>
+          <p class="text-lg text-gray-600">We proudly serve the following areas:</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
+          {companyConfig.serviceAreas.primary.map((area) => (
+            <div class="bg-white p-4 rounded-lg shadow-sm text-center font-semibold text-gray-800 hover:shadow-md transition-shadow">
+              {area}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
