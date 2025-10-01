@@ -1,0 +1,221 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Button from '../../components/ui/Button.astro';
+import { companyConfig, getPhoneLink } from '../../data/company';
+
+const title = `Service Areas - ${companyConfig.name}`;
+const description = `${companyConfig.name} serves ${companyConfig.serviceAreas.primary.join(', ')} and surrounding areas in Upstate South Carolina. Fast, reliable locksmith services available 24/7.`;
+
+// Fetch all service areas
+const allServiceAreas = await getCollection('service-areas');
+
+// Sort by featured and then alphabetically
+const sortedAreas = allServiceAreas.sort((a, b) => {
+  if (a.data.featured && !b.data.featured) return -1;
+  if (!a.data.featured && b.data.featured) return 1;
+  return a.data.city.localeCompare(b.data.city);
+});
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+
+  <main>
+    <!-- Page Header -->
+    <section class="bg-gradient-to-br from-primary-600 to-secondary-600 text-white py-16">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">Service Areas</h1>
+          <p class="text-xl text-white/90 mb-8">
+            Professional locksmith services throughout Upstate South Carolina. We're your local locksmith, serving communities across Anderson, Greenville, and surrounding areas.
+          </p>
+          <a href={getPhoneLink()}>
+            <Button variant="secondary" size="lg">
+              <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+              </svg>
+              Call: {companyConfig.contact.phone.display}
+            </Button>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Service Area Cards -->
+    <section class="py-16">
+      <div class="container mx-auto px-4">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {sortedAreas.map((area) => (
+            <a
+              href={`/service-areas/${area.slug}`}
+              class="block bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow group"
+            >
+              <div class="p-6">
+                {area.data.featured && (
+                  <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded-full mb-3">
+                    ⭐ Primary Service Area
+                  </span>
+                )}
+
+                <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                  {area.data.city}, {area.data.state}
+                </h3>
+
+                <p class="text-gray-600 mb-4">
+                  {area.data.description}
+                </p>
+
+                {area.data.zipCodes && area.data.zipCodes.length > 0 && (
+                  <div class="mb-4">
+                    <p class="text-sm font-semibold text-gray-700 mb-1">ZIP Codes:</p>
+                    <p class="text-sm text-gray-600">{area.data.zipCodes.join(', ')}</p>
+                  </div>
+                )}
+
+                {area.data.neighborhoods && area.data.neighborhoods.length > 0 && (
+                  <div class="mb-4">
+                    <p class="text-sm font-semibold text-gray-700 mb-2">Neighborhoods:</p>
+                    <div class="flex flex-wrap gap-2">
+                      {area.data.neighborhoods.slice(0, 4).map((neighborhood) => (
+                        <span class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded">
+                          {neighborhood}
+                        </span>
+                      ))}
+                      {area.data.neighborhoods.length > 4 && (
+                        <span class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded">
+                          +{area.data.neighborhoods.length - 4} more
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                <div class="flex items-center gap-2 text-sm text-gray-600 mb-3">
+                  <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span>15-30 min response time</span>
+                </div>
+
+                <div class="pt-4 border-t border-gray-200">
+                  <span class="text-primary-600 font-semibold group-hover:text-primary-700">
+                    View Services in {area.data.city} →
+                  </span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Coverage Map Info -->
+    <section class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-gray-900 text-center mb-8">
+            Complete Upstate SC Coverage
+          </h2>
+
+          <div class="grid md:grid-cols-2 gap-8 mb-12">
+            <div class="bg-white rounded-lg p-6 shadow-sm">
+              <h3 class="text-xl font-bold text-gray-900 mb-4">Primary Service Areas</h3>
+              <ul class="space-y-2">
+                {companyConfig.serviceAreas.primary.map((city) => (
+                  <li class="flex items-center gap-2">
+                    <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span>{city}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="bg-white rounded-lg p-6 shadow-sm">
+              <h3 class="text-xl font-bold text-gray-900 mb-4">What We Offer</h3>
+              <ul class="space-y-2">
+                <li class="flex items-center gap-2">
+                  <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span>24/7 Emergency Service</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span>Mobile Locksmith Service</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span>Licensed & Insured</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span>Fast Response Times</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span>Upfront Pricing</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bg-blue-50 border-l-4 border-blue-600 rounded-r-lg p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-3">
+              Don't See Your Area Listed?
+            </h3>
+            <p class="text-gray-700 mb-4">
+              We may still serve your location! Give us a call at {companyConfig.contact.phone.display} to check if we can help you. We're constantly expanding our service area to better serve Upstate South Carolina.
+            </p>
+            <a href={getPhoneLink()}>
+              <Button variant="primary">
+                Call to Check Availability
+              </Button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-gradient-to-br from-primary-600 to-secondary-600 text-white">
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          Need a Locksmith Now?
+        </h2>
+        <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+          Fast, professional locksmith service across Upstate South Carolina. Call us or request service online.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href={getPhoneLink()}>
+            <Button variant="secondary" size="lg">
+              <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+              </svg>
+              Call Now
+            </Button>
+          </a>
+          <a href="/contact">
+            <Button variant="outline" size="lg" class="border-white text-white hover:bg-white hover:text-primary-600">
+              Request Service
+            </Button>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

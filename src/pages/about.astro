@@ -1,0 +1,258 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import Button from '../components/ui/Button.astro';
+import TrustBadge from '../components/ui/TrustBadge.astro';
+import { companyConfig, getPhoneLink } from '../data/company';
+
+const title = `About Us - ${companyConfig.name}`;
+const description = `Learn about ${companyConfig.name}, Upstate South Carolina's trusted locksmith service. Licensed, insured, and serving the community since ${2025 - companyConfig.businessInfo.yearsInBusiness}.`;
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+
+  <main>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-primary-600 to-secondary-600 text-white py-16">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">About {companyConfig.name}</h1>
+          <p class="text-xl text-white/90">
+            Your trusted locksmith partner in Upstate South Carolina since {2025 - companyConfig.businessInfo.yearsInBusiness}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Story -->
+    <section class="py-16">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
+            <div>
+              <h2 class="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
+              <div class="prose prose-lg">
+                <p>
+                  Founded in {2025 - companyConfig.businessInfo.yearsInBusiness}, {companyConfig.name} was built on a simple principle: provide honest, reliable locksmith services with a focus on customer satisfaction and community trust.
+                </p>
+                <p>
+                  What started as a one-person mobile locksmith operation has grown into Upstate South Carolina's most trusted locksmith service, serving thousands of customers across Anderson, Greenville, Clemson, and surrounding communities.
+                </p>
+                <p>
+                  We understand that locksmith emergencies can be stressful. That's why we're committed to providing fast, professional service with transparent pricing and friendly technicians who treat every customer like family.
+                </p>
+              </div>
+            </div>
+            <div class="bg-gray-100 rounded-lg p-8">
+              <div class="space-y-6">
+                <div class="text-center p-6 bg-white rounded-lg shadow-sm">
+                  <div class="text-4xl font-bold text-primary-600 mb-2">{companyConfig.businessInfo.yearsInBusiness}+</div>
+                  <div class="text-gray-700 font-semibold">Years in Business</div>
+                </div>
+                <div class="text-center p-6 bg-white rounded-lg shadow-sm">
+                  <div class="text-4xl font-bold text-primary-600 mb-2">5,000+</div>
+                  <div class="text-gray-700 font-semibold">Customers Served</div>
+                </div>
+                <div class="text-center p-6 bg-white rounded-lg shadow-sm">
+                  <div class="text-4xl font-bold text-primary-600 mb-2">4.9★</div>
+                  <div class="text-gray-700 font-semibold">Average Rating</div>
+                </div>
+                <div class="text-center p-6 bg-white rounded-lg shadow-sm">
+                  <div class="text-4xl font-bold text-primary-600 mb-2">24/7</div>
+                  <div class="text-gray-700 font-semibold">Emergency Service</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Our Mission -->
+          <div class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">Our Mission</h2>
+            <div class="bg-blue-50 border-l-4 border-blue-600 rounded-r-lg p-8">
+              <p class="text-lg text-gray-800 leading-relaxed">
+                To provide the Upstate South Carolina community with fast, reliable, and affordable locksmith services while maintaining the highest standards of professionalism, integrity, and customer care. We're not just here to unlock doors—we're here to build lasting relationships with our neighbors and ensure their security and peace of mind.
+              </p>
+            </div>
+          </div>
+
+          <!-- Our Values -->
+          <div class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Our Values</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <div class="text-4xl mb-3">🎯</div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Reliability</h3>
+                <p class="text-gray-700">
+                  When you need us, we're there. Fast response times, dependable service, and solutions that work the first time.
+                </p>
+              </div>
+
+              <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <div class="text-4xl mb-3">💎</div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Integrity</h3>
+                <p class="text-gray-700">
+                  Honest pricing, transparent communication, and ethical business practices. No hidden fees, no surprises.
+                </p>
+              </div>
+
+              <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <div class="text-4xl mb-3">🔧</div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Expertise</h3>
+                <p class="text-gray-700">
+                  Highly trained, licensed technicians with years of experience in residential, commercial, and automotive locksmith services.
+                </p>
+              </div>
+
+              <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <div class="text-4xl mb-3">❤️</div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Community</h3>
+                <p class="text-gray-700">
+                  We're your neighbors. Local, family-owned, and committed to serving the Upstate South Carolina community.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Why Choose Us -->
+          <div class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Why Choose {companyConfig.name}?</h2>
+            <div class="space-y-4">
+              <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <div>
+                  <h3 class="font-bold text-gray-900 mb-1">Licensed, Bonded & Insured</h3>
+                  <p class="text-gray-700">Fully licensed and insured for your protection and peace of mind.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <div>
+                  <h3 class="font-bold text-gray-900 mb-1">24/7 Emergency Service</h3>
+                  <p class="text-gray-700">Lockouts don't wait for business hours. We're available around the clock for emergencies.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <div>
+                  <h3 class="font-bold text-gray-900 mb-1">Fast Response Times</h3>
+                  <p class="text-gray-700">Average response time of 15-30 minutes across our service areas.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <div>
+                  <h3 class="font-bold text-gray-900 mb-1">Mobile Service</h3>
+                  <p class="text-gray-700">We come to you—home, office, or roadside. Full-service mobile locksmith.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <div>
+                  <h3 class="font-bold text-gray-900 mb-1">Upfront Pricing</h3>
+                  <p class="text-gray-700">No hidden fees or surprise charges. We provide clear pricing before we start work.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <div>
+                  <h3 class="font-bold text-gray-900 mb-1">Satisfaction Guaranteed</h3>
+                  <p class="text-gray-700">We stand behind our work with a 90-day workmanship warranty.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trust Badges -->
+          <div class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Credentials & Certifications</h2>
+            <div class="flex flex-wrap justify-center gap-6">
+              <TrustBadge
+                title="Licensed"
+                icon="🏅"
+                description="SC State Licensed"
+              />
+              <TrustBadge
+                title="Insured"
+                icon="🛡️"
+                description="Fully Insured"
+              />
+              <TrustBadge
+                title="Bonded"
+                icon="✓"
+                description="Bonded Service"
+              />
+              <TrustBadge
+                title="4.9 Stars"
+                icon="⭐"
+                description="150+ Reviews"
+              />
+            </div>
+          </div>
+
+          <!-- Service Area -->
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">Where We Serve</h2>
+            <p class="text-center text-gray-700 mb-8">
+              Proudly serving communities throughout Upstate South Carolina
+            </p>
+            <div class="grid md:grid-cols-3 lg:grid-cols-5 gap-3">
+              {companyConfig.serviceAreas.primary.map((area) => (
+                <div class="bg-white p-3 rounded-lg shadow-sm border border-gray-200 text-center font-semibold text-gray-800">
+                  {area}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-gradient-to-br from-primary-600 to-secondary-600 text-white">
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          Experience the {companyConfig.name} Difference
+        </h2>
+        <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+          Ready to work with Upstate South Carolina's most trusted locksmith? Call us now or request service online.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href={getPhoneLink()}>
+            <Button variant="secondary" size="lg">
+              <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+              </svg>
+              Call: {companyConfig.contact.phone.display}
+            </Button>
+          </a>
+          <a href="/contact">
+            <Button variant="outline" size="lg" class="border-white text-white hover:bg-white hover:text-primary-600">
+              Request Service
+            </Button>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

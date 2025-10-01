@@ -1,0 +1,310 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import BookingForm from '../../components/forms/BookingForm.astro';
+import Button from '../../components/ui/Button.astro';
+import ServicesGrid from '../../components/sections/ServicesGrid.astro';
+import Reviews from '../../components/sections/Reviews.astro';
+import FAQ from '../../components/sections/FAQ.astro';
+import { companyConfig, getPhoneLink } from '../../data/company';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+
+export async function getStaticPaths() {
+  const serviceAreas = await getCollection('service-areas');
+  return serviceAreas.map((area) => ({
+    params: { slug: area.slug },
+    props: { area },
+  }));
+}
+
+interface Props {
+  area: CollectionEntry<'service-areas'>;
+}
+
+const { area } = Astro.props;
+const { Content } = await area.render();
+
+const title = `${area.data.title} - ${companyConfig.name}`;
+const description = area.data.description;
+
+// Schema markup for service area
+const serviceSchema = {
+  name: companyConfig.name,
+  description: `Professional locksmith services in ${area.data.title}`,
+  provider: {
+    name: companyConfig.name,
+    telephone: companyConfig.contact.phone.number,
+  },
+  areaServed: {
+    name: area.data.title,
+    city: area.data.city,
+    state: area.data.state,
+  },
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+
+  <SchemaMarkup type="Service" data={serviceSchema} />
+
+  <main>
+    <!-- Area Hero -->
+    <section class="relative bg-gradient-to-br from-primary-600 to-secondary-600 text-white py-20">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+            {area.data.title}
+          </h1>
+
+          <p class="text-xl md:text-2xl text-white/90 mb-8">
+            {area.data.tagline || `Professional Locksmith Services in ${area.data.city}, ${area.data.state}`}
+          </p>
+
+          <!-- Quick Stats -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+              <div class="text-3xl font-bold mb-1">24/7</div>
+              <div class="text-sm text-white/80">Emergency Service</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+              <div class="text-3xl font-bold mb-1">&lt;30min</div>
+              <div class="text-sm text-white/80">Response Time</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+              <div class="text-3xl font-bold mb-1">4.9★</div>
+              <div class="text-sm text-white/80">Customer Rating</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+              <div class="text-3xl font-bold mb-1">{companyConfig.businessInfo.yearsInBusiness}+</div>
+              <div class="text-sm text-white/80">Years Experience</div>
+            </div>
+          </div>
+
+          <!-- CTA Buttons -->
+          <div class="flex flex-wrap justify-center gap-4">
+            <a href={getPhoneLink()}>
+              <Button variant="secondary" size="lg">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                </svg>
+                Call: {companyConfig.contact.phone.display}
+              </Button>
+            </a>
+            <a href="#booking-form">
+              <Button variant="outline" size="lg" class="border-white text-white hover:bg-white hover:text-primary-600">
+                Request Service Online
+              </Button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Area Information -->
+    <section class="py-16">
+      <div class="container mx-auto px-4">
+        <div class="grid lg:grid-cols-3 gap-12">
+          <!-- Main Content -->
+          <div class="lg:col-span-2">
+            <div class="prose prose-lg max-w-none">
+              <Content />
+            </div>
+
+            <!-- Coverage Areas -->
+            {area.data.neighborhoods && area.data.neighborhoods.length > 0 && (
+              <div class="mt-12">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">Neighborhoods We Serve</h2>
+                <div class="grid md:grid-cols-3 gap-3">
+                  {area.data.neighborhoods.map((neighborhood) => (
+                    <div class="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
+                      <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                      </svg>
+                      <span class="text-gray-700">{neighborhood}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <!-- Why Choose Us in This Area -->
+            <div class="mt-12 bg-blue-50 border-l-4 border-blue-600 rounded-r-lg p-6">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">
+                Why Choose {companyConfig.name} in {area.data.city}?
+              </h3>
+              <ul class="space-y-2">
+                <li class="flex items-start gap-2">
+                  <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span>Local {area.data.city} locksmith with fast response times</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span>Licensed, bonded, and insured in South Carolina</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span>Mobile locksmith service - we come to you</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span>Upfront pricing with no hidden fees</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span>Trusted by {area.data.city} residents since {2025 - companyConfig.businessInfo.yearsInBusiness}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <div class="lg:col-span-1">
+            <!-- Booking Form -->
+            <div id="booking-form" class="sticky top-8">
+              <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200 mb-6">
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">
+                  Get Service in {area.data.city}
+                </h3>
+                <BookingForm showTitle={false} />
+              </div>
+
+              <!-- Service Area Info -->
+              <div class="bg-gray-50 rounded-lg p-6">
+                <h3 class="font-bold text-gray-900 mb-4">Service Area</h3>
+                <div class="space-y-3 text-sm">
+                  <div>
+                    <p class="font-semibold text-gray-900 mb-1">Location</p>
+                    <p class="text-gray-700">{area.data.city}, {area.data.state} {area.data.zipCodes?.[0]}</p>
+                  </div>
+                  {area.data.zipCodes && area.data.zipCodes.length > 1 && (
+                    <div>
+                      <p class="font-semibold text-gray-900 mb-1">ZIP Codes Served</p>
+                      <p class="text-gray-700">{area.data.zipCodes.join(', ')}</p>
+                    </div>
+                  )}
+                  <div>
+                    <p class="font-semibold text-gray-900 mb-1">Response Time</p>
+                    <p class="text-gray-700">Usually 15-30 minutes</p>
+                  </div>
+                  <div>
+                    <p class="font-semibold text-gray-900 mb-1">Service Hours</p>
+                    <p class="text-gray-700">24/7 Emergency Service</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services in This Area -->
+    <section class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Our Services in {area.data.city}
+          </h2>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            Complete locksmith solutions for residential, commercial, and automotive needs
+          </p>
+        </div>
+        <ServicesGrid showAll={false} limit={6} featured={true} />
+        <div class="text-center mt-8">
+          <a href="/services">
+            <Button variant="primary" size="lg">
+              View All Services
+            </Button>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews from This Area -->
+    <section class="py-16">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            What {area.data.city} Customers Say
+          </h2>
+          <p class="text-lg text-gray-600">
+            Real reviews from real customers in your area
+          </p>
+        </div>
+        <Reviews limit={3} showRating={true} />
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Common Questions in {area.data.city}
+          </h2>
+        </div>
+        <FAQ limit={5} />
+      </div>
+    </section>
+
+    <!-- Emergency CTA -->
+    <section class="py-16 bg-gradient-to-br from-red-600 to-red-700 text-white">
+      <div class="container mx-auto px-4 text-center">
+        <div class="max-w-3xl mx-auto">
+          <div class="text-6xl mb-4">🚨</div>
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            Emergency Locksmith in {area.data.city}?
+          </h2>
+          <p class="text-xl text-white/90 mb-8">
+            Locked out? Need immediate assistance? We're available 24/7 for emergency locksmith services in {area.data.city}.
+          </p>
+          <a href={getPhoneLink()}>
+            <Button variant="secondary" size="lg">
+              <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+              </svg>
+              Call Now: {companyConfig.contact.phone.display}
+            </Button>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Nearby Service Areas -->
+    <section class="py-16">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-gray-900 text-center mb-12">
+          Other Areas We Serve
+        </h2>
+        <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+          {(await getCollection('service-areas'))
+            .filter(a => a.slug !== area.slug)
+            .map((nearbyArea) => (
+              <a
+                href={`/service-areas/${nearbyArea.slug}`}
+                class="block bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow text-center"
+              >
+                <h3 class="font-bold text-gray-900">{nearbyArea.data.city}</h3>
+                <p class="text-sm text-gray-600 mt-1">{nearbyArea.data.state}</p>
+              </a>
+            ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
