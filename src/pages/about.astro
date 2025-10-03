@@ -7,7 +7,7 @@ import TrustBadge from '../components/ui/TrustBadge.astro';
 import { companyConfig, getPhoneLink } from '../data/company';
 
 const title = `About Us - ${companyConfig.name}`;
-const description = `Learn about ${companyConfig.name}, Upstate South Carolina's trusted locksmith service. Licensed, insured, and serving the community since ${2025 - companyConfig.businessInfo.yearsInBusiness}.`;
+const description = `Learn about ${companyConfig.name}, Upstate South Carolina's trusted locksmith service. Licensed, insured, and serving the community since ${companyConfig.establishedYear}.`;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -20,7 +20,7 @@ const description = `Learn about ${companyConfig.name}, Upstate South Carolina's
         <div class="max-w-4xl mx-auto text-center">
           <h1 class="text-4xl md:text-5xl font-bold mb-4">About {companyConfig.name}</h1>
           <p class="text-xl text-white/90">
-            Your trusted locksmith partner in Upstate South Carolina since {2025 - companyConfig.businessInfo.yearsInBusiness}
+            Your trusted locksmith partner in Upstate South Carolina since {companyConfig.establishedYear}
           </p>
         </div>
       </div>
@@ -35,7 +35,7 @@ const description = `Learn about ${companyConfig.name}, Upstate South Carolina's
               <h2 class="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
               <div class="prose prose-lg">
                 <p>
-                  Founded in {2025 - companyConfig.businessInfo.yearsInBusiness}, {companyConfig.name} was built on a simple principle: provide honest, reliable locksmith services with a focus on customer satisfaction and community trust.
+                  Founded in {companyConfig.establishedYear}, {companyConfig.name} was built on a simple principle: provide honest, reliable locksmith services with a focus on customer satisfaction and community trust.
                 </p>
                 <p>
                   What started as a one-person mobile locksmith operation has grown into Upstate South Carolina's most trusted locksmith service, serving thousands of customers across Anderson, Greenville, Clemson, and surrounding communities.
@@ -48,7 +48,7 @@ const description = `Learn about ${companyConfig.name}, Upstate South Carolina's
             <div class="bg-gray-100 rounded-lg p-8">
               <div class="space-y-6">
                 <div class="text-center p-6 bg-white rounded-lg shadow-sm">
-                  <div class="text-4xl font-bold text-primary-600 mb-2">{companyConfig.businessInfo.yearsInBusiness}+</div>
+                  <div class="text-4xl font-bold text-primary-600 mb-2">{companyConfig.credentials.yearsExperience}+</div>
                   <div class="text-gray-700 font-semibold">Years in Business</div>
                 </div>
                 <div class="text-center p-6 bg-white rounded-lg shadow-sm">
