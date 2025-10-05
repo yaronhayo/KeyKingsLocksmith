@@ -13,11 +13,11 @@ const description = 'Terms and conditions for using Key Kings Locksmith services
 
   <main>
     <!-- Page Header -->
-    <section class="bg-gradient-to-br from-primary-600 to-secondary-600 text-white py-12">
+    <section class="bg-gradient-to-br from-gold-400 to-gold-600 text-charcoal-900 py-12">
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto text-center">
           <h1 class="text-4xl md:text-5xl font-bold mb-4">Terms of Service</h1>
-          <p class="text-lg text-white/90">
+          <p class="text-lg text-charcoal-800">
             Last Updated: January 1, 2025
           </p>
         </div>
@@ -62,7 +62,7 @@ const description = 'Terms and conditions for using Key Kings Locksmith services
           <p>All service requests are subject to availability and confirmation. We will make reasonable efforts to accommodate your preferred time but cannot guarantee specific arrival times for non-emergency services.</p>
 
           <h3>3.3 Emergency Services</h3>
-          <p>Emergency services are available 24/7. Response times may vary based on location, weather conditions, and current service demand.</p>
+          <p>Emergency services are available during our business hours: Sunday-Thursday 7:00 AM - 10:00 PM, Friday 6:30 AM - 5:30 PM. Response times may vary based on location, weather conditions, and current service demand.</p>
 
           <h2>4. Pricing and Payment</h2>
 
@@ -152,13 +152,13 @@ const description = 'Terms and conditions for using Key Kings Locksmith services
           <h3>7.2 Maximum Liability</h3>
           <p>Our total liability for any claim arising from our services shall not exceed the amount paid for the specific service in question.</p>
 
-          <h2>8. Insurance and Licensing</h2>
+          <h2>8. Insurance and Bonding</h2>
 
-          <p>{companyConfig.name} is fully licensed, bonded, and insured. We maintain:</p>
+          <p>{companyConfig.name} is bonded and insured. We maintain:</p>
           <ul>
-            <li>General liability insurance</li>
+            <li>General liability insurance ($1,000,000 coverage)</li>
             <li>Workers' compensation coverage</li>
-            <li>Professional licensing as required by state and local regulations</li>
+            <li>Professional bonding for customer protection</li>
           </ul>
 
           <h2>9. Privacy and Data Protection</h2>
@@ -182,7 +182,7 @@ const description = 'Terms and conditions for using Key Kings Locksmith services
 
           <h2>12. Governing Law</h2>
 
-          <p>These Terms of Service are governed by the laws of the State of {companyConfig.contact.address.state}. Any legal action must be brought in the courts of {companyConfig.contact.address.county} County, {companyConfig.contact.address.state}.</p>
+          <p>These Terms of Service are governed by the laws of the State of {companyConfig.contact.address.state}. Any legal action must be brought in the courts of Anderson County, {companyConfig.contact.address.state}.</p>
 
           <h2>13. Changes to Terms</h2>
 
@@ -196,20 +196,22 @@ const description = 'Terms and conditions for using Key Kings Locksmith services
 
           <p>For questions about these Terms of Service, please contact us:</p>
 
-          <div class="not-prose bg-gray-50 rounded-lg p-6 my-6">
-            <p class="font-semibold text-gray-900 mb-3">{companyConfig.name}</p>
-            <p class="text-gray-700 mb-1">
-              <strong>Phone:</strong> <a href={`tel:${companyConfig.contact.phone.number}`} class="text-primary-600 hover:text-primary-700">{companyConfig.contact.phone.display}</a>
+          <div class="not-prose bg-gold-50 rounded-lg p-6 my-6 border border-gold-200">
+            <p class="font-semibold text-charcoal-900 mb-3">{companyConfig.name}</p>
+            <p class="text-charcoal-700 mb-1">
+              <strong>Phone:</strong> <a href={`tel:${companyConfig.contact.phone.formatted}`} class="text-gold-600 hover:text-gold-700 font-medium">{companyConfig.contact.phone.display}</a>
             </p>
-            <p class="text-gray-700 mb-1">
-              <strong>Email:</strong> <a href={`mailto:${companyConfig.contact.email.primary}`} class="text-primary-600 hover:text-primary-700">{companyConfig.contact.email.primary}</a>
+            <p class="text-charcoal-700 mb-1">
+              <strong>Email:</strong> <a href={`mailto:${companyConfig.contact.email.primary}`} class="text-gold-600 hover:text-gold-700 font-medium">{companyConfig.contact.email.primary}</a>
             </p>
-            <p class="text-gray-700 mb-3">
+            <p class="text-charcoal-700 mb-3">
               <strong>Address:</strong> {companyConfig.contact.address.street}, {companyConfig.contact.address.city}, {companyConfig.contact.address.state} {companyConfig.contact.address.zipCode}
             </p>
-            <p class="text-gray-600 text-sm">
-              <strong>Business Hours:</strong> Monday-Sunday, 7:00 AM - 10:00 PM<br>
-              <strong>Emergency Services:</strong> Available 24/7
+            <p class="text-charcoal-600 text-sm">
+              <strong>Business Hours:</strong><br>
+              Sun-Thu: 7:00 AM - 10:00 PM<br>
+              Fri: 6:30 AM - 5:30 PM<br>
+              Sat: Closed
             </p>
           </div>
 

@@ -106,6 +106,7 @@ class APIClient {
       method: 'POST',
       body: JSON.stringify({
         ...sanitizedData,
+        recaptchaToken: data.recaptchaToken,
         timestamp: new Date().toISOString(),
         requestId: this.generateRequestId(),
       }),
@@ -126,6 +127,7 @@ class APIClient {
       method: 'POST',
       body: JSON.stringify({
         ...sanitizedData,
+        recaptchaToken: data.recaptchaToken,
         timestamp: new Date().toISOString(),
         requestId: this.generateRequestId(),
       }),
@@ -140,7 +142,7 @@ class APIClient {
       throw new ValidationError('Invalid email address');
     }
     
-    return this.request<{ subscriptionId: string }>('/newsletter/subscribe', {
+    return this.request<{ subscriptionId: string }>('/forms/newsletter', {
       method: 'POST',
       body: JSON.stringify({ 
         email: email.toLowerCase().trim(),

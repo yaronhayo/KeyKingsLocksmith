@@ -367,8 +367,8 @@ export const LoadingSpinner = ({
   };
 
   const colorClasses = {
-    primary: 'text-primary-500',
-    secondary: 'text-secondary-500',
+    primary: 'text-gold-400',
+    secondary: 'text-gold-500',
     white: 'text-white'
   };
 
@@ -441,7 +441,7 @@ export const ProgressiveLoader = ({
     
     <div className="w-full bg-gray-200 rounded-full h-2">
       <div 
-        className="bg-primary-500 h-2 rounded-full transition-all duration-500 ease-out"
+        className="bg-gold-400 h-2 rounded-full transition-all duration-500 ease-out"
         style={{ width: `${(currentStep / steps.length) * 100}%` }}
       />
     </div>

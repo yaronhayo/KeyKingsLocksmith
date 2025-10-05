@@ -1,8 +1,9 @@
 ---
 name: "Sarah M."
 rating: 5
-date: 2024-11-28
+date: 2025-10-08
 service: "House Lockout"
+category: residential
 location: "Greenville, SC"
 verified: true
 platform: google

@@ -1,32 +1,32 @@
 ---
 title: "Commercial Locksmith"
-description: "Complete commercial locksmith services for businesses."
-icon: "🏢"
+description: "Protect your business with professional commercial locksmith services. From master key systems to access control, we secure what matters most to your business."
+icon: "building"
 category: commercial
 featured: false
-price: "Starting at $75"
 image: "/images/services/commercial-locksmith.jpg"
 order: 4
 seo:
-  title: "Commercial Locksmith - Anderson, SC"
-  description: "Complete commercial locksmith services for businesses. Available throughout Anderson and Upstate SC."
+  title: "Commercial Locksmith Services - Anderson, SC | Key Kings"
+  description: "Professional commercial locksmith in Anderson, SC. Master key systems, access control, high-security locks. Protect your business. Call (864) 900-9597."
   keywords:
-    - "commercial locksmith"
-    - "locksmith commercial"
-    - "Anderson SC locksmith"
+    - "commercial locksmith Anderson SC"
+    - "business locksmith"
+    - "master key system"
+    - "access control"
+    - "commercial security"
 ---
 
 ## Commercial Locksmith
 
-Complete commercial locksmith services for businesses.
+Protect your business with professional commercial locksmith services. From master key systems to access control, we secure what matters most to your business.
 
 ### What We Offer
 
-- Fast response time (average 30 minutes)
 - Professional certified technicians
-- Upfront pricing with no hidden fees
-- Fully licensed, bonded, and insured
-- 100% satisfaction guaranteed
+- Transparent service with clear communication
+- Bonded and insured for your protection
+- We stand behind our work
 
 ### Service Areas
 

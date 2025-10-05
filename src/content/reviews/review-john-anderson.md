@@ -1,8 +1,9 @@
 ---
 name: "John D."
 rating: 5
-date: 2024-12-01
+date: 2025-10-15
 service: "Car Lockout"
+category: automotive
 location: "Anderson, SC"
 verified: true
 platform: google

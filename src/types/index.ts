@@ -6,7 +6,7 @@ export interface CompanyConfig {
   description: string;
   establishedYear: string;
   licenseNumber?: string;
-  
+
   // Contact Information
   contact: {
     phone: {
@@ -37,27 +37,42 @@ export interface CompanyConfig {
   // Business Operations
   hours: BusinessHours;
   serviceAreas: ServiceAreas;
-  
+
   // Credentials & Trust Factors
   credentials: BusinessCredentials;
-  
+
   // Brand & Design
   brand: BrandConfig;
-  
+
   // SEO Configuration
   seo: SEOConfig;
-  
+
   // Analytics & Tracking
   analytics: AnalyticsConfig;
-  
+
   // Feature Toggles
   features: FeatureFlags;
-  
+
   // Legal & Compliance
   legal: LegalConfig;
-  
+
   // Content Settings
   content: ContentConfig;
+
+  // Social Media
+  social: SocialMediaConfig;
+
+  // Emergency Service
+  emergency: EmergencyServiceConfig;
+
+  // Services
+  services: ServicesConfig;
+
+  // Trust Signals
+  trustSignals: TrustSignalsConfig;
+
+  // Memberships
+  memberships: string[];
 }
 
 export interface BusinessHours {
@@ -214,20 +229,20 @@ export interface FeatureFlags {
   emergencyService: boolean;
   onlineBooking: boolean;
   liveChat: boolean;
-  
+
   // Content Features
   blog: boolean;
   reviews: boolean;
   testimonials: boolean;
   faq: boolean;
   gallery: boolean;
-  
+
   // Technical Features
   pwa: boolean;
   offlineSupport: boolean;
   pushNotifications: boolean;
   geolocation: boolean;
-  
+
   // Marketing Features
   promotions: boolean;
   newsletterSignup: boolean;
@@ -278,6 +293,60 @@ export interface ContentConfig {
   };
 }
 
+export interface SocialMediaConfig {
+  tiktok?: string;
+  facebook?: string;
+  instagram?: string;
+  twitter?: string;
+  youtube?: string;
+  googleMyBusiness?: string;
+  nextdoor?: string;
+  yelp?: string;
+  linkedin?: string;
+  pinterest?: string;
+}
+
+export interface EmergencyServiceConfig {
+  available247: boolean;
+  coverage: string;
+  phone: string;
+  message: string;
+  priorityAreas: string[];
+  emergencyFee: number;
+  holidayService: boolean;
+}
+
+export interface ServicesConfig {
+  residential: {
+    enabled: boolean;
+    services: string[];
+  };
+  commercial: {
+    enabled: boolean;
+    services: string[];
+  };
+  automotive: {
+    enabled: boolean;
+    services: string[];
+  };
+  emergency: {
+    enabled: boolean;
+    services: string[];
+  };
+}
+
+export interface TrustSignalsConfig {
+  yearsInBusiness: number;
+  customersServed: string;
+  serviceGuarantee: string;
+  insuranceCoverage: string;
+  backgroundChecks: string;
+  uniformedTechnicians: boolean;
+  markedVehicles: boolean;
+  upfrontPricing: boolean;
+  noHiddenFees: boolean;
+}
+
 // API Response Types
 export interface APIResponse<T> {
   success: boolean;
@@ -301,24 +370,25 @@ export interface BookingFormData {
   name: string;
   phone: string;
   email?: string;
-  
+
   // Service Details
   address: string;
   serviceType: string;
   urgency: 'asap' | 'same-day' | 'few-days' | 'few-weeks' | 'other';
   notes?: string;
-  
+
   // Metadata
-  source: string;
-  pageUrl: string;
-  referrer: string;
-  timestamp: string;
-  userAgent: string;
-  screenResolution: string;
-  language: string;
-  timezone: string;
-  
+  source?: string;
+  pageUrl?: string;
+  referrer?: string;
+  timestamp?: string;
+  userAgent?: string;
+  screenResolution?: string;
+  language?: string;
+  timezone?: string;
+
   // Verification
+  recaptchaToken?: string;
   recaptchaResponse?: string;
   honeypot?: string; // Anti-spam
 }
@@ -329,8 +399,9 @@ export interface ContactFormData {
   phone?: string;
   subject: string;
   message: string;
-  source: string;
-  timestamp: string;
+  source?: string;
+  timestamp?: string;
+  recaptchaToken?: string;
   recaptchaResponse?: string;
 }
 
@@ -565,8 +636,8 @@ export type DeepPartial<T> = {
   [P in keyof T]?: DeepPartial<T[P]>;
 };
 
-export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = 
-  Pick<T, Exclude<keyof T, Keys>> & 
+export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> =
+  Pick<T, Exclude<keyof T, Keys>> &
   { [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>> }[Keys];
 
 export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
@@ -575,22 +646,22 @@ export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 export interface EnvironmentConfig {
   NODE_ENV: 'development' | 'production' | 'test';
   SITE_URL: string;
-  
+
   // Google Services
   GOOGLE_MAPS_API_KEY: string;
   GOOGLE_RECAPTCHA_SITE_KEY: string;
   GOOGLE_RECAPTCHA_SECRET_KEY: string;
   GOOGLE_TAG_MANAGER_ID?: string;
   GOOGLE_ANALYTICS_ID?: string;
-  
+
   // Email Service
   RESEND_API_KEY: string;
-  
+
   // Business Information
   BUSINESS_PHONE: string;
   BUSINESS_EMAIL: string;
   BUSINESS_ADDRESS: string;
-  
+
   // Optional Services
   VERCEL_BLOB_READ_WRITE_TOKEN?: string;
   DATABASE_URL?: string;
@@ -613,7 +684,7 @@ export class AppError extends Error {
     this.code = code;
     this.statusCode = statusCode;
     this.isOperational = isOperational;
-    
+
     Error.captureStackTrace(this, this.constructor);
   }
 }

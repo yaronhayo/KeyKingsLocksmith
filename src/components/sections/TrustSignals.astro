@@ -1,0 +1,133 @@
+---
+// Trust Signals Bar - Key metrics and credentials display
+import { companyConfig, trustSignals, credentials } from '../../data/company';
+
+export interface Props {
+  variant?: 'default' | 'compact' | 'detailed';
+  background?: 'white' | 'gray' | 'gradient';
+  class?: string;
+}
+
+const {
+  variant = 'default',
+  background = 'gray',
+  class: className = '',
+} = Astro.props;
+
+const backgroundStyles = {
+  white: 'bg-white',
+  gray: 'bg-gray-50',
+  gradient: 'bg-gradient-to-br from-yellow-50 via-white to-gold-50',
+};
+
+const metrics = [
+  {
+    icon: `<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>`,
+    value: `${trustSignals.yearsInBusiness}+`,
+    label: 'Years in Business',
+    color: 'text-gold-600',
+  },
+  {
+    icon: `<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path></svg>`,
+    value: trustSignals.customersServed,
+    label: 'Customers Served',
+    color: 'text-trust-blue',
+  },
+  {
+    icon: `<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>`,
+    value: `${companyConfig.content.reviews.averageRating}`,
+    label: 'Star Rating',
+    color: 'text-gold-600',
+  },
+  {
+    icon: `<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>`,
+    value: `${companyConfig.content.reviews.totalReviews}+`,
+    label: 'Customer Reviews',
+    color: 'text-trust-green',
+  },
+];
+---
+
+<section class={`py-12 md:py-16 ${backgroundStyles[background]} ${className}`}>
+  <div class="container mx-auto px-4">
+    {variant === 'default' && (
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+        {metrics.map((metric) => (
+          <div class="text-center group">
+            <div class={`inline-flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-white shadow-md group-hover:shadow-lg transition-shadow duration-300 ${metric.color}`}>
+              <span set:html={metric.icon}></span>
+            </div>
+            <div class="text-3xl md:text-4xl font-bold text-charcoal-900 mb-1">
+              {metric.value}
+            </div>
+            <div class="text-sm md:text-base text-gray-600 font-medium">
+              {metric.label}
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {variant === 'compact' && (
+      <div class="flex flex-wrap justify-center items-center gap-6 md:gap-8">
+        {metrics.map((metric) => (
+          <div class="flex items-center gap-3 px-4 py-2 bg-white rounded-lg shadow-sm">
+            <span class={metric.color} set:html={metric.icon}></span>
+            <div>
+              <div class="text-xl font-bold text-charcoal-900">{metric.value}</div>
+              <div class="text-xs text-gray-600">{metric.label}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {variant === 'detailed' && (
+      <div>
+        <div class="text-center mb-10">
+          <h2 class="text-3xl md:text-4xl font-bold text-charcoal-900 mb-3">
+            Trusted by Thousands in Upstate SC
+          </h2>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            Bonded and insured locksmith services you can count on
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-10">
+          {metrics.map((metric) => (
+            <div class="text-center group">
+              <div class={`inline-flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-white shadow-md group-hover:shadow-lg transition-shadow duration-300 ${metric.color}`}>
+                <span set:html={metric.icon}></span>
+              </div>
+              <div class="text-3xl md:text-4xl font-bold text-charcoal-900 mb-1">
+                {metric.value}
+              </div>
+              <div class="text-sm md:text-base text-gray-600 font-medium">
+                {metric.label}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-4">
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border-2 border-charcoal-700 text-charcoal-700 font-semibold">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+            <span>Bonded</span>
+          </div>
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border-2 border-gold-600 text-gold-700 font-semibold">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+            <span>Insured</span>
+          </div>
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border-2 border-charcoal-700 text-charcoal-700 font-semibold">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+            <span>ALOA Certified</span>
+          </div>
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border-2 border-gold-600 text-gold-700 font-semibold">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path></svg>
+            <span>Local Business</span>
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+</section>

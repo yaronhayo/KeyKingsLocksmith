@@ -1,0 +1,112 @@
+---
+/**
+ * WebVitals Component
+ * Monitors Core Web Vitals and reports to analytics
+ * Only loads in production for performance monitoring
+ */
+
+const isProduction = import.meta.env.PROD;
+---
+
+{isProduction && (
+  <script>
+    // Load web-vitals library dynamically
+    import('web-vitals').then(({ onCLS, onFID, onFCP, onLCP, onTTFB, onINP }) => {
+      // Helper to send metrics to analytics
+      function sendToAnalytics(metric) {
+        // Send to Vercel Analytics
+        if (window.va) {
+          window.va('event', {
+            name: 'web-vitals',
+            data: {
+              metric: metric.name,
+              value: Math.round(metric.value),
+              rating: metric.rating,
+              id: metric.id,
+            },
+          });
+        }
+
+        // Send to Google Analytics (if configured)
+        if (window.gtag) {
+          window.gtag('event', metric.name, {
+            value: Math.round(metric.value),
+            metric_rating: metric.rating,
+            metric_id: metric.id,
+            metric_delta: Math.round(metric.delta),
+          });
+        }
+      }
+
+      // Get rating for metric
+      function getRating(name, value) {
+        const thresholds = {
+          CLS: [0.1, 0.25],
+          FID: [100, 300],
+          FCP: [1800, 3000],
+          LCP: [2500, 4000],
+          TTFB: [800, 1800],
+          INP: [200, 500],
+        };
+
+        const [good, poor] = thresholds[name] || [0, 0];
+        
+        if (value <= good) return 'good';
+        if (value <= poor) return 'needs-improvement';
+        return 'poor';
+      }
+
+      // Monitor all Core Web Vitals
+      onCLS((metric) => {
+        sendToAnalytics({ ...metric, rating: getRating('CLS', metric.value) });
+      });
+
+      onFID((metric) => {
+        sendToAnalytics({ ...metric, rating: getRating('FID', metric.value) });
+      });
+
+      onFCP((metric) => {
+        sendToAnalytics({ ...metric, rating: getRating('FCP', metric.value) });
+      });
+
+      onLCP((metric) => {
+        sendToAnalytics({ ...metric, rating: getRating('LCP', metric.value) });
+      });
+
+      onTTFB((metric) => {
+        sendToAnalytics({ ...metric, rating: getRating('TTFB', metric.value) });
+      });
+
+      onINP((metric) => {
+        sendToAnalytics({ ...metric, rating: getRating('INP', metric.value) });
+      });
+    }).catch((error) => {
+      console.error('Failed to load web-vitals:', error);
+    });
+  </script>
+)}
+
+{!isProduction && (
+  <script>
+    // Development mode - log metrics to console
+    console.log('[Web Vitals] Monitoring enabled in development mode');
+    
+    // Simple performance logging
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        if (window.performance && window.performance.timing) {
+          const timing = window.performance.timing;
+          const ttfb = timing.responseStart - timing.requestStart;
+          const domLoad = timing.domContentLoadedEventEnd - timing.navigationStart;
+          const windowLoad = timing.loadEventEnd - timing.navigationStart;
+
+          console.log('[Performance]', {
+            'TTFB': `${ttfb}ms`,
+            'DOM Load': `${domLoad}ms`,
+            'Window Load': `${windowLoad}ms`,
+          });
+        }
+      }, 0);
+    });
+  </script>
+)}

@@ -1,32 +1,32 @@
 ---
 title: "House Lockout Service"
-description: "Locked out of your home? We provide quick residential lockout services."
-icon: "🏠"
+description: "Locked out of your home? Don't panic. We'll get you back inside safely. Professional residential lockout service you can trust."
+icon: "home"
 category: residential
 featured: true
-price: "Starting at $75"
 image: "/images/services/house-lockout.jpg"
 order: 2
 seo:
-  title: "House Lockout Service - Anderson, SC"
-  description: "Locked out of your home? We provide quick residential lockout services. Available throughout Anderson and Upstate SC."
+  title: "House Lockout Service - Anderson, SC | Key Kings Locksmith"
+  description: "Locked out of your house in Anderson, SC? Professional residential lockout service. We'll get you back inside safely. Call (864) 900-9597 for help."
   keywords:
-    - "house lockout"
-    - "locksmith residential"
-    - "Anderson SC locksmith"
+    - "house lockout Anderson SC"
+    - "residential locksmith"
+    - "locked out of house"
+    - "home lockout service"
+    - "emergency locksmith"
 ---
 
 ## House Lockout Service
 
-Locked out of your home? We provide quick residential lockout services.
+Locked out of your home? Don't panic. We'll get you back inside safely. Professional residential lockout service you can trust.
 
 ### What We Offer
 
-- Fast response time (average 30 minutes)
 - Professional certified technicians
-- Upfront pricing with no hidden fees
-- Fully licensed, bonded, and insured
-- 100% satisfaction guaranteed
+- Transparent service with clear communication
+- Bonded and insured for your protection
+- We stand behind our work
 
 ### Service Areas
 

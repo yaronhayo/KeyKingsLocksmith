@@ -1,0 +1,382 @@
+---
+// Prevention Tips section - Value-added content with accordion functionality
+export interface Props {
+  class?: string;
+  variant?: 'accordion' | 'cards';
+}
+
+const { 
+  class: className = '',
+  variant = 'accordion'
+} = Astro.props;
+
+const preventionTips = [
+  {
+    id: 'avoid-lockouts',
+    icon: 'key',
+    question: 'How Can I Avoid Getting Locked Out?',
+    title: 'Prevent Lockouts Before They Happen',
+    tips: [
+      {
+        heading: 'Keep a Spare Key with a Trusted Neighbor',
+        description: 'If you get locked out, you won\'t need to wait for a locksmith. Choose someone reliable who\'s usually home and lives nearby.'
+      },
+      {
+        heading: 'Consider a Keyless Entry System',
+        description: 'Smart locks and keypad entry systems eliminate the risk of lost keys. You\'ll always have access through your phone or a code you memorize.'
+      },
+      {
+        heading: 'Establish a Key Routine',
+        description: 'Always put your keys in the same place when you get home. Create a habit of checking for your keys before closing the door.'
+      },
+      {
+        heading: 'Keep a Spare in Your Wallet',
+        description: 'A slim emergency key can fit in your wallet. It won\'t help if you lock your wallet inside, but it\'s useful for lost key situations.'
+      }
+    ],
+    iconColor: 'text-trust-blue',
+    bgColor: 'bg-trust-blue/5',
+    borderColor: 'border-trust-blue'
+  },
+  {
+    id: 'lock-maintenance',
+    icon: 'wrench',
+    question: 'When Do My Locks Need Attention?',
+    title: 'Signs Your Locks Need Professional Care',
+    tips: [
+      {
+        heading: 'Key Sticks or Is Hard to Turn',
+        description: 'This usually means dirt or debris in the lock mechanism. Regular cleaning and lubrication can prevent complete failure.'
+      },
+      {
+        heading: 'Lock Feels Loose or Wobbly',
+        description: 'Loose locks are security risks and can fail completely. Tightening or replacing mounting hardware prevents lockouts and break-ins.'
+      },
+      {
+        heading: 'Visible Rust or Damage',
+        description: 'Corroded locks can seize up without warning. Replace rusty locks before they fail, especially on exterior doors.'
+      },
+      {
+        heading: 'Recently Moved Into a New Home',
+        description: 'You don\'t know who has copies of your keys. Rekeying all locks should be your first security step in a new home.'
+      }
+    ],
+    iconColor: 'text-trust-green',
+    bgColor: 'bg-trust-green/5',
+    borderColor: 'border-trust-green'
+  },
+  {
+    id: 'rekey-vs-replace',
+    icon: 'shield',
+    question: 'Should I Rekey or Replace My Locks?',
+    title: 'Making the Right Lock Security Decision',
+    tips: [
+      {
+        heading: 'Rekey After Moving or Lost Keys',
+        description: 'Rekeying changes the internal pins so old keys won\'t work. It\'s cost-effective when your locks are in good condition but you need new keys.'
+      },
+      {
+        heading: 'Replace Damaged or Outdated Locks',
+        description: 'If locks are broken, worn out, or use outdated technology, replacement is the better choice. Modern locks offer better security features.'
+      },
+      {
+        heading: 'Upgrade to Smart Locks for Convenience',
+        description: 'Smart locks eliminate key management entirely. You can grant temporary access, track who enters, and never worry about lost keys again.'
+      },
+      {
+        heading: 'Consider Master Key Systems for Businesses',
+        description: 'If you manage multiple locks, a master key system lets you use one key for everything while giving employees limited access keys.'
+      }
+    ],
+    iconColor: 'text-gold-500',
+    bgColor: 'bg-gold-50',
+    borderColor: 'border-gold-400'
+  }
+];
+---
+
+<section class={`prevention-tips-section py-16 md:py-24 bg-white ${className}`}>
+  <div class="container mx-auto px-4">
+    <!-- Section Header -->
+    <div class="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-charcoal-900 mb-4">
+        Helpful <span class="text-gold-500">Prevention Tips</span>
+      </h2>
+      <p class="text-lg md:text-xl text-charcoal-600">
+        Expert advice to help you avoid common lock problems and stay secure
+      </p>
+    </div>
+
+    {variant === 'accordion' ? (
+      <!-- Accordion Layout -->
+      <div class="max-w-4xl mx-auto space-y-4">
+        {preventionTips.map((category, index) => (
+          <div class={`tip-category bg-white border-2 ${category.borderColor} border-opacity-30 rounded-xl overflow-hidden hover:border-opacity-60 transition-all duration-300`}>
+            <button
+              class="tip-question w-full flex items-center justify-between p-6 md:p-8 text-left hover:bg-gray-50 transition-colors"
+              aria-expanded="false"
+              aria-controls={`tip-answer-${category.id}`}
+            >
+              <div class="flex items-start gap-4 flex-1 pr-4">
+                <!-- Icon -->
+                <div class={`flex-shrink-0 ${category.iconColor}`}>
+                  {category.icon === 'key' && (
+                    <svg class="w-8 h-8 md:w-10 md:h-10" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12.65 10C11.7 7.31 8.9 5.5 5.77 6.12c-2.29.46-4.15 2.29-4.63 4.58C.32 14.57 3.26 18 7 18c2.61 0 4.83-1.67 5.65-4H17v2c0 1.1.9 2 2 2s2-.9 2-2v-2c1.1 0 2-.9 2-2s-.9-2-2-2h-8.35zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                    </svg>
+                  )}
+                  {category.icon === 'wrench' && (
+                    <svg class="w-8 h-8 md:w-10 md:h-10" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>
+                    </svg>
+                  )}
+                  {category.icon === 'shield' && (
+                    <svg class="w-8 h-8 md:w-10 md:h-10" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
+                    </svg>
+                  )}
+                </div>
+                
+                <!-- Question -->
+                <div class="flex-1">
+                  <h3 class="text-xl md:text-2xl font-display font-bold text-charcoal-900">
+                    {category.question}
+                  </h3>
+                  <p class="text-sm md:text-base text-charcoal-600 mt-2">
+                    {category.title}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Expand Icon -->
+              <svg
+                class="tip-icon w-6 h-6 md:w-7 md:h-7 text-charcoal-600 flex-shrink-0 transition-transform duration-300"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+
+            <div
+              id={`tip-answer-${category.id}`}
+              class="tip-answer hidden"
+              role="region"
+            >
+              <div class={`px-6 md:px-8 pb-6 md:pb-8 ${category.bgColor}`}>
+                <div class="space-y-6">
+                  {category.tips.map((tip) => (
+                    <div class="flex gap-4">
+                      <div class="flex-shrink-0 mt-1">
+                        <svg class={`w-5 h-5 ${category.iconColor}`} fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                      </div>
+                      <div class="flex-1">
+                        <h4 class="font-bold text-charcoal-900 mb-2">
+                          {tip.heading}
+                        </h4>
+                        <p class="text-charcoal-700 leading-relaxed">
+                          {tip.description}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <!-- Card Grid Layout -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        {preventionTips.map((category, index) => (
+          <div 
+            class="tip-card group"
+            style={`animation-delay: ${index * 0.1}s`}
+          >
+            <div class={`h-full border-2 ${category.borderColor} border-opacity-30 hover:border-opacity-100 rounded-xl p-6 md:p-8 bg-white transition-all duration-300 hover:shadow-xl`}>
+              <!-- Icon -->
+              <div class={`mb-6 ${category.iconColor} transform transition-transform duration-300 group-hover:scale-110`}>
+                {category.icon === 'key' && (
+                  <svg class="w-12 h-12 md:w-14 md:h-14" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12.65 10C11.7 7.31 8.9 5.5 5.77 6.12c-2.29.46-4.15 2.29-4.63 4.58C.32 14.57 3.26 18 7 18c2.61 0 4.83-1.67 5.65-4H17v2c0 1.1.9 2 2 2s2-.9 2-2v-2c1.1 0 2-.9 2-2s-.9-2-2-2h-8.35zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                  </svg>
+                )}
+                {category.icon === 'wrench' && (
+                  <svg class="w-12 h-12 md:w-14 md:h-14" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>
+                  </svg>
+                )}
+                {category.icon === 'shield' && (
+                  <svg class="w-12 h-12 md:w-14 md:h-14" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
+                  </svg>
+                )}
+              </div>
+
+              <!-- Content -->
+              <div class="space-y-4">
+                <h3 class="text-xl md:text-2xl font-display font-bold text-charcoal-900 group-hover:text-gold-600 transition-colors duration-300">
+                  {category.question}
+                </h3>
+                <p class="text-charcoal-600 font-medium">
+                  {category.title}
+                </p>
+                <ul class="space-y-3">
+                  {category.tips.map((tip) => (
+                    <li class="flex gap-2 text-sm text-charcoal-700">
+                      <svg class={`w-5 h-5 flex-shrink-0 mt-0.5 ${category.iconColor}`} fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                      </svg>
+                      <span>{tip.heading}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <!-- Bottom CTA -->
+    <div class="text-center mt-12 md:mt-16 p-8 md:p-10 bg-gradient-to-br from-gold-50 to-charcoal-50 rounded-2xl border-2 border-gold-200">
+      <h3 class="text-2xl md:text-3xl font-display font-bold text-charcoal-900 mb-3">
+        Need Professional Advice?
+      </h3>
+      <p class="text-charcoal-600 mb-6 max-w-2xl mx-auto">
+        Not sure what your locks need? Call us for a free consultation. We'll help you make the right decision for your security.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href="tel:+18649009597"
+          class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gold-400 text-charcoal-900 font-bold text-lg rounded-lg hover:bg-gold-500 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
+        >
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+          </svg>
+          <span>Call (864) 900-9597</span>
+        </a>
+        <a
+          href="/contact"
+          class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent border-2 border-gold-400 text-gold-600 font-bold text-lg rounded-lg hover:bg-gold-400 hover:text-charcoal-900 transition-all"
+        >
+          <span>Ask a Question</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tipCategories = document.querySelectorAll('.tip-category');
+
+    tipCategories.forEach((category) => {
+      const question = category.querySelector('.tip-question') as HTMLButtonElement;
+      const answer = category.querySelector('.tip-answer') as HTMLElement;
+      const icon = category.querySelector('.tip-icon') as SVGElement;
+
+      if (!question || !answer || !icon) return;
+
+      question.addEventListener('click', () => {
+        const isExpanded = question.getAttribute('aria-expanded') === 'true';
+
+        // Close all other categories
+        tipCategories.forEach((otherCategory) => {
+          if (otherCategory !== category) {
+            const otherQuestion = otherCategory.querySelector('.tip-question') as HTMLButtonElement;
+            const otherAnswer = otherCategory.querySelector('.tip-answer') as HTMLElement;
+            const otherIcon = otherCategory.querySelector('.tip-icon') as SVGElement;
+
+            if (otherQuestion && otherAnswer && otherIcon) {
+              otherQuestion.setAttribute('aria-expanded', 'false');
+              otherAnswer.classList.add('hidden');
+              otherIcon.style.transform = 'rotate(0deg)';
+            }
+          }
+        });
+
+        // Toggle current category
+        if (isExpanded) {
+          question.setAttribute('aria-expanded', 'false');
+          answer.classList.add('hidden');
+          icon.style.transform = 'rotate(0deg)';
+        } else {
+          question.setAttribute('aria-expanded', 'true');
+          answer.classList.remove('hidden');
+          icon.style.transform = 'rotate(180deg)';
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  /* Entrance Animation for Cards */
+  .tip-card {
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 30px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  /* Smooth Accordion Animation */
+  .tip-answer {
+    animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      max-height: 0;
+    }
+    to {
+      opacity: 1;
+      max-height: 1000px;
+    }
+  }
+
+  /* GPU Acceleration for Performance */
+  .tip-card,
+  .tip-category {
+    will-change: transform;
+  }
+
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .tip-card {
+      animation: none;
+      opacity: 1;
+      transform: none;
+      will-change: auto;
+    }
+
+    .tip-answer {
+      animation: none;
+    }
+
+    .tip-card :global(.group-hover\:scale-110) {
+      transform: none !important;
+    }
+
+    .tip-icon {
+      transition: none !important;
+    }
+  }
+</style>

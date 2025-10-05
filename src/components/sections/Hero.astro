@@ -2,7 +2,6 @@
 // Hero section with booking form
 import { companyConfig, trustSignals } from '../../data/company';
 import BookingForm from '../forms/BookingForm.astro';
-import TrustBadge from '../ui/TrustBadge.astro';
 
 export interface Props {
   class?: string;
@@ -18,96 +17,90 @@ const {
 ---
 
 <section class={`hero-section relative min-h-[90vh] flex items-center ${className}`}>
-  <!-- Background Image -->
+  <!-- Background Video with Custom Gradient -->
   <div class="absolute inset-0 z-0">
-    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/70 to-black/50 z-10"></div>
-    <img
-      src="/images/hero/locksmith-service-hero.jpg"
-      alt="Professional locksmith service"
+    <div class="absolute inset-0 bg-gradient-to-r from-charcoal-900/95 via-charcoal-800/85 to-charcoal-900/75 z-10"></div>
+    <video
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
       class="w-full h-full object-cover"
-      loading="eager"
-    />
+    >
+      <source src="https://txnhmskxj6stzyxb.public.blob.vercel-storage.com/bgvid.mp4" type="video/mp4" />
+      <!-- Fallback for browsers that don't support video -->
+      <div class="w-full h-full bg-gradient-to-br from-charcoal-900 to-charcoal-800"></div>
+    </video>
   </div>
 
   <!-- Content -->
   <div class="container mx-auto px-4 py-16 relative z-20">
     <div class="grid lg:grid-cols-2 gap-12 items-center">
       <!-- Left Column - Headline & USPs -->
-      <div class="text-white space-y-8">
-        <!-- Emergency Badge -->
-        {urgency === 'asap' && (
-          <div class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 rounded-full animate-pulse-slow">
-            <span class="text-2xl">🚨</span>
-            <span class="font-bold">24/7 Emergency Service Available</span>
-          </div>
-        )}
-
+      <div class="text-white space-y-6">
         <!-- Main Headline -->
-        <div>
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
-            {companyConfig.name.split(' ').map((word, i) => (
-              <span class={i === 0 ? 'text-primary-400' : ''}>{word} </span>
-            ))}
+        <div class="space-y-4">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight">
+            <span class="text-white">Your Trusted Locksmith Partner in</span>
+            <br />
+            <span class="text-gold-400">Anderson, SC</span>
           </h1>
-          <p class="text-xl md:text-2xl text-gray-200 mb-6">
-            {companyConfig.tagline}
-          </p>
-          <p class="text-lg text-gray-300">
-            Licensed, bonded & insured locksmith serving {companyConfig.serviceAreas.primary.join(', ')} and surrounding areas.
+          <p class="text-xl md:text-2xl text-gray-200 font-medium">
+            Whether you're planning ahead or need help right now, we're here with professional locksmith services throughout Upstate South Carolina.
           </p>
         </div>
 
         <!-- Key Features -->
         <div class="space-y-3">
           <div class="flex items-center gap-3">
-            <svg class="w-6 h-6 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-6 h-6 text-gold-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
             </svg>
-            <span class="text-lg">Average 30-minute response time</span>
+            <span class="text-lg">Bonded & insured professionals you can trust</span>
           </div>
           <div class="flex items-center gap-3">
-            <svg class="w-6 h-6 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-6 h-6 text-gold-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
             </svg>
-            <span class="text-lg">{trustSignals.customersServed} happy customers since {companyConfig.establishedYear}</span>
+            <span class="text-lg">{trustSignals.customersServed} customers served since {companyConfig.establishedYear}</span>
           </div>
           <div class="flex items-center gap-3">
-            <svg class="w-6 h-6 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-6 h-6 text-gold-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
             </svg>
-            <span class="text-lg">Upfront pricing with no hidden fees</span>
+            <span class="text-lg">Serving Anderson, Greenville, Clemson & surrounding areas</span>
           </div>
           <div class="flex items-center gap-3">
-            <svg class="w-6 h-6 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-6 h-6 text-gold-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
             </svg>
-            <span class="text-lg">100% satisfaction guaranteed</span>
+            <span class="text-lg">Residential, commercial, and automotive services</span>
           </div>
         </div>
 
-        <!-- Trust Badges -->
-        <div class="flex flex-wrap gap-3">
-          <TrustBadge type="licensed" variant="compact" />
-          <TrustBadge type="bonded" variant="compact" />
-          <TrustBadge type="insured" variant="compact" />
-          <TrustBadge type="rating" value="4.9" variant="compact" />
-        </div>
-
-        <!-- Emergency CTA -->
-        <div class="flex flex-wrap items-center gap-4">
+        <!-- Primary and Secondary CTAs -->
+        <div class="flex flex-col sm:flex-row gap-4 pt-2">
           <a
             href={`tel:${companyConfig.contact.phone.formatted}`}
-            class="inline-flex items-center gap-3 px-8 py-4 bg-primary-600 text-white font-bold text-lg rounded-lg hover:bg-primary-700 transition-all transform hover:scale-105 shadow-lg"
+            class="hero-cta-primary inline-flex items-center justify-center gap-3 px-8 py-4 bg-gold-600 text-white font-bold text-lg rounded-lg hover:bg-gold-700 hover:text-white transition-all shadow-lg"
           >
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
               <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
             </svg>
-            <span>{companyConfig.contact.phone.display}</span>
+            <span>Call {companyConfig.contact.phone.display}</span>
           </a>
-          <span class="text-gray-300 text-sm">
-            Call now for immediate assistance
-          </span>
+          <a
+            href="/services"
+            class="hero-cta-secondary inline-flex items-center justify-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-bold text-lg rounded-lg hover:bg-gold-600 hover:text-white hover:border-gold-600 transition-all"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+            <span>View Services</span>
+          </a>
         </div>
+
       </div>
 
       <!-- Right Column - Booking Form -->
@@ -147,5 +140,125 @@ const {
   .hero-section p,
   .hero-section span {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Entrance Animations - GPU Accelerated for 60fps */
+  .hero-logo {
+    animation: fadeInDown 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    opacity: 0;
+  }
+
+  .hero-section h1 {
+    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
+    opacity: 0;
+  }
+
+  .hero-section h1 + p {
+    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
+    opacity: 0;
+  }
+
+  .hero-section .space-y-3 {
+    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
+    opacity: 0;
+  }
+
+  .hero-section .flex.flex-col {
+    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translate3d(0, -20px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 20px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  /* CTA Hover Effects - GPU Accelerated */
+  .hero-cta-primary {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+
+  .hero-cta-primary:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 12px 24px -8px rgba(251, 191, 36, 0.5);
+  }
+
+  .hero-cta-primary:active {
+    transform: translateY(0) scale(1);
+  }
+
+  .hero-cta-secondary {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+
+  .hero-cta-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px -4px rgba(251, 191, 36, 0.3);
+  }
+
+  .hero-cta-secondary:active {
+    transform: translateY(0);
+  }
+
+  /* Form entrance animation */
+  .hero-section .bg-white {
+    animation: fadeInRight 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translate3d(30px, 0, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-logo,
+    .hero-section h1,
+    .hero-section h1 + p,
+    .hero-section .space-y-3,
+    .hero-section .flex.flex-col,
+    .hero-section .bg-white {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+
+    .hero-cta-primary:hover,
+    .hero-cta-secondary:hover {
+      transform: none;
+    }
+
+    .hero-cta-primary,
+    .hero-cta-secondary {
+      will-change: auto;
+    }
   }
 </style>

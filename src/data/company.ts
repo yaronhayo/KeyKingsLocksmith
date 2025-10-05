@@ -5,9 +5,8 @@ export const companyConfig: CompanyConfig = {
   // Core Business Information
   name: "Key Kings Locksmith",
   tagline: "Professional Locksmith Services You Can Trust",
-  description: "Licensed, bonded, and insured mobile locksmith services for emergency car lockouts, house lockouts, key replacement, and commercial security solutions throughout Anderson, SC and surrounding areas. Trusted locksmith services since 2016.",
+  description: "Bonded and insured mobile locksmith services for emergency car lockouts, house lockouts, key replacement, and commercial security solutions throughout Anderson, SC and surrounding areas. Trusted locksmith services since 2016.",
   establishedYear: "2016",
-  licenseNumber: "LIC-SC-KEYKINGS",
   
   // Contact Information
   contact: {
@@ -47,8 +46,8 @@ export const companyConfig: CompanyConfig = {
     sunday: { open: "07:00", close: "22:00", label: "7:00 AM - 10:00 PM" },
     emergency: {
       available: true,
-      label: "24/7 Emergency Service Available",
-      hours: "Available 24 hours for emergencies"
+      label: "Emergency Service Available",
+      hours: "Emergency service available during business hours: Sun-Thu 7am-10pm, Fri 6:30am-5:30pm"
     },
     holidays: {
       closed: ["Christmas Day", "New Year's Day"],
@@ -101,15 +100,14 @@ export const companyConfig: CompanyConfig = {
 
   // Enhanced Credentials & Trust Factors
   credentials: {
-    licensed: true,
     bonded: true,
     insured: true,
     certifications: [
       "ALOA Certified Professional Locksmith",
-      "Licensed Locksmith - State of South Carolina",
       "Bonded & Insured Professional Service",
       "Google Verified Business",
-      "Trusted by Anderson Community"
+      "Trusted by Anderson Community",
+      "Professional Locksmith Service"
     ],
     established: "2016",
     familiesServed: 5000,
@@ -144,17 +142,12 @@ export const companyConfig: CompanyConfig = {
       {
         type: "Workmanship Warranty",
         duration: "1 Year",
-        coverage: "All labor and installation work guaranteed for 1 full year"
+        coverage: "All labor and installation work backed by 1 year warranty"
       },
       {
-        type: "Parts Warranty", 
+        type: "Parts Warranty",
         duration: "Manufacturer Warranty",
         coverage: "All parts covered by manufacturer warranty, typically 1-3 years"
-      },
-      {
-        type: "Emergency Service Guarantee",
-        duration: "Same Day",
-        coverage: "If we can't solve your emergency the same day, service call is free"
       }
     ]
   },
@@ -162,15 +155,15 @@ export const companyConfig: CompanyConfig = {
   // Professional Brand Configuration
   brand: {
     colors: {
-      primary: "#DC143C",      // Professional red
-      secondary: "#FF4500",    // Emergency orange  
+      primary: "#FBBF24",      // Gold yellow
+      secondary: "#F59E0B",    // Darker orange  
       accent: "#1C1C1C",       // Professional black
       background: "#FFFFFF",   // Clean white
       text: "#2D3748",         // Dark gray for readability
       muted: "#718096",        // Medium gray
-      success: "#38A169",      // Trust green
-      warning: "#DD6B20",      // Attention orange
-      error: "#E53E3E"         // Error red
+      success: "#F59E0B",      // Orange (replaces green)
+      warning: "#F59E0B",      // Orange
+      error: "#D97706"         // Dark orange (replaces red)
     },
     fonts: {
       primary: "'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
@@ -178,26 +171,22 @@ export const companyConfig: CompanyConfig = {
       mono: "'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace"
     },
     logo: {
-      text: "/images/brand/logo-text.svg",
-      icon: "/images/brand/logo-icon.svg",
-      favicon: "/favicon.ico",
-      appleTouchIcon: "/images/brand/apple-touch-icon.png"
+      text: "/images/brand/logo.png",
+      icon: "/images/brand/logo.png",
+      favicon: "/favicon.png",
+      appleTouchIcon: "/apple-touch-icon.png"
     },
     imagery: {
       heroBackground: "/images/hero/locksmith-service-hero.jpg",
-      placeholder: "/images/placeholders/service-placeholder.jpg",
-      teamPhotos: [
-        "/images/team/lead-locksmith.jpg",
-        "/images/team/senior-technician.jpg"
-      ]
+      placeholder: "/images/placeholders/service-placeholder.jpg"
     }
   },
 
   // Enhanced SEO Configuration
   seo: {
     defaultTitle: "Professional Locksmith Services | Anderson, SC | Key Kings Locksmith",
-    titleTemplate: "%s | Key Kings Locksmith - Licensed & Bonded",
-    defaultDescription: "Licensed, bonded & insured locksmith services for emergency car lockouts, house lockouts, key replacement & commercial security in Anderson, Greenville, Clemson & Upstate SC. Trusted since 2016 with 4.9-star reviews.",
+    titleTemplate: "%s | Key Kings Locksmith - Bonded & Insured",
+    defaultDescription: "Bonded & insured locksmith services for emergency car lockouts, house lockouts, key replacement & commercial security in Anderson, Greenville, Clemson & Upstate SC. Trusted since 2016 with 4.9-star reviews.",
     keywords: [
       "locksmith near me",
       "emergency locksmith",
@@ -212,9 +201,9 @@ export const companyConfig: CompanyConfig = {
       "Clemson locksmith",
       "Easley locksmith",
       "Upstate SC locksmith",
-      "licensed locksmith",
       "bonded locksmith",
-      "insured locksmith"
+      "insured locksmith",
+      "professional locksmith"
     ],
     openGraph: {
       siteName: "Key Kings Locksmith - Professional Locksmith Services",
@@ -277,13 +266,11 @@ export const companyConfig: CompanyConfig = {
 
   // Legal & Compliance Information
   legal: {
-    businessName: "I Locksmith LLC",
-    licenseNumber: "LIC-IN-123456",
+    businessName: "Key Kings Locksmith",
     taxId: "XX-XXXXXXX", // Masked for security
     privacyPolicy: "/privacy-policy",
-    termsOfService: "/terms-and-conditions",
-    accessibility: "/accessibility-policy",
-    cookiePolicy: "/cookie-policy",
+    termsOfService: "/terms-of-service",
+    accessibility: "/accessibility",
     gdprCompliant: true,
     ccpaCompliant: true
   },
@@ -322,11 +309,11 @@ export const companyConfig: CompanyConfig = {
 
   // Social Media Presence
   social: {
-    facebook: "https://facebook.com/keykingslocksmith",
-    instagram: "https://instagram.com/keykingslocksmith",
-    twitter: "https://twitter.com/keykingslocksmith",
-    linkedin: "https://linkedin.com/company/keykingslocksmith",
-    youtube: "https://youtube.com/@keykingslocksmith",
+    tiktok: "https://www.tiktok.com/@keykingslcksmt",
+    facebook: "https://www.facebook.com/profile.php?id=61580117602908",
+    instagram: "https://www.instagram.com/keykingslcksmt",
+    twitter: "https://x.com/keykingslcksmt",
+    youtube: "https://www.youtube.com/@keykingslcksmt",
     googleMyBusiness: "https://g.co/kgs/key-kings-locksmith-anderson",
     nextdoor: "https://nextdoor.com/business/key-kings-locksmith-anderson-sc",
     yelp: "https://yelp.com/biz/key-kings-locksmith-anderson"
@@ -335,12 +322,10 @@ export const companyConfig: CompanyConfig = {
   // Emergency Service Configuration
   emergency: {
     available247: false,
-    responseTime: "30 minutes average",
     coverage: "All primary service areas",
     phone: "(864) 900-9597",
-    message: "Professional locksmith service available Sun-Thu 7am-10pm, Fri 6:30am-5:30pm. Average response time: 30 minutes.",
+    message: "Professional locksmith service available during business hours: Sun-Thu 7am-10pm, Fri 6:30am-5:30pm.",
     priorityAreas: ["Anderson", "Greenville", "Clemson", "Easley"],
-    emergencyFee: 0, // No additional emergency fees
     holidayService: false
   },
 
@@ -360,7 +345,7 @@ export const companyConfig: CompanyConfig = {
     },
     emergency: {
       enabled: true,
-      services: ["24/7 Lockout Service", "Emergency Lock Repair", "After Hours Service", "Holiday Service", "Key Extraction"]
+      services: ["Emergency Lockout Service", "Emergency Lock Repair", "Key Extraction", "Urgent Lock Service"]
     }
   },
 
@@ -368,14 +353,11 @@ export const companyConfig: CompanyConfig = {
   trustSignals: {
     yearsInBusiness: 9,
     customersServed: "5,000+",
-    averageResponseTime: "30 minutes",
-    serviceGuarantee: "100% Satisfaction Guaranteed",
     insuranceCoverage: "$1,000,000 General Liability",
     backgroundChecks: "All technicians background checked",
     uniformedTechnicians: true,
     markedVehicles: true,
-    upfrontPricing: true,
-    noHiddenFees: true
+    professionalService: true
   },
 
   // Professional Memberships
@@ -408,7 +390,7 @@ export const isEmergencyHours = (): boolean => {
 
 export const getCurrentBusinessHours = (): string => {
   const now = new Date();
-  const dayName = now.toLocaleDateString('en-US', { weekday: 'lowercase' });
+  const dayName = now.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
   const dayHours = companyConfig.hours[dayName as keyof typeof companyConfig.hours];
   
   if (typeof dayHours === 'object' && 'label' in dayHours) {

@@ -4,25 +4,100 @@ import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import Button from '../components/ui/Button.astro';
 import TrustBadge from '../components/ui/TrustBadge.astro';
+import ServiceAreaMap from '../components/sections/ServiceAreaMap.astro';
 import { companyConfig, getPhoneLink } from '../data/company';
 
-const title = `About Us - ${companyConfig.name}`;
-const description = `Learn about ${companyConfig.name}, Upstate South Carolina's trusted locksmith service. Licensed, insured, and serving the community since ${companyConfig.establishedYear}.`;
+const title = `About Key Kings Locksmith | Anderson SC Locksmith Since 2016`;
+const description = `Meet the local locksmith team serving Anderson and Upstate SC since 2016. Bonded, insured professionals committed to your security. Learn our story. Call (864) 900-9597.`;
+const keywords = ['about Key Kings', 'locksmith Anderson SC', 'bonded locksmith', 'insured locksmith', 'professional locksmith', 'Anderson locksmith'];
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} keywords={keywords}>
   <Header />
 
   <main>
     <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-primary-600 to-secondary-600 text-white py-16">
-      <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto text-center">
-          <h1 class="text-4xl md:text-5xl font-bold mb-4">About {companyConfig.name}</h1>
-          <p class="text-xl text-white/90">
-            Your trusted locksmith partner in Upstate South Carolina since {companyConfig.establishedYear}
-          </p>
+    <section class="relative bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-gold-900 text-white py-20 md:py-32 overflow-hidden">
+      <!-- Diagonal Split Background -->
+      <div class="absolute inset-0">
+        <div class="absolute inset-0 bg-gradient-to-tr from-gold-600/20 via-transparent to-transparent"></div>
+        <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 50px 50px;"></div>
+      </div>
+
+      <!-- Animated Glow Circles -->
+      <div class="absolute -top-24 -right-24 w-96 h-96 bg-gold-500 rounded-full blur-3xl opacity-20 animate-pulse"></div>
+      <div class="absolute -bottom-32 -left-32 w-80 h-80 bg-gold-400 rounded-full blur-3xl opacity-15 animate-pulse" style="animation-delay: 1.5s;"></div>
+
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-5xl mx-auto">
+          <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <!-- Left Content -->
+            <div>
+              <!-- Badge -->
+              <div class="inline-flex items-center gap-2 px-4 py-2 bg-gold-400/20 border border-gold-400/40 rounded-full text-gold-400 font-semibold mb-6 backdrop-blur-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+                Trusted Since {companyConfig.establishedYear}
+              </div>
+
+              <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 leading-tight">
+                About <span class="text-gold-400">{companyConfig.name}</span>
+              </h1>
+
+              <p class="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
+                The local locksmith team serving Upstate South Carolina since 2016—bringing professional security services to your home, business, and vehicle
+              </p>
+
+              <!-- Quick Contact -->
+              <div class="flex flex-wrap gap-4">
+                <a href={getPhoneLink()}>
+                  <Button variant="primary" size="lg" class="bg-gold-500 hover:bg-gold-600 text-charcoal-900 hover:text-charcoal-900 shadow-xl shadow-gold-500/20">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                    </svg>
+                    {companyConfig.contact.phone.display}
+                  </Button>
+                </a>
+                <a href="/faq">
+                  <Button variant="outline" size="lg" class="border-white/30 text-white hover:bg-white/10 backdrop-blur-sm">
+                    Read FAQs
+                  </Button>
+                </a>
+              </div>
+            </div>
+
+            <!-- Right Stats Grid -->
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                <div class="text-4xl lg:text-5xl font-bold text-gold-400 mb-2">{companyConfig.credentials.yearsExperience}+</div>
+                <div class="text-white/90 font-semibold text-sm lg:text-base">Years in Business</div>
+              </div>
+
+              <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                <div class="text-4xl lg:text-5xl font-bold text-gold-400 mb-2">5K+</div>
+                <div class="text-white/90 font-semibold text-sm lg:text-base">Customers Served</div>
+              </div>
+
+              <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                <div class="text-4xl lg:text-5xl font-bold text-gold-400 mb-2">4.9★</div>
+                <div class="text-white/90 font-semibold text-sm lg:text-base">Average Rating</div>
+              </div>
+
+              <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                <div class="text-4xl lg:text-5xl font-bold text-gold-400 mb-2">$1M</div>
+                <div class="text-white/90 font-semibold text-sm lg:text-base">Insurance Coverage</div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <!-- Bottom Wave Decoration -->
+      <div class="absolute bottom-0 left-0 right-0">
+        <svg class="w-full h-12 md:h-16 fill-white" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,60 C200,100 400,20 600,60 C800,100 1000,20 1200,60 L1200,120 L0,120 Z"></path>
+        </svg>
       </div>
     </section>
 
@@ -32,191 +107,351 @@ const description = `Learn about ${companyConfig.name}, Upstate South Carolina's
         <div class="max-w-4xl mx-auto">
           <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
             <div>
-              <h2 class="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
-              <div class="prose prose-lg">
-                <p>
-                  Founded in {companyConfig.establishedYear}, {companyConfig.name} was built on a simple principle: provide honest, reliable locksmith services with a focus on customer satisfaction and community trust.
+              <h2 class="text-3xl font-bold text-gray-900 mb-6">How We Started</h2>
+              <div class="prose prose-lg text-gray-700">
+                <p class="mb-4">
+                  Key Kings Locksmith opened in {companyConfig.establishedYear} with one van and a straightforward goal: provide honest locksmith service to Anderson County residents and businesses.
+                </p>
+                <p class="mb-4">
+                  Nine years later, we're still that same locally-owned operation—just with more experience, better equipment, and thousands of satisfied customers across Anderson, Greenville, Clemson, and surrounding areas.
+                </p>
+                <p class="mb-4">
+                  We handle everything from emergency lockouts to complete commercial security installations. Some days we're helping a parent get back into their car at the grocery store. Other days we're installing master key systems for office buildings. Every situation gets the same professional attention.
                 </p>
                 <p>
-                  What started as a one-person mobile locksmith operation has grown into Upstate South Carolina's most trusted locksmith service, serving thousands of customers across Anderson, Greenville, Clemson, and surrounding communities.
-                </p>
-                <p>
-                  We understand that locksmith emergencies can be stressful. That's why we're committed to providing fast, professional service with transparent pricing and friendly technicians who treat every customer like family.
+                  We're not a franchise or a national chain with a local number. When you call Key Kings, you're reaching people who live and work in the same communities we serve. That accountability matters to us.
                 </p>
               </div>
             </div>
-            <div class="bg-gray-100 rounded-lg p-8">
+            <div class="bg-gradient-to-br from-gold-50 to-charcoal-50 rounded-lg p-8">
               <div class="space-y-6">
                 <div class="text-center p-6 bg-white rounded-lg shadow-sm">
-                  <div class="text-4xl font-bold text-primary-600 mb-2">{companyConfig.credentials.yearsExperience}+</div>
+                  <div class="text-4xl font-bold text-gold-600 mb-2">{companyConfig.credentials.yearsExperience}+</div>
                   <div class="text-gray-700 font-semibold">Years in Business</div>
                 </div>
                 <div class="text-center p-6 bg-white rounded-lg shadow-sm">
-                  <div class="text-4xl font-bold text-primary-600 mb-2">5,000+</div>
+                  <div class="text-4xl font-bold text-gold-600 mb-2">5,000+</div>
                   <div class="text-gray-700 font-semibold">Customers Served</div>
                 </div>
                 <div class="text-center p-6 bg-white rounded-lg shadow-sm">
-                  <div class="text-4xl font-bold text-primary-600 mb-2">4.9★</div>
+                  <div class="text-4xl font-bold text-gold-600 mb-2">4.9/5</div>
                   <div class="text-gray-700 font-semibold">Average Rating</div>
                 </div>
                 <div class="text-center p-6 bg-white rounded-lg shadow-sm">
-                  <div class="text-4xl font-bold text-primary-600 mb-2">24/7</div>
-                  <div class="text-gray-700 font-semibold">Emergency Service</div>
+                  <div class="text-4xl font-bold text-gold-600 mb-2">$1M</div>
+                  <div class="text-gray-700 font-semibold">Insurance Coverage</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Our Mission -->
+          <!-- What We Believe -->
           <div class="mb-16">
-            <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">Our Mission</h2>
-            <div class="bg-blue-50 border-l-4 border-blue-600 rounded-r-lg p-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">What We Believe</h2>
+            <div class="bg-gold-50 border-l-4 border-gold-600 rounded-r-lg p-8">
               <p class="text-lg text-gray-800 leading-relaxed">
-                To provide the Upstate South Carolina community with fast, reliable, and affordable locksmith services while maintaining the highest standards of professionalism, integrity, and customer care. We're not just here to unlock doors—we're here to build lasting relationships with our neighbors and ensure their security and peace of mind.
+                Good locksmith service starts with clear communication and honest recommendations. We explain what needs to be done and why. We show up when we say we will. We treat your property with respect. And we stand behind our work. These aren't revolutionary ideas—they're just the right way to run a local business.
               </p>
             </div>
           </div>
 
-          <!-- Our Values -->
+          <!-- How We Work -->
           <div class="mb-16">
-            <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Our Values</h2>
+            <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">How We Work</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+              <div class="text-center">
+                <div class="w-16 h-16 bg-gold-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg class="w-8 h-8 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Show Up Professional</h3>
+                <p class="text-gray-700">
+                  Marked vehicles, uniformed technicians, proper equipment. You'll know it's us when we arrive, and you'll see the difference professional service makes.
+                </p>
+              </div>
+
+              <div class="text-center">
+                <div class="w-16 h-16 bg-gold-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg class="w-8 h-8 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Explain Everything</h3>
+                <p class="text-gray-700">
+                  Before we start any work, we explain what needs to be done and why. Clear pricing, honest recommendations, no surprises.
+                </p>
+              </div>
+
+              <div class="text-center">
+                <div class="w-16 h-16 bg-gold-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg class="w-8 h-8 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Do It Right</h3>
+                <p class="text-gray-700">
+                  We use quality parts, take our time to do the job correctly, and stand behind our work. Solutions that last, not temporary fixes.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- What Drives Us -->
+          <div class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">What Drives Us</h2>
             <div class="grid md:grid-cols-2 gap-6">
               <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                <div class="text-4xl mb-3">🎯</div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3">Reliability</h3>
+                <div class="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Dependability</h3>
                 <p class="text-gray-700">
-                  When you need us, we're there. Fast response times, dependable service, and solutions that work the first time.
+                  We show up when we say we will. Our solutions work the first time. When you need locksmith service in Anderson, you can count on us.
                 </p>
               </div>
 
               <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                <div class="text-4xl mb-3">💎</div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3">Integrity</h3>
+                <div class="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Honest Work</h3>
                 <p class="text-gray-700">
-                  Honest pricing, transparent communication, and ethical business practices. No hidden fees, no surprises.
+                  No upselling, no surprise charges, no runaround. We tell you what needs to be done, what it'll cost, and why. Simple as that.
                 </p>
               </div>
 
               <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                <div class="text-4xl mb-3">🔧</div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3">Expertise</h3>
+                <div class="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Real Experience</h3>
                 <p class="text-gray-700">
-                  Highly trained, licensed technicians with years of experience in residential, commercial, and automotive locksmith services.
+                  Nine years of residential, commercial, and automotive locksmith work. We've seen most situations before, and we know how to handle them.
                 </p>
               </div>
 
               <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                <div class="text-4xl mb-3">❤️</div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3">Community</h3>
+                <div class="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Local Accountability</h3>
                 <p class="text-gray-700">
-                  We're your neighbors. Local, family-owned, and committed to serving the Upstate South Carolina community.
+                  We live here. Our kids go to school here. We shop at the same stores you do. That local accountability shapes how we do business.
                 </p>
               </div>
             </div>
           </div>
 
           <!-- Why Choose Us -->
-          <div class="mb-16">
-            <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Why Choose {companyConfig.name}?</h2>
-            <div class="space-y-4">
-              <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
-                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                </svg>
-                <div>
-                  <h3 class="font-bold text-gray-900 mb-1">Licensed, Bonded & Insured</h3>
-                  <p class="text-gray-700">Fully licensed and insured for your protection and peace of mind.</p>
+          <div class="mb-16 bg-gradient-to-br from-charcoal-900 to-charcoal-800 rounded-3xl p-8 md:p-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-12 text-center">Why Choose {companyConfig.name}?</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+              <div class="p-6 rounded-xl bg-gradient-to-br from-gold-400 to-gold-500 text-charcoal-900">
+                <div class="flex items-center gap-3 mb-2">
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  <div class="font-bold text-lg">Licensed</div>
                 </div>
+                <p class="text-sm font-medium">Licensed Professional Service</p>
               </div>
 
-              <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
-                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                </svg>
-                <div>
-                  <h3 class="font-bold text-gray-900 mb-1">24/7 Emergency Service</h3>
-                  <p class="text-gray-700">Lockouts don't wait for business hours. We're available around the clock for emergencies.</p>
+              <div class="p-6 rounded-xl bg-gradient-to-br from-gold-400 to-gold-500 text-charcoal-900">
+                <div class="flex items-center gap-3 mb-2">
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  <div class="font-bold text-lg">Insured</div>
                 </div>
+                <p class="text-sm font-medium">$1M Liability Insurance</p>
               </div>
 
-              <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
-                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                </svg>
-                <div>
-                  <h3 class="font-bold text-gray-900 mb-1">Fast Response Times</h3>
-                  <p class="text-gray-700">Average response time of 15-30 minutes across our service areas.</p>
+              <div class="p-6 rounded-xl bg-gradient-to-br from-gold-400 to-gold-500 text-charcoal-900">
+                <div class="flex items-center gap-3 mb-2">
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  <div class="font-bold text-lg">Bonded</div>
                 </div>
+                <p class="text-sm font-medium">Bonded for Your Protection</p>
               </div>
 
-              <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
-                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                </svg>
-                <div>
-                  <h3 class="font-bold text-gray-900 mb-1">Mobile Service</h3>
-                  <p class="text-gray-700">We come to you—home, office, or roadside. Full-service mobile locksmith.</p>
+              <div class="p-6 rounded-xl bg-gradient-to-br from-gold-400 to-gold-500 text-charcoal-900">
+                <div class="flex items-center gap-3 mb-2">
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                  </svg>
+                  <div class="font-bold text-lg">4.9★</div>
                 </div>
+                <p class="text-sm font-medium">Star Average Rating</p>
               </div>
 
-              <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
-                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                </svg>
-                <div>
-                  <h3 class="font-bold text-gray-900 mb-1">Upfront Pricing</h3>
-                  <p class="text-gray-700">No hidden fees or surprise charges. We provide clear pricing before we start work.</p>
+              <div class="p-6 rounded-xl bg-gradient-to-br from-gold-400 to-gold-500 text-charcoal-900">
+                <div class="flex items-center gap-3 mb-2">
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
+                  </svg>
+                  <div class="font-bold text-lg">Emergency</div>
                 </div>
+                <p class="text-sm font-medium">Available After-Hours</p>
               </div>
 
-              <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
-                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                </svg>
-                <div>
-                  <h3 class="font-bold text-gray-900 mb-1">Satisfaction Guaranteed</h3>
-                  <p class="text-gray-700">We stand behind our work with a 90-day workmanship warranty.</p>
+              <div class="p-6 rounded-xl bg-gradient-to-br from-gold-400 to-gold-500 text-charcoal-900">
+                <div class="flex items-center gap-3 mb-2">
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+                    <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z"></path>
+                  </svg>
+                  <div class="font-bold text-lg">Mobile</div>
                 </div>
+                <p class="text-sm font-medium">We Come To You</p>
               </div>
-            </div>
-          </div>
 
-          <!-- Trust Badges -->
-          <div class="mb-16">
-            <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Credentials & Certifications</h2>
-            <div class="flex flex-wrap justify-center gap-6">
-              <TrustBadge
-                type="licensed"
-                variant="detailed"
-              />
-              <TrustBadge
-                type="insured"
-                variant="detailed"
-              />
-              <TrustBadge
-                type="bonded"
-                variant="detailed"
-              />
-              <TrustBadge
-                type="rating"
-                value="4.9"
-                variant="detailed"
-              />
+              <div class="p-6 rounded-xl bg-gradient-to-br from-gold-400 to-gold-500 text-charcoal-900">
+                <div class="flex items-center gap-3 mb-2">
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                  </svg>
+                  <div class="font-bold text-lg">Transparent</div>
+                </div>
+                <p class="text-sm font-medium">Clear Pricing & Service</p>
+              </div>
+
+              <div class="p-6 rounded-xl bg-gradient-to-br from-gold-400 to-gold-500 text-charcoal-900">
+                <div class="flex items-center gap-3 mb-2">
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  <div class="font-bold text-lg">Warranty</div>
+                </div>
+                <p class="text-sm font-medium">Workmanship Guarantee</p>
+              </div>
+
+              <div class="p-6 rounded-xl bg-gradient-to-br from-gold-400 to-gold-500 text-charcoal-900">
+                <div class="flex items-center gap-3 mb-2">
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path>
+                  </svg>
+                  <div class="font-bold text-lg">Professional</div>
+                </div>
+                <p class="text-sm font-medium">Trained & Experienced</p>
+              </div>
             </div>
           </div>
 
           <!-- Service Area -->
           <div>
-            <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">Where We Serve</h2>
-            <p class="text-center text-gray-700 mb-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-charcoal-900 mb-4 text-center">Where We Serve</h2>
+            <p class="text-center text-charcoal-600 mb-12 text-lg">
               Proudly serving communities throughout Upstate South Carolina
             </p>
-            <div class="grid md:grid-cols-3 lg:grid-cols-5 gap-3">
-              {companyConfig.serviceAreas.primary.map((area) => (
-                <div class="bg-white p-3 rounded-lg shadow-sm border border-gray-200 text-center font-semibold text-gray-800">
-                  {area}
+
+            <!-- Service Area Cards with Zip Codes -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              <!-- Anderson -->
+              <div class="bg-gradient-to-br from-gold-50 to-gold-100 p-6 rounded-2xl border-2 border-gold-200 hover:border-gold-400 hover:shadow-lg transition-all duration-200">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-10 h-10 bg-gold-400 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                    </svg>
+                  </div>
+                  <h3 class="text-xl font-bold text-charcoal-900">Anderson, SC</h3>
                 </div>
-              ))}
+                <p class="text-sm text-charcoal-700 font-medium mb-2">Zip Codes:</p>
+                <p class="text-sm text-charcoal-600">29621, 29622, 29624, 29625, 29626</p>
+              </div>
+
+              <!-- Greenville -->
+              <div class="bg-gradient-to-br from-gold-50 to-gold-100 p-6 rounded-2xl border-2 border-gold-200 hover:border-gold-400 hover:shadow-lg transition-all duration-200">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-10 h-10 bg-gold-400 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                    </svg>
+                  </div>
+                  <h3 class="text-xl font-bold text-charcoal-900">Greenville, SC</h3>
+                </div>
+                <p class="text-sm text-charcoal-700 font-medium mb-2">Zip Codes:</p>
+                <p class="text-sm text-charcoal-600">29601, 29605, 29607, 29609, 29615, 29650, 29651, 29662, 29681</p>
+              </div>
+
+              <!-- Clemson -->
+              <div class="bg-gradient-to-br from-gold-50 to-gold-100 p-6 rounded-2xl border-2 border-gold-200 hover:border-gold-400 hover:shadow-lg transition-all duration-200">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-10 h-10 bg-gold-400 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                    </svg>
+                  </div>
+                  <h3 class="text-xl font-bold text-charcoal-900">Clemson, SC</h3>
+                </div>
+                <p class="text-sm text-charcoal-700 font-medium mb-2">Zip Codes:</p>
+                <p class="text-sm text-charcoal-600">29631, 29632, 29633, 29634</p>
+              </div>
+
+              <!-- Easley -->
+              <div class="bg-gradient-to-br from-gold-50 to-gold-100 p-6 rounded-2xl border-2 border-gold-200 hover:border-gold-400 hover:shadow-lg transition-all duration-200">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-10 h-10 bg-gold-400 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                    </svg>
+                  </div>
+                  <h3 class="text-xl font-bold text-charcoal-900">Easley, SC</h3>
+                </div>
+                <p class="text-sm text-charcoal-700 font-medium mb-2">Zip Codes:</p>
+                <p class="text-sm text-charcoal-600">29640, 29641, 29642</p>
+              </div>
+
+              <!-- Pendleton -->
+              <div class="bg-gradient-to-br from-gold-50 to-gold-100 p-6 rounded-2xl border-2 border-gold-200 hover:border-gold-400 hover:shadow-lg transition-all duration-200">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-10 h-10 bg-gold-400 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                    </svg>
+                  </div>
+                  <h3 class="text-xl font-bold text-charcoal-900">Pendleton, SC</h3>
+                </div>
+                <p class="text-sm text-charcoal-700 font-medium mb-2">Zip Codes:</p>
+                <p class="text-sm text-charcoal-600">29670</p>
+              </div>
+
+              <!-- Additional Areas -->
+              <div class="bg-gradient-to-br from-gold-50 to-gold-100 p-6 rounded-2xl border-2 border-gold-200 hover:border-gold-400 hover:shadow-lg transition-all duration-200">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-10 h-10 bg-gold-400 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                    </svg>
+                  </div>
+                  <h3 class="text-xl font-bold text-charcoal-900">Extended Areas</h3>
+                </div>
+                <p class="text-sm text-charcoal-700 font-medium mb-2">Including:</p>
+                <p class="text-sm text-charcoal-600">Seneca, Pickens, Liberty, Belton, Williamston, Simpsonville, Mauldin, Greer & more</p>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <p class="text-charcoal-600 mb-3">
+                Don't see your area listed? We may still be able to help.
+              </p>
+              <p class="text-charcoal-500 text-sm mb-4">
+                For detailed coverage information and service area specifics:
+              </p>
+              <a href="/service-areas" class="text-gold-600 hover:text-gold-700 font-semibold text-base underline decoration-2 underline-offset-4 hover:decoration-gold-600 transition-colors">
+                View All Service Areas & Coverage Details
+              </a>
             </div>
           </div>
         </div>
@@ -224,25 +459,25 @@ const description = `Learn about ${companyConfig.name}, Upstate South Carolina's
     </section>
 
     <!-- CTA Section -->
-    <section class="py-16 bg-gradient-to-br from-primary-600 to-secondary-600 text-white">
+    <section class="py-16 bg-gradient-to-br from-charcoal-800 to-charcoal-900 text-white">
       <div class="container mx-auto px-4 text-center">
         <h2 class="text-3xl md:text-4xl font-bold mb-4">
           Experience the {companyConfig.name} Difference
         </h2>
         <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-          Ready to work with Upstate South Carolina's most trusted locksmith? Call us now or request service online.
+          Ready to work with Upstate South Carolina's trusted locksmith? Call us now or request service online.
         </p>
         <div class="flex flex-wrap justify-center gap-4">
           <a href={getPhoneLink()}>
-            <Button variant="secondary" size="lg">
+            <Button variant="primary" size="lg" class="bg-gold-500 hover:bg-gold-600 text-charcoal-900 hover:text-charcoal-900">
               <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
               </svg>
               Call: {companyConfig.contact.phone.display}
             </Button>
           </a>
-          <a href="/contact">
-            <Button variant="outline" size="lg" class="border-white text-white hover:bg-white hover:text-primary-600">
+          <a href="/book-service">
+            <Button variant="outline" size="lg" class="border-white text-white hover:bg-gold-400 hover:text-charcoal-900 hover:border-gold-400">
               Request Service
             </Button>
           </a>

@@ -1,32 +1,32 @@
 ---
 title: "Key Replacement"
-description: "Car key replacement and programming services."
-icon: "🔐"
+description: "Lost your car keys? We create replacement keys for all makes and models, including transponder keys and key fobs. Get back on the road today."
+icon: "key"
 category: automotive
 featured: false
-price: "Starting at $75"
 image: "/images/services/key-replacement.jpg"
 order: 6
 seo:
-  title: "Key Replacement - Anderson, SC"
-  description: "Car key replacement and programming services. Available throughout Anderson and Upstate SC."
+  title: "Car Key Replacement - Anderson, SC | Key Kings Locksmith"
+  description: "Lost car keys in Anderson, SC? We make replacement keys for all vehicles. Transponder keys, key fobs, and more. Call (864) 900-9597 for service."
   keywords:
-    - "key replacement"
-    - "locksmith automotive"
-    - "Anderson SC locksmith"
+    - "car key replacement Anderson SC"
+    - "lost car keys"
+    - "transponder key"
+    - "key fob replacement"
+    - "automotive locksmith"
 ---
 
 ## Key Replacement
 
-Car key replacement and programming services.
+Lost your car keys? We create replacement keys for all makes and models, including transponder keys and key fobs. Get back on the road today.
 
 ### What We Offer
 
-- Fast response time (average 30 minutes)
 - Professional certified technicians
-- Upfront pricing with no hidden fees
-- Fully licensed, bonded, and insured
-- 100% satisfaction guaranteed
+- Transparent service with clear communication
+- Bonded and insured for your protection
+- We stand behind our work
 
 ### Service Areas
 

@@ -1,32 +1,32 @@
 ---
 title: "Lock Rekey Service"
-description: "Professional lock rekeying for enhanced home security."
-icon: "🔑"
+description: "Just moved in? Lost a key? We'll rekey your locks so only you have access. Affordable way to secure your home without replacing locks."
+icon: "lock"
 category: residential
 featured: false
-price: "Starting at $75"
 image: "/images/services/lock-rekey.jpg"
 order: 3
 seo:
-  title: "Lock Rekey Service - Anderson, SC"
-  description: "Professional lock rekeying for enhanced home security. Available throughout Anderson and Upstate SC."
+  title: "Lock Rekey Service - Anderson, SC | Key Kings Locksmith"
+  description: "Professional lock rekeying in Anderson, SC. Secure your home after moving or lost keys. Affordable alternative to lock replacement. Call (864) 900-9597."
   keywords:
-    - "lock rekey"
-    - "locksmith residential"
-    - "Anderson SC locksmith"
+    - "lock rekey Anderson SC"
+    - "rekey locks"
+    - "residential locksmith"
+    - "home security"
+    - "lock rekeying service"
 ---
 
 ## Lock Rekey Service
 
-Professional lock rekeying for enhanced home security.
+Just moved in? Lost a key? We'll rekey your locks so only you have access. Affordable way to secure your home without replacing locks.
 
 ### What We Offer
 
-- Fast response time (average 30 minutes)
 - Professional certified technicians
-- Upfront pricing with no hidden fees
-- Fully licensed, bonded, and insured
-- 100% satisfaction guaranteed
+- Transparent service with clear communication
+- Bonded and insured for your protection
+- We stand behind our work
 
 ### Service Areas
 

@@ -1,0 +1,185 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BookingForm from '../components/forms/BookingForm.astro';
+import { companyConfig } from '../data/company';
+
+const pageTitle = 'Book Locksmith Service Anderson SC | Schedule Online';
+const pageDescription = 'Schedule locksmith service online in Anderson, SC. Fast booking for emergency, residential, commercial & automotive services. Call (864) 900-9597 or book now.';
+const keywords = ['book locksmith', 'schedule locksmith', 'locksmith appointment', 'Anderson SC locksmith', 'online booking', 'locksmith service'];
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  keywords={keywords}
+>
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-900 text-white py-16 md:py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">
+          Book Your Service
+        </h1>
+        <p class="text-xl text-charcoal-200 mb-6">
+          Fill out the form below and we'll contact you to confirm your appointment
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 text-charcoal-300">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Bonded & Insured</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Professional Service</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Reliable Service</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking Form Section -->
+  <section class="py-16 md:py-20 bg-charcoal-50">
+    <div class="container mx-auto px-4">
+      <div class="max-w-2xl mx-auto">
+        <!-- Form Card -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 md:p-10">
+          <BookingForm showTitle={false} />
+        </div>
+
+        <!-- Additional Info -->
+        <div class="mt-8 text-center text-charcoal-600">
+          <p class="mb-4">
+            Need immediate assistance? Call us now:
+          </p>
+          <a
+            href={`tel:${companyConfig.contact.phone.formatted}`}
+            class="inline-flex items-center gap-2 text-2xl font-bold text-gold-600 hover:text-gold-700 transition-colors"
+          >
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+            </svg>
+            {companyConfig.contact.phone.display}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Book With Us Section -->
+  <section class="py-16 md:py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-charcoal-900 mb-12">
+          Why Book With Key Kings?
+        </h2>
+        
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Benefit 1 -->
+          <div class="flex gap-4">
+            <div class="flex-shrink-0">
+              <div class="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-charcoal-900 mb-2">Bonded & Insured</h3>
+              <p class="text-charcoal-600">
+                Bonded and insured for your protection and peace of mind.
+              </p>
+            </div>
+          </div>
+
+          <!-- Benefit 2 -->
+          <div class="flex gap-4">
+            <div class="flex-shrink-0">
+              <div class="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-charcoal-900 mb-2">Flexible Scheduling</h3>
+              <p class="text-charcoal-600">
+                We work around your schedule to find a convenient time for your service.
+              </p>
+            </div>
+          </div>
+
+          <!-- Benefit 3 -->
+          <div class="flex gap-4">
+            <div class="flex-shrink-0">
+              <div class="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-charcoal-900 mb-2">Transparent Pricing</h3>
+              <p class="text-charcoal-600">
+                No hidden fees or surprises. We explain costs upfront before starting work.
+              </p>
+            </div>
+          </div>
+
+          <!-- Benefit 4 -->
+          <div class="flex gap-4">
+            <div class="flex-shrink-0">
+              <div class="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-charcoal-900 mb-2">Professional Service</h3>
+              <p class="text-charcoal-600">
+                Uniformed technicians with marked vehicles and professional equipment.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Areas -->
+  <section class="py-12 bg-charcoal-50">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h3 class="text-2xl font-bold text-charcoal-900 mb-4">
+          Serving Anderson & Upstate SC
+        </h3>
+        <p class="text-charcoal-600 mb-6">
+          We provide professional locksmith services throughout:
+        </p>
+        <div class="flex flex-wrap justify-center gap-3">
+          {companyConfig.serviceAreas.primary.map((area) => (
+            <span class="px-4 py-2 bg-white rounded-full text-charcoal-700 text-sm font-medium shadow-sm">
+              {area}
+            </span>
+          ))}
+        </div>
+        <a
+          href="/service-areas"
+          class="inline-block mt-6 text-gold-600 hover:text-gold-700 font-semibold transition-colors"
+        >
+          View All Service Areas →
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

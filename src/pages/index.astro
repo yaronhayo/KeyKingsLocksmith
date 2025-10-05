@@ -3,31 +3,60 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import Hero from '../components/sections/Hero.astro';
-import ServicesGrid from '../components/sections/ServicesGrid.astro';
+import ServiceCategories from '../components/sections/ServiceCategories.astro';
+import WhyChooseUs from '../components/sections/WhyChooseUs.astro';
 import Reviews from '../components/sections/Reviews.astro';
 import FAQ from '../components/sections/FAQ.astro';
+import TrustSignals from '../components/sections/TrustSignals.astro';
+import FinalCTA from '../components/sections/FinalCTA.astro';
+import SchemaMarkup from '../components/seo/SchemaMarkup.astro';
 import { companyConfig } from '../data/company';
 
-const title = `${companyConfig.name} - Professional Locksmith Services in Anderson, SC`;
-const description = companyConfig.seo.defaultDescription;
+const title = `Professional Locksmith Anderson SC | Key Kings Locksmith`;
+const description = `Your trusted Anderson locksmith for residential, commercial, and automotive services. Bonded & insured professionals serving Upstate SC since 2016. Call (864) 900-9597.`;
+const keywords = ['locksmith Anderson SC', 'emergency locksmith', 'car lockout', 'house lockout', 'key replacement', 'lock rekey', 'Greenville locksmith', 'Clemson locksmith'];
+
+// Breadcrumb schema for homepage
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Home",
+    "item": "https://keykingslocksmithsc.com"
+  }]
+};
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} keywords={keywords}>
   <Header />
 
   <main>
     <!-- Hero Section with Booking Form -->
     <Hero showForm={true} urgency="asap" />
 
-    <!-- Services Grid -->
-    <ServicesGrid showAll={false} limit={6} featured={true} />
+    <!-- Trust Signals Bar - Build Credibility Immediately -->
+    <TrustSignals variant="detailed" background="gradient" />
+
+    <!-- Service Categories - 4 Main Categories -->
+    <ServiceCategories />
+
+    <!-- Why Choose Key Kings Section -->
+    <WhyChooseUs />
+
+    <!-- FAQ Preview Section -->
+    <FAQ limit={8} class="bg-white" />
 
     <!-- Customer Reviews -->
     <Reviews limit={6} showRating={true} />
 
-    <!-- FAQ Section -->
-    <FAQ limit={8} />
+    <!-- Final CTA Section -->
+    <FinalCTA variant="default" showHours={true} showServiceAreas={true} />
   </main>
 
   <Footer />
+
+  <!-- Additional Schema Markup for Homepage -->
+  <SchemaMarkup type="breadcrumb" data={breadcrumbSchema.itemListElement} />
 </BaseLayout>

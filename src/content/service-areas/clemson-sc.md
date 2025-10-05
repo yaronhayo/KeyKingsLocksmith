@@ -7,12 +7,11 @@ coordinates:
   lat: 34.6834
   lng: -82.8374
 featured: true
-responseTime: "30 minutes average"
 coverage: primary
 image: "/images/service-areas/clemson-sc.jpg"
 seo:
   title: "Professional Locksmith in Clemson, SC | Key Kings"
-  description: "Licensed locksmith services in Clemson, SC. Car lockouts, house lockouts, key replacement & more. Fast 30-min response. Call (864) 900-9597"
+  description: "Professional locksmith services in Clemson, SC. Car lockouts, house lockouts, key replacement & more. Call (864) 900-9597"
   keywords:
     - "locksmith Clemson SC"
     - "Clemson locksmith"
@@ -25,18 +24,17 @@ Key Kings Locksmith provides comprehensive locksmith services throughout Clemson
 
 ## Services Available in Clemson
 
-- 🚗 Automotive Locksmith Services
-- 🏠 Residential Locksmith Services
-- 🏢 Commercial Locksmith Services
-- 🚨 24/7 Emergency Lockout Service
-- 🔑 Key Duplication & Replacement
+- Automotive Locksmith Services
+- Residential Locksmith Services
+- Commercial Locksmith Services
+- Emergency Lockout Service
+- Key Duplication & Replacement
 
 ## Why Choose Us in Clemson?
 
-- **Fast Response**: Average 30-minute arrival time
-- **Licensed & Insured**: Fully certified professionals
+- **Bonded & Insured**: Professional certified technicians
 - **Local Expertise**: Serving Clemson since 2016
-- **Upfront Pricing**: No hidden fees or surprises
+- **Transparent Service**: Clear communication every step
 - **5,000+ Happy Customers**: Trusted throughout Upstate SC
 
 ## Contact Us
@@ -45,4 +43,4 @@ Key Kings Locksmith provides comprehensive locksmith services throughout Clemson
 **Email**: keykingslocksmithsc@gmail.com
 **Service Area**: All of Clemson, SC
 
-*Average response time: 30 minutes | Licensed, Bonded & Insured*
+*Bonded & Insured*

@@ -1,36 +1,35 @@
 ---
-title: "24/7 Emergency Service"
-description: "Emergency locksmith service available around the clock."
-icon: "🚨"
+title: "Emergency Locksmith Service"
+description: "Locked out in an emergency? We're here to help when you need it most. Professional emergency locksmith service throughout Anderson and Upstate SC."
+icon: "alert"
 category: emergency
 featured: false
-price: "Starting at $75"
 image: "/images/services/emergency-locksmith.jpg"
 order: 5
 seo:
-  title: "24/7 Emergency Service - Anderson, SC"
-  description: "Emergency locksmith service available around the clock. Available throughout Anderson and Upstate SC."
+  title: "Emergency Locksmith - Anderson, SC | Key Kings Locksmith"
+  description: "Emergency locksmith in Anderson, SC. Professional service for lockouts and urgent situations. Call (864) 900-9597 for help."
   keywords:
-    - "emergency locksmith"
-    - "locksmith emergency"
-    - "Anderson SC locksmith"
+    - "emergency locksmith Anderson SC"
+    - "emergency lockout"
+    - "urgent locksmith service"
+    - "locksmith help"
 ---
 
-## 24/7 Emergency Service
+## Emergency Locksmith Service
 
-Emergency locksmith service available around the clock.
+Locked out in an emergency? We're here to help when you need it most. Professional emergency locksmith service throughout Anderson and Upstate SC.
 
 ### What We Offer
 
-- Fast response time (average 30 minutes)
 - Professional certified technicians
-- Upfront pricing with no hidden fees
-- Fully licensed, bonded, and insured
-- 100% satisfaction guaranteed
+- Transparent service with clear communication
+- Bonded and insured for your protection
+- We stand behind our work
 
 ### Service Areas
 
-We provide 24/7 emergency service throughout:
+We provide emergency service throughout:
 - Anderson, SC
 - Greenville, SC
 - Clemson, SC
@@ -38,6 +37,6 @@ We provide 24/7 emergency service throughout:
 
 ### Why Choose Key Kings Locksmith?
 
-With over 9 years of experience and 5,000+ satisfied customers, we're the trusted choice for 24/7 emergency service in the Upstate South Carolina region.
+With over 9 years of experience and 5,000+ satisfied customers, we're the trusted choice for emergency service in the Upstate South Carolina region.
 
 **Call now: (864) 900-9597**

@@ -20,64 +20,63 @@ const {
 
 const badges = {
   licensed: {
-    icon: '🔐',
-    label: 'Licensed',
-    description: 'State Licensed Professional',
-    color: 'text-blue-600 bg-blue-50 border-blue-200',
-  },
-  bonded: {
-    icon: '🛡️',
+    svgIcon: '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>',
     label: 'Bonded',
     description: 'Bonded for Your Protection',
-    color: 'text-green-600 bg-green-50 border-green-200',
+    color: 'text-gold-600 bg-gold-50 border-gold-200',
+  },
+  bonded: {
+    svgIcon: '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>',
+    label: 'Bonded',
+    description: 'Bonded for Your Protection',
+    color: 'text-charcoal-700 bg-white border-charcoal-300',
   },
   insured: {
-    icon: '✅',
+    svgIcon: '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>',
     label: 'Insured',
     description: '$1M Liability Insurance',
-    color: 'text-purple-600 bg-purple-50 border-purple-200',
+    color: 'text-charcoal-700 bg-white border-charcoal-300',
   },
   certified: {
-    icon: '⭐',
+    svgIcon: '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>',
     label: 'Certified',
     description: 'ALOA Certified Professional',
-    color: 'text-yellow-600 bg-yellow-50 border-yellow-200',
+    color: 'text-gold-600 bg-gold-50 border-gold-200',
   },
   years: {
-    icon: '📅',
+    svgIcon: '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>',
     label: 'Experience',
     description: `${value || '9'}+ Years in Business`,
-    color: 'text-indigo-600 bg-indigo-50 border-indigo-200',
+    color: 'text-charcoal-700 bg-white border-charcoal-300',
   },
   customers: {
-    icon: '👥',
+    svgIcon: '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path></svg>',
     label: 'Customers Served',
     description: `${value || '5,000'}+ Happy Customers`,
-    color: 'text-pink-600 bg-pink-50 border-pink-200',
+    color: 'text-charcoal-700 bg-white border-charcoal-300',
   },
   rating: {
-    icon: '⭐',
+    svgIcon: '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>',
     label: 'Rating',
     description: `${value || '4.9'} Star Average`,
-    color: 'text-amber-600 bg-amber-50 border-amber-200',
+    color: 'text-gold-600 bg-gold-50 border-gold-200',
   },
 };
 
 const badge = badges[type];
-const displayIcon = icon || badge.icon;
 const displayLabel = label || badge.label;
 ---
 
 {variant === 'compact' && (
   <div class={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border ${badge.color} ${className}`}>
-    <span class="text-lg">{displayIcon}</span>
+    <span set:html={badge.svgIcon}></span>
     <span class="text-sm font-semibold">{displayLabel}</span>
   </div>
 )}
 
 {variant === 'default' && (
   <div class={`flex items-center gap-3 p-4 rounded-lg border ${badge.color} ${className}`}>
-    <span class="text-2xl">{displayIcon}</span>
+    <span set:html={badge.svgIcon}></span>
     <div>
       <div class="font-bold text-sm uppercase tracking-wide">{displayLabel}</div>
       {value && <div class="text-lg font-semibold">{value}</div>}
@@ -88,7 +87,7 @@ const displayLabel = label || badge.label;
 {variant === 'detailed' && (
   <div class={`p-6 rounded-lg border ${badge.color} ${className}`}>
     <div class="flex items-center gap-3 mb-2">
-      <span class="text-3xl">{displayIcon}</span>
+      <span set:html={badge.svgIcon}></span>
       <div class="font-bold text-lg">{displayLabel}</div>
     </div>
     <p class="text-sm">{badge.description}</p>

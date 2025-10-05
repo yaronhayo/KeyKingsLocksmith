@@ -56,7 +56,7 @@ class ResendEmailService {
     return this.sendEmail({
       to: TO_EMAIL,
       from: FROM_EMAIL,
-      subject: `🔑 New Booking Request - ${data.urgency === 'emergency' ? 'EMERGENCY' : data.urgency.toUpperCase()}`,
+      subject: `🔑 New Booking Request - ${data.urgency === 'asap' ? 'EMERGENCY' : data.urgency.toUpperCase()}`,
       html,
       text,
       replyTo: data.email || undefined,
@@ -122,7 +122,7 @@ class ResendEmailService {
 
   // Email template generators
   private generateBookingEmail(data: BookingFormData, submissionId: string): string {
-    const urgencyBadge = data.urgency === 'emergency'
+    const urgencyBadge = data.urgency === 'asap'
       ? '<span style="background: #dc2626; color: white; padding: 4px 12px; border-radius: 4px; font-weight: bold;">🚨 EMERGENCY</span>'
       : `<span style="background: #f3f4f6; color: #374151; padding: 4px 12px; border-radius: 4px;">${data.urgency.toUpperCase()}</span>`;
 
@@ -245,7 +245,7 @@ Please contact the customer as soon as possible.
       <div style="background: #dcfce7; border-left: 4px solid #16a34a; padding: 15px; margin: 20px 0; border-radius: 4px;">
         <strong>What happens next?</strong><br>
         • Our team will review your request<br>
-        • We'll call you within 30 minutes during business hours<br>
+        • We'll call you promptly during business hours<br>
         • We'll confirm the service details and provide an estimate<br>
         • A professional technician will be dispatched to your location
       </div>
@@ -294,7 +294,7 @@ Your Service Request:
 - Location: ${data.address}
 - Urgency: ${data.urgency}
 
-We'll call you within 30 minutes during business hours to confirm details.
+We'll call you promptly during business hours to confirm details.
 
 For immediate assistance: (864) 900-9597
 

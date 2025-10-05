@@ -9,7 +9,6 @@ const servicesCollection = defineCollection({
     icon: z.string(),
     category: z.enum(['residential', 'commercial', 'automotive', 'emergency']),
     featured: z.boolean().default(false),
-    price: z.string().optional(),
     image: z.string(),
     order: z.number().default(0),
     seo: z.object({
@@ -33,7 +32,6 @@ const serviceAreasCollection = defineCollection({
       lng: z.number(),
     }),
     featured: z.boolean().default(false),
-    responseTime: z.string(),
     coverage: z.enum(['primary', 'secondary', 'extended']),
     image: z.string().optional(),
     seo: z.object({
@@ -78,6 +76,7 @@ const reviewsCollection = defineCollection({
     location: z.string(),
     verified: z.boolean().default(false),
     platform: z.enum(['google', 'facebook', 'yelp', 'website']),
+    category: z.enum(['residential', 'commercial', 'automotive', 'emergency']).optional(),
     image: z.string().optional(),
     featured: z.boolean().default(false),
   }),
@@ -91,22 +90,6 @@ const faqCollection = defineCollection({
     category: z.enum(['General', 'Emergency', 'Residential', 'Commercial', 'Automotive', 'Pricing']),
     order: z.number().default(0),
     featured: z.boolean().default(false),
-  }),
-});
-
-// Team collection schema
-const teamCollection = defineCollection({
-  type: 'content',
-  schema: z.object({
-    name: z.string(),
-    role: z.string(),
-    bio: z.string(),
-    image: z.string(),
-    certifications: z.array(z.string()).optional(),
-    experience: z.string(),
-    email: z.string().optional(),
-    phone: z.string().optional(),
-    order: z.number().default(0),
   }),
 });
 
@@ -128,6 +111,5 @@ export const collections = {
   blog: blogCollection,
   reviews: reviewsCollection,
   faq: faqCollection,
-  team: teamCollection,
   legal: legalCollection,
 };

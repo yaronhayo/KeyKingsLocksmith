@@ -3,173 +3,555 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/layout/Header.astro';
 import Footer from '../../components/layout/Footer.astro';
-import Card from '../../components/ui/Card.astro';
-import Button from '../../components/ui/Button.astro';
+import FAQ from '../../components/sections/FAQ.astro';
+import Reviews from '../../components/sections/Reviews.astro';
+import FinalCTA from '../../components/sections/FinalCTA.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import { companyConfig, getPhoneLink } from '../../data/company';
 
-const title = `All Services - ${companyConfig.name}`;
-const description = 'Complete locksmith services for residential, commercial, automotive, and emergency needs in Anderson, SC and surrounding areas.';
+const title = `Locksmith Services in Anderson SC | Key Kings Locksmith`;
+const description = `Complete locksmith solutions for Anderson and Upstate SC. Home security, business locks, car keys, and emergency help. Bonded, insured professionals. Call (864) 900-9597.`;
+const keywords = ['locksmith services Anderson SC', 'emergency locksmith', 'residential locksmith', 'commercial locksmith', 'automotive locksmith', 'key replacement', 'lock rekey'];
 
-// Fetch all services
-const allServices = await getCollection('services');
-
-// Group services by category
-const servicesByCategory = allServices.reduce((acc, service) => {
-  const category = service.data.category || 'other';
-  if (!acc[category]) {
-    acc[category] = [];
+// Service categories with detailed information
+const serviceCategories = [
+  {
+    id: 'residential',
+    title: 'Residential Locksmith',
+    tagline: 'Home Security and Lock Services',
+    description: 'Locks, deadbolts, rekeying, and smart locks for your home. Whether you just moved in and need locks rekeyed, you\'re upgrading to keyless entry, or you need a broken lock fixed—we handle residential locksmith work throughout Anderson County. Quality hardware installed correctly, with clear explanations of what you need and why.',
+    gradient: 'from-charcoal-50 via-gold-50 to-charcoal-50',
+    iconBg: 'from-gold-400 to-gold-500',
+    href: '/services/residential-locksmith',
+    services: [
+      { name: 'Lock Installation & Repair', desc: 'New locks and fixing existing hardware' },
+      { name: 'Lock Rekeying', desc: 'Change who has access without replacing locks' },
+      { name: 'Deadbolt Installation', desc: 'Upgrade door security with quality deadbolts' },
+      { name: 'Smart Lock Setup', desc: 'Keyless entry and remote access installation' },
+      { name: 'Key Duplication', desc: 'Accurate spare keys for all lock types' },
+      { name: 'House Lockout Service', desc: 'Get back inside without property damage' }
+    ]
+  },
+  {
+    id: 'commercial',
+    title: 'Commercial Locksmith',
+    tagline: 'Business Security Solutions',
+    description: 'Master key systems, access control, and commercial-grade locks for South Carolina businesses. We work with offices, retail stores, warehouses, and industrial facilities to install security systems that control employee access, protect inventory, and meet insurance requirements. From single-location shops to multi-building complexes, we design systems that work for how your business operates.',
+    gradient: 'from-charcoal-50 via-gold-50 to-charcoal-50',
+    iconBg: 'from-gold-400 to-gold-500',
+    href: '/services/commercial-locksmith',
+    services: [
+      { name: 'Master Key Systems', desc: 'Control access across multiple doors and employees' },
+      { name: 'Access Control Systems', desc: 'Electronic keycard and biometric entry' },
+      { name: 'High-Security Commercial Locks', desc: 'Locks that meet insurance requirements' },
+      { name: 'Panic Bar Installation', desc: 'Emergency exit hardware for code compliance' },
+      { name: 'Business Lockout Service', desc: 'Get back into your business when locked out' },
+      { name: 'Lock Installation & Repair', desc: 'Commercial-grade hardware that handles heavy use' }
+    ]
+  },
+  {
+    id: 'automotive',
+    title: 'Automotive Locksmith',
+    tagline: 'Car Key and Vehicle Services',
+    description: 'Lost car keys, broken key fobs, and vehicle lockouts for most makes and models. We cut and program transponder keys, replace remotes, extract broken keys from ignitions, and help when you\'re locked out—all without towing to a dealership. Mobile service means we come to you anywhere in Anderson or Upstate SC, usually for less than dealer pricing.',
+    gradient: 'from-charcoal-50 via-gold-50 to-charcoal-50',
+    iconBg: 'from-gold-400 to-gold-500',
+    href: '/services/automotive-locksmith',
+    services: [
+      { name: 'Car Lockout Service', desc: 'Get into your vehicle without damage' },
+      { name: 'Car Key Replacement', desc: 'Cut and program new keys when keys are lost' },
+      { name: 'Key Fob Programming', desc: 'Program remotes and smart keys for your vehicle' },
+      { name: 'Transponder Key Service', desc: 'Chip key cutting and programming' },
+      { name: 'Ignition Repair', desc: 'Fix stuck or damaged ignition cylinders' },
+      { name: 'Broken Key Extraction', desc: 'Remove broken keys from locks and ignitions' }
+    ]
+  },
+  {
+    id: 'emergency',
+    title: 'Emergency Services',
+    tagline: 'Help When You Need It',
+    description: 'Lockouts, broken locks, and urgent security problems happen. When they do, we provide professional locksmith service for homes, businesses, and vehicles throughout Anderson and Upstate South Carolina. Non-destructive entry techniques mean we get you back inside without unnecessary damage to your property. Available when you need help—call our main line.',
+    gradient: 'from-charcoal-50 via-gold-50 to-charcoal-50',
+    iconBg: 'from-gold-400 to-gold-500',
+    href: '/services/emergency-locksmith',
+    services: [
+      { name: 'House Lockout Service', desc: 'Get back into your home without damage' },
+      { name: 'Car Lockout Service', desc: 'Vehicle access without breaking windows' },
+      { name: 'Business Lockout Service', desc: 'Commercial property access when needed' },
+      { name: 'Broken Lock Repair', desc: 'Fix locks that have failed or been damaged' },
+      { name: 'Emergency Lock Changes', desc: 'Replace locks quickly for security concerns' },
+      { name: 'Key Extraction', desc: 'Remove broken keys stuck in locks' }
+    ]
   }
-  acc[category].push(service);
-  return acc;
-}, {} as Record<string, typeof allServices>);
+];
 
-const categoryLabels: Record<string, string> = {
-  residential: 'Residential Services',
-  commercial: 'Commercial Services',
-  automotive: 'Automotive Services',
-  emergency: 'Emergency Services',
-  other: 'Other Services',
-};
-
-const categoryIcons: Record<string, string> = {
-  residential: '🏠',
-  commercial: '🏢',
-  automotive: '🚗',
-  emergency: '🚨',
-  other: '🔧',
-};
+// Breadcrumb schema
+const breadcrumbData = [
+  { name: 'Home', url: 'https://keykingslocksmithsc.com' },
+  { name: 'Services', url: 'https://keykingslocksmithsc.com/services' }
+];
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} keywords={keywords}>
   <Header />
 
   <main>
-    <!-- Page Header -->
-    <section class="bg-gradient-to-br from-primary-600 to-secondary-600 text-white py-16">
-      <div class="container mx-auto px-4">
-        <div class="max-w-3xl mx-auto text-center">
-          <h1 class="text-4xl md:text-5xl font-bold mb-4">Our Services</h1>
-          <p class="text-xl text-white/90 mb-8">
-            Professional locksmith solutions for every need. Licensed, insured, and available 24/7 for emergencies.
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-900 text-white py-20 md:py-28 overflow-hidden">
+      <!-- Animated Background Pattern -->
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+      </div>
+
+      <!-- Gold Glow Effects -->
+      <div class="absolute top-0 right-0 w-96 h-96 bg-gold-400 rounded-full blur-3xl opacity-10 animate-pulse"></div>
+      <div class="absolute bottom-0 left-0 w-80 h-80 bg-gold-500 rounded-full blur-3xl opacity-10 animate-pulse" style="animation-delay: 1s;"></div>
+
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-5xl mx-auto text-center">
+          <!-- Trust Badge -->
+          <div class="inline-flex items-center gap-2 px-5 py-2.5 bg-gold-400/10 border border-gold-400/30 rounded-full text-gold-400 font-semibold mb-8 backdrop-blur-sm">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+            Bonded & Insured Professionals
+          </div>
+
+          <!-- Headline -->
+          <h1 class="text-4xl md:text-5xl lg:text-7xl font-display font-bold mb-6 leading-tight">
+            Locksmith Services for<br/>
+            <span class="text-gold-400">Anderson & Upstate SC</span>
+          </h1>
+
+          <!-- Subheadline -->
+          <p class="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed">
+            From emergency lockouts to complete security installations—professional locksmith solutions for your home, business, and vehicle.
           </p>
-          <a href={getPhoneLink()}>
-            <Button variant="secondary" size="lg">
-              <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+
+          <!-- CTA Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <a
+              href={getPhoneLink()}
+              class="group inline-flex items-center justify-center gap-3 px-10 py-5 bg-gold-400 text-charcoal-900 font-bold text-lg rounded-xl hover:bg-gold-500 hover:text-charcoal-900 transition-all shadow-2xl hover:shadow-gold-400/50 hover:-translate-y-1"
+            >
+              <svg class="w-6 h-6 group-hover:rotate-12 transition-transform" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
               </svg>
-              Call Now: {companyConfig.contact.phone.display}
-            </Button>
-          </a>
+              <div class="text-left">
+                <div class="text-xs font-medium opacity-75 uppercase tracking-wide">Call Now</div>
+                <div class="text-lg font-bold">(864) 900-9597</div>
+              </div>
+            </a>
+            <a
+              href="#services"
+              class="inline-flex items-center justify-center gap-3 px-10 py-5 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-bold text-lg rounded-xl hover:bg-white hover:text-charcoal-900 hover:border-white transition-all"
+            >
+              <span>Browse Services</span>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Stats Bar -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto pt-12 border-t border-white/10">
+            <div class="text-center">
+              <div class="text-3xl md:text-4xl font-bold text-gold-400 mb-1">9+</div>
+              <div class="text-sm text-white/70 font-medium">Years Experience</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl md:text-4xl font-bold text-gold-400 mb-1">5,000+</div>
+              <div class="text-sm text-white/70 font-medium">Customers Served</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl md:text-4xl font-bold text-gold-400 mb-1">$1M</div>
+              <div class="text-sm text-white/70 font-medium">Insurance Coverage</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl md:text-4xl font-bold text-gold-400 mb-1">4.9★</div>
+              <div class="text-sm text-white/70 font-medium">Customer Rating</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Services by Category -->
-    {Object.entries(servicesByCategory).map(([category, services]) => (
-      <section class="py-16">
-        <div class="container mx-auto px-4">
-          <div class="mb-12">
-            <div class="flex items-center gap-3 mb-4">
-              <span class="text-5xl">{categoryIcons[category]}</span>
-              <h2 class="text-3xl font-bold text-gray-900">
-                {categoryLabels[category] || category}
-              </h2>
+    <!-- Service Categories Section -->
+    <section id="services" class="py-20 md:py-28 bg-white relative overflow-hidden">
+      <!-- Decorative Background Pattern -->
+      <div class="absolute inset-0 opacity-5 pointer-events-none">
+        <div class="absolute top-0 left-0 w-96 h-96 bg-gold-400 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-charcoal-900 rounded-full blur-3xl"></div>
+      </div>
+
+      <div class="container mx-auto px-4 relative z-10">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-gold-100 rounded-full mb-4">
+            <svg class="w-4 h-4 text-gold-600" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+              <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+            </svg>
+            <span class="text-sm font-semibold text-gold-700">Our Services</span>
+          </div>
+          <h2 class="text-4xl md:text-5xl font-display font-bold text-charcoal-900 mb-6">
+            What We <span class="text-gold-500">Do</span>
+          </h2>
+          <p class="text-xl text-charcoal-600 leading-relaxed">
+            Professional locksmith work for homes, businesses, and vehicles throughout Anderson County and Upstate South Carolina.
+          </p>
+        </div>
+
+        <!-- Service Cards -->
+        <div class="space-y-20 max-w-7xl mx-auto">
+          {serviceCategories.map((category, index) => (
+            <article class={`service-showcase-card group ${index % 2 === 0 ? '' : 'reverse'}`}>
+              <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                <!-- Content Side -->
+                <div class={`space-y-6 ${index % 2 === 0 ? 'lg:order-1' : 'lg:order-2'}`}>
+                  <!-- Category Icon & Title -->
+                  <div class="flex items-center gap-4">
+                    <div class={`icon-badge w-20 h-20 rounded-2xl bg-gradient-to-br ${category.iconBg} flex items-center justify-center flex-shrink-0 shadow-xl group-hover:scale-110 transition-transform duration-300`}>
+                      {category.id === 'emergency' && (
+                        <svg class="w-10 h-10 text-charcoal-900" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1 14.5l-3.5-3.5 1.41-1.41L11 13.67l4.59-4.58L17 10.5l-6 6z"/>
+                        </svg>
+                      )}
+                      {category.id === 'residential' && (
+                        <svg class="w-10 h-10 text-charcoal-900" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                        </svg>
+                      )}
+                      {category.id === 'commercial' && (
+                        <svg class="w-10 h-10 text-charcoal-900" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                      )}
+                      {category.id === 'automotive' && (
+                        <svg class="w-10 h-10 text-charcoal-900" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/>
+                        </svg>
+                      )}
+                    </div>
+                    <div>
+                      <h3 class="text-3xl md:text-4xl font-display font-bold text-charcoal-900 group-hover:text-gold-600 transition-colors">
+                        {category.title}
+                      </h3>
+                      <p class="text-gold-600 font-semibold mt-1">{category.tagline}</p>
+                    </div>
+                  </div>
+
+                  <!-- Description -->
+                  <p class="text-lg text-charcoal-700 leading-relaxed">
+                    {category.description}
+                  </p>
+
+                  <!-- Value Props -->
+                  <div class="grid grid-cols-2 gap-3">
+                    <div class="flex items-center gap-2 text-sm">
+                      <svg class="w-4 h-4 text-gold-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                      </svg>
+                      <span class="text-charcoal-700 font-medium">Expert Service</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm">
+                      <svg class="w-4 h-4 text-gold-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                      </svg>
+                      <span class="text-charcoal-700 font-medium">Bonded & Insured</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm">
+                      <svg class="w-4 h-4 text-gold-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                      </svg>
+                      <span class="text-charcoal-700 font-medium">Local Team</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm">
+                      <svg class="w-4 h-4 text-gold-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                      </svg>
+                      <span class="text-charcoal-700 font-medium">9+ Years Experience</span>
+                    </div>
+                  </div>
+
+                  <!-- CTA Buttons -->
+                  <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                    <a
+                      href={getPhoneLink()}
+                      class="inline-flex items-center justify-center gap-3 px-6 py-4 bg-gold-400 text-charcoal-900 font-bold text-base rounded-xl hover:bg-gold-500 hover:text-charcoal-900 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
+                    >
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                      </svg>
+                      <span>Call Now</span>
+                    </a>
+                    <a
+                      href={category.href}
+                      class="inline-flex items-center justify-center gap-3 px-6 py-4 bg-charcoal-100 text-charcoal-900 font-bold text-base rounded-xl hover:bg-charcoal-200 transition-all border-2 border-charcoal-200"
+                    >
+                      <span>View Details</span>
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Services List Side -->
+                <div class={`${index % 2 === 0 ? 'lg:order-2' : 'lg:order-1'}`}>
+                  <div class={`services-list-panel bg-gradient-to-br ${category.gradient} rounded-3xl p-8 border-2 border-charcoal-200 shadow-2xl relative overflow-hidden group-hover:shadow-gold-400/20 transition-shadow duration-300`}>
+                    <!-- Decorative corner accent -->
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-gold-400/20 to-transparent rounded-bl-full"></div>
+
+                    <h4 class="text-xl font-bold text-charcoal-900 mb-6 flex items-center gap-2 relative z-10">
+                      <svg class="w-5 h-5 text-gold-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+                      </svg>
+                      What We Provide
+                    </h4>
+                    <div class="space-y-3 relative z-10">
+                      {category.services && category.services.map((service, serviceIndex) => (
+                        <div class="bg-white/90 backdrop-blur-sm rounded-xl p-4 hover:shadow-lg hover:bg-white transition-all duration-200" style={`animation-delay: ${serviceIndex * 0.1}s`}>
+                          <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                              <svg class="w-4 h-4 text-gold-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                              </svg>
+                            </div>
+                            <div class="flex-1">
+                              <div class="font-semibold text-charcoal-900">{service.name}</div>
+                              <div class="text-sm text-charcoal-600 mt-0.5">{service.desc}</div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Service Areas Section -->
+    <section class="py-20 md:py-28 bg-gradient-to-br from-charcoal-900 to-charcoal-800 text-white relative overflow-hidden">
+      <!-- Background Pattern -->
+      <div class="absolute inset-0 opacity-5">
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+      </div>
+
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-5xl mx-auto">
+          <!-- Header -->
+          <div class="text-center mb-12">
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-gold-400/10 border border-gold-400/30 rounded-full text-gold-400 font-semibold mb-6">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+              </svg>
+              Service Coverage
+            </div>
+            <h2 class="text-4xl md:text-5xl font-display font-bold mb-6">
+              Where We <span class="text-gold-400">Work</span>
+            </h2>
+            <p class="text-xl text-white/80 leading-relaxed">
+              Serving Anderson and surrounding communities throughout Upstate South Carolina
+            </p>
+          </div>
+
+          <!-- Cities Grid with Zip Codes -->
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12">
+            <div class="flex flex-col gap-2 p-5 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 hover:border-gold-400/30 transition-all">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gold-400/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+                <div class="font-bold text-white">Anderson, SC</div>
+              </div>
+              <div class="text-sm text-white/60 ml-13">29621, 29622, 29624, 29625, 29626</div>
+            </div>
+
+            <div class="flex flex-col gap-2 p-5 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 hover:border-gold-400/30 transition-all">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gold-400/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+                <div class="font-bold text-white">Greenville, SC</div>
+              </div>
+              <div class="text-sm text-white/60 ml-13">29601, 29605, 29607, 29609, 29615</div>
+            </div>
+
+            <div class="flex flex-col gap-2 p-5 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 hover:border-gold-400/30 transition-all">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gold-400/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+                <div class="font-bold text-white">Clemson, SC</div>
+              </div>
+              <div class="text-sm text-white/60 ml-13">29631, 29632, 29633, 29634</div>
+            </div>
+
+            <div class="flex flex-col gap-2 p-5 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 hover:border-gold-400/30 transition-all">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gold-400/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+                <div class="font-bold text-white">Seneca, SC</div>
+              </div>
+              <div class="text-sm text-white/60 ml-13">29672, 29678, 29679</div>
+            </div>
+
+            <div class="flex flex-col gap-2 p-5 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 hover:border-gold-400/30 transition-all">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gold-400/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+                <div class="font-bold text-white">Easley, SC</div>
+              </div>
+              <div class="text-sm text-white/60 ml-13">29640, 29641, 29642</div>
+            </div>
+
+            <div class="flex flex-col gap-2 p-5 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 hover:border-gold-400/30 transition-all">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gold-400/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+                <div class="font-bold text-white">Pickens, SC</div>
+              </div>
+              <div class="text-sm text-white/60 ml-13">29671</div>
             </div>
           </div>
 
-          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service) => (
-              <Card variant="elevated" class="h-full flex flex-col">
-                <div class="flex-1">
-                  {service.data.icon && (
-                    <div class="text-5xl mb-4">{service.data.icon}</div>
-                  )}
-
-                  <h3 class="text-2xl font-bold text-gray-900 mb-3">
-                    {service.data.title}
-                  </h3>
-
-                  <p class="text-gray-600 mb-4">
-                    {service.data.description}
-                  </p>
-
-                  {service.data.features && service.data.features.length > 0 && (
-                    <ul class="space-y-2 mb-4">
-                      {service.data.features.slice(0, 3).map((feature) => (
-                        <li class="flex items-start gap-2 text-sm text-gray-700">
-                          <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                          </svg>
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-
-                  <div class="flex flex-wrap gap-2 mb-4">
-                    {service.data.featured && (
-                      <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded-full">
-                        ⭐ Popular
-                      </span>
-                    )}
-                    {service.data.emergency && (
-                      <span class="px-3 py-1 bg-red-100 text-red-800 text-xs font-semibold rounded-full">
-                        🚨 24/7
-                      </span>
-                    )}
-                  </div>
-
-                  {service.data.pricing && (
-                    <p class="text-2xl font-bold text-primary-600 mb-4">
-                      {service.data.pricing}
-                    </p>
-                  )}
-
-                  {service.data.responseTime && (
-                    <p class="text-sm text-gray-600 mb-4">
-                      ⏱️ {service.data.responseTime}
-                    </p>
-                  )}
-                </div>
-
-                <div class="mt-4">
-                  <a href={`/services/${service.slug}`} class="block">
-                    <Button variant="primary" fullWidth={true}>
-                      Learn More & Book
-                    </Button>
-                  </a>
-                </div>
-              </Card>
-            ))}
+          <!-- CTA -->
+          <div class="text-center">
+            <p class="text-white/80 mb-6">Don't see your city? Give us a call to check service availability.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href={getPhoneLink()}
+                class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gold-400 text-charcoal-900 font-bold text-lg rounded-xl hover:bg-gold-500 hover:text-charcoal-900 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1"
+              >
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                </svg>
+                <span>Call (864) 900-9597</span>
+              </a>
+              <a
+                href="/service-areas"
+                class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-bold text-lg rounded-xl hover:bg-white hover:text-charcoal-900 hover:border-white transition-all"
+              >
+                <span>View All Areas</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </a>
+            </div>
           </div>
-        </div>
-      </section>
-    ))}
-
-    <!-- CTA Section -->
-    <section class="py-16 bg-gradient-to-br from-primary-600 to-secondary-600 text-white">
-      <div class="container mx-auto px-4 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4">
-          Don't See What You Need?
-        </h2>
-        <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-          We offer many specialized locksmith services. Contact us to discuss your specific needs.
-        </p>
-        <div class="flex flex-wrap justify-center gap-4">
-          <a href={getPhoneLink()}>
-            <Button variant="secondary" size="lg">
-              Call Us Now
-            </Button>
-          </a>
-          <a href="/contact">
-            <Button variant="outline" size="lg" class="border-white text-white hover:bg-white hover:text-primary-600">
-              Send Message
-            </Button>
-          </a>
         </div>
       </div>
     </section>
+
+    <!-- FAQ Section - Service-Related Questions -->
+    <section class="py-20 md:py-28 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-gold-100 rounded-full mb-4">
+            <svg class="w-4 h-4 text-gold-600" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+            </svg>
+            <span class="text-sm font-semibold text-gold-700">Common Questions</span>
+          </div>
+          <h2 class="text-4xl md:text-5xl font-display font-bold text-charcoal-900 mb-6">
+            Service <span class="text-gold-500">Questions</span>
+          </h2>
+          <p class="text-xl text-charcoal-600 leading-relaxed max-w-3xl mx-auto">
+            Answers to common questions about locksmith services, pricing, and what to expect
+          </p>
+        </div>
+
+        <FAQ limit={8} showViewAllLink={true} />
+      </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <Reviews limit={6} showRating={true} />
+
+    <!-- Final CTA -->
+    <FinalCTA variant="default" showHours={true} showServiceAreas={true} />
   </main>
 
   <Footer />
+
+  <!-- Schema Markup -->
+  <SchemaMarkup type="breadcrumb" data={breadcrumbData} />
 </BaseLayout>
+
+<style>
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.1;
+    }
+    50% {
+      opacity: 0.15;
+    }
+  }
+
+  .service-showcase-card {
+    position: relative;
+  }
+
+  .icon-badge {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  .services-list-panel {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .services-list-panel::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .icon-badge {
+      animation: none;
+    }
+
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>

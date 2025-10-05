@@ -26,6 +26,14 @@ const pageUrl = canonical || Astro.url.href;
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-KZGVN746');</script>
+    <!-- End Google Tag Manager -->
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
@@ -53,26 +61,54 @@ const pageUrl = canonical || Astro.url.href;
     <meta property="twitter:image" content={image} />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="msapplication-TileImage" content="/apple-touch-icon.png" />
 
-    <!-- Fonts -->
+    <!-- Fonts - Optimized with preconnect, preload, and font-display: swap -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet" />
+    
+    <!-- Preload critical fonts for faster rendering -->
+    <link 
+      rel="preload" 
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@700;800&display=swap&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%20-.,!?()&"
+    />
+    
+    <!-- Load fonts with display=swap for better performance -->
+    <link 
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@700;800&display=swap" 
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    
+    <!-- Fallback for browsers without JavaScript -->
+    <noscript>
+      <link 
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@700;800&display=swap" 
+        rel="stylesheet"
+      />
+    </noscript>
 
     <!-- Schema.org structured data -->
     <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
 
-    <!-- Vercel Analytics -->
+    <!-- Vercel Analytics - Loaded with defer for better performance -->
     {import.meta.env.PROD && (
       <>
-        <script async src="https://cdn.vercel-insights.com/v1/script.debug.js"></script>
-        <script async src="https://va.vercel-scripts.com/v1/speed-insights/script.debug.js"></script>
+        <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+        <script defer src="https://va.vercel-scripts.com/v1/speed-insights/script.js"></script>
       </>
     )}
   </head>
   <body class="antialiased">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KZGVN746"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
     <slot />
   </body>
 </html>

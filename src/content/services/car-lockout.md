@@ -1,32 +1,32 @@
 ---
 title: "Car Lockout Service"
-description: "Fast and professional car lockout service. We can unlock any vehicle without damage."
-icon: "🚗"
+description: "Keys locked in your car? We'll get you back on the road without damage to your vehicle. Professional automotive lockout service throughout Anderson and Upstate SC."
+icon: "car"
 category: automotive
 featured: true
-price: "Starting at $75"
 image: "/images/services/car-lockout.jpg"
 order: 1
 seo:
-  title: "Car Lockout Service - Anderson, SC"
-  description: "Fast and professional car lockout service. We can unlock any vehicle without damage. Available throughout Anderson and Upstate SC."
+  title: "Car Lockout Service - Anderson, SC | Key Kings Locksmith"
+  description: "Locked out of your car in Anderson, SC? Professional car lockout service. We unlock any vehicle without damage. Call (864) 900-9597 for help."
   keywords:
-    - "car lockout"
-    - "locksmith automotive"
-    - "Anderson SC locksmith"
+    - "car lockout Anderson SC"
+    - "automotive locksmith"
+    - "locked keys in car"
+    - "car unlock service"
+    - "emergency car lockout"
 ---
 
 ## Car Lockout Service
 
-Fast and professional car lockout service. We can unlock any vehicle without damage.
+Keys locked in your car? We'll get you back on the road without damage to your vehicle. Professional automotive lockout service throughout Anderson and Upstate SC.
 
 ### What We Offer
 
-- Fast response time (average 30 minutes)
 - Professional certified technicians
-- Upfront pricing with no hidden fees
-- Fully licensed, bonded, and insured
-- 100% satisfaction guaranteed
+- Clear communication and reliable service
+- Bonded and insured for your protection
+- We stand behind our work
 
 ### Service Areas
 

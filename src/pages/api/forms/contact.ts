@@ -1,18 +1,49 @@
 import type { APIRoute } from 'astro';
 import type { ContactFormData } from '../../../types';
 import emailService from '../../../lib/email/resend';
+import { verifyRecaptcha, getClientIP, RecaptchaConfig } from '../../../lib/recaptcha/verify';
 
 export const POST: APIRoute = async ({ request }) => {
   try {
     // Parse request body
     const data: ContactFormData & { timestamp: string; requestId: string } = await request.json();
 
-    // Validate required fields
-    if (!data.name || !data.email || !data.subject || !data.message) {
+    // Verify reCAPTCHA token
+    if (data.recaptchaToken) {
+      const clientIP = getClientIP(request);
+      const recaptchaResult = await verifyRecaptcha({
+        token: data.recaptchaToken,
+        remoteip: clientIP,
+        expectedAction: RecaptchaConfig.contact.action,
+        scoreThreshold: RecaptchaConfig.contact.scoreThreshold,
+      });
+
+      if (!recaptchaResult.success) {
+        console.warn('reCAPTCHA verification failed for contact form:', recaptchaResult.error_codes);
+        return new Response(
+          JSON.stringify({
+            success: false,
+            error: 'Security verification failed. Please try again.',
+          }),
+          { status: 400, headers: { 'Content-Type': 'application/json' } }
+        );
+      }
+
+      console.log(`reCAPTCHA verified for contact (score: ${recaptchaResult.score})`);
+    }
+
+    // Validate and sanitize form data
+    const { processContactForm } = await import('../../../lib/validation/forms');
+    
+    let validatedData: ContactFormData;
+    try {
+      validatedData = processContactForm(data);
+    } catch (error) {
+      console.error('Contact form validation error:', error);
       return new Response(
         JSON.stringify({
           success: false,
-          error: 'Missing required fields',
+          error: error instanceof Error ? error.message : 'Invalid form data',
         }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
@@ -22,14 +53,14 @@ export const POST: APIRoute = async ({ request }) => {
     const submissionId = data.requestId || `contact_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
     // Send notification email to business
-    const businessEmail = await emailService.sendContactNotification(data, submissionId);
+    const businessEmail = await emailService.sendContactNotification(validatedData, submissionId);
 
     if (!businessEmail.success) {
       console.error('Failed to send business notification:', businessEmail.error);
     }
 
     // Send confirmation email to customer
-    const customerEmail = await emailService.sendContactConfirmation(data);
+    const customerEmail = await emailService.sendContactConfirmation(validatedData);
     if (!customerEmail.success) {
       console.error('Failed to send customer confirmation:', customerEmail.error);
     }
@@ -37,9 +68,9 @@ export const POST: APIRoute = async ({ request }) => {
     // Log submission
     console.log('Contact submission:', {
       id: submissionId,
-      name: data.name,
-      email: data.email,
-      subject: data.subject,
+      name: validatedData.name,
+      email: validatedData.email,
+      subject: validatedData.subject,
       timestamp: data.timestamp,
     });
 

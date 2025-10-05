@@ -1,0 +1,241 @@
+---
+// Service Categories section - links to 4 main category pages
+export interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const categories = [
+  {
+    title: 'Residential Locksmith',
+    description: 'Locks, keys, and security for your home. Whether you\'re locked out, moving in, or upgrading your security, we help homeowners throughout Anderson County protect what matters most.',
+    icon: 'home',
+    href: '/services/residential-locksmith',
+    services: ['House Lockouts', 'Lock Rekeying', 'Deadbolt Installation', 'Smart Lock Setup'],
+    cta: 'Home Services'
+  },
+  {
+    title: 'Commercial Locksmith',
+    description: 'Professional security solutions for South Carolina businesses. Master key systems, access control, lock installation and repair—keeping your business secure and accessible.',
+    icon: 'building',
+    href: '/services/commercial-locksmith',
+    services: ['Business Lockouts', 'Master Key Systems', 'Access Control', 'High-Security Locks'],
+    cta: 'Business Services'
+  },
+  {
+    title: 'Automotive Locksmith',
+    description: 'Vehicle locksmith expertise for cars, trucks, and SUVs. Keys, fobs, programming, and lockout help for most makes and models serving the Upstate.',
+    icon: 'key',
+    href: '/services/automotive-locksmith',
+    services: ['Car Lockouts', 'Key Replacement', 'Key Fob Programming', 'Transponder Keys'],
+    cta: 'Vehicle Services'
+  },
+  {
+    title: 'Emergency Services',
+    description: 'Sometimes lock problems can\'t wait. We understand urgent situations and provide professional service when time matters—lockouts, broken locks, and security concerns.',
+    icon: 'emergency',
+    href: '/services/emergency-locksmith',
+    services: ['Available When Needed', 'Lockout Assistance', 'Broken Lock Repair', 'Security Concerns'],
+    cta: 'Emergency Help'
+  }
+];
+---
+
+<section class={`service-categories py-16 md:py-20 bg-white ${className}`}>
+  <div class="container mx-auto px-4">
+    <!-- Section Header -->
+    <div class="text-center mb-12 md:mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-charcoal-900 mb-4 font-display">
+        Complete Locksmith Services
+      </h2>
+      <p class="text-lg text-charcoal-600 max-w-2xl mx-auto">
+        From your home to your business to your vehicle—we handle the full range of locksmith needs in Upstate South Carolina.
+      </p>
+    </div>
+
+    <!-- Categories Grid -->
+    <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+      {categories.map((category) => (
+        <article class="category-card group flex flex-col h-full">
+          <div class="flex items-start gap-6 mb-6">
+            <!-- Icon -->
+            <div class="icon-wrapper flex-shrink-0">
+              <div class="icon-bg">
+                <svg class="w-10 h-10 text-charcoal-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                {category.icon === 'emergency' && (
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                )}
+                {category.icon === 'home' && (
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                )}
+                {category.icon === 'building' && (
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                )}
+                {category.icon === 'key' && (
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                )}
+                </svg>
+              </div>
+            </div>
+
+            <!-- Title & Description -->
+            <div class="flex-grow">
+              <h3 class="text-2xl font-bold text-charcoal-900 mb-3 font-display group-hover:text-gold-600 transition-colors">
+                {category.title}
+              </h3>
+              <p class="text-base text-charcoal-600 leading-relaxed">
+                {category.description}
+              </p>
+            </div>
+          </div>
+
+          <!-- Services List -->
+          <ul class="space-y-2.5 mb-8 flex-grow">
+            {category.services.map((service) => (
+              <li class="flex items-start gap-3 text-charcoal-700">
+                <svg class="w-5 h-5 text-gold-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-base">{service}</span>
+              </li>
+            ))}
+          </ul>
+
+          <!-- CTA Button -->
+          <a
+            href={category.href}
+            class="cta-button inline-flex items-center justify-center gap-3 w-full px-6 py-4 bg-gold-600 text-white hover:text-white font-bold text-base rounded-lg hover:bg-gold-700 transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+          >
+            <span>{category.cta}</span>
+            <svg class="w-5 h-5 arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </a>
+        </article>
+      ))}
+    </div>
+
+    <!-- View All Services Link -->
+    <div class="text-center mt-12">
+      <a
+        href="/services"
+        class="inline-flex items-center gap-3 px-8 py-4 bg-transparent border-2 border-gold-600 text-gold-700 font-bold text-lg rounded-lg hover:bg-gold-600 hover:text-white transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+        </svg>
+        <span>View All Services</span>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .category-card {
+    padding: 2.5rem;
+    background: white;
+    border: 2px solid #E5E7EB;
+    border-radius: 1.25rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #FBBF24, #F59E0B);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .category-card:hover {
+    border-color: #FBBF24;
+    box-shadow: 0 10px 30px -5px rgba(251, 191, 36, 0.2);
+    transform: translateY(-4px);
+  }
+
+  .category-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .icon-wrapper {
+    display: inline-block;
+  }
+
+  .icon-bg {
+    width: 5rem;
+    height: 5rem;
+    background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .category-card:hover .icon-bg {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  .cta-button .arrow {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .cta-button:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .category-card {
+      padding: 2rem;
+    }
+
+    .icon-bg {
+      width: 4rem;
+      height: 4rem;
+    }
+
+    .icon-bg svg {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .category-card,
+    .category-card::before,
+    .icon-bg,
+    .cta-button,
+    .cta-button .arrow {
+      transition: none;
+    }
+
+    .category-card:hover {
+      transform: none;
+    }
+
+    .category-card:hover .icon-bg {
+      transform: none;
+    }
+
+    .cta-button:hover {
+      transform: none;
+    }
+
+    .cta-button:hover .arrow {
+      transform: none;
+    }
+  }
+</style>
