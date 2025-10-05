@@ -68,28 +68,33 @@ import { companyConfig, getPhoneLink, getFormattedPhone } from '../../data/compa
 
       <!-- CTA Buttons & Mobile Menu Toggle -->
       <div class="flex items-center gap-3">
-        <!-- Call CTA -->
-        <a
-          href={getPhoneLink()}
-          class="hidden lg:inline-flex items-center gap-2 bg-gold-600 text-white px-5 py-2.5 rounded-lg font-bold hover:bg-gold-700 hover:text-white transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-          </svg>
-          <span>Call {getFormattedPhone()}</span>
-        </a>
+        <!-- CTA Container - visible on all screens -->
+        <div id="header-ctas" class="flex items-center gap-2">
+          <!-- Call CTA -->
+          <a
+            href={getPhoneLink()}
+            class="inline-flex items-center gap-2 bg-gold-600 text-white px-3 py-2 lg:px-5 lg:py-2.5 rounded-lg text-sm lg:text-base font-bold hover:bg-gold-700 hover:text-white transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
+          >
+            <svg class="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+            <span class="hidden sm:inline">Call {getFormattedPhone()}</span>
+            <span class="sm:hidden">Call</span>
+          </a>
 
-        <!-- Book Service CTA -->
-        <a
-          href="/book-service"
-          class="hidden lg:inline-flex items-center gap-2 border-2 border-gold-600 text-gold-700 px-5 py-2.5 rounded-lg font-bold hover:bg-gold-600 hover:text-white transition-all duration-200"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          <span>Book Service</span>
-        </a>
-        
+          <!-- Book Service CTA -->
+          <a
+            href="/book-service"
+            class="inline-flex items-center gap-2 border-2 border-gold-600 text-gold-700 px-3 py-2 lg:px-5 lg:py-2.5 rounded-lg text-sm lg:text-base font-bold hover:bg-gold-600 hover:text-white transition-all duration-200"
+          >
+            <svg class="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span class="hidden sm:inline">Book Service</span>
+            <span class="sm:hidden">Book</span>
+          </a>
+        </div>
+
         <!-- Mobile Menu Button -->
         <button
           id="mobile-menu-button"
@@ -153,28 +158,9 @@ import { companyConfig, getPhoneLink, getFormattedPhone } from '../../data/compa
         <a href="/contact" class="mobile-nav-link block px-4 py-3 text-charcoal-700 hover:bg-gold-50 hover:text-gold-600 font-medium transition-colors duration-200 rounded-lg">
           Contact
         </a>
-        
-        <!-- Mobile CTAs -->
-        <div class="px-4 pt-4 space-y-3">
-          <a
-            href={getPhoneLink()}
-            class="flex items-center justify-center gap-2 bg-gold-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-gold-700 transition-colors duration-200"
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-            </svg>
-            <span>Call {getFormattedPhone()}</span>
-          </a>
-          <a
-            href="/book-service"
-            class="flex items-center justify-center gap-2 border-2 border-gold-600 text-gold-700 px-6 py-3 rounded-lg font-bold hover:bg-gold-600 hover:text-white transition-colors duration-200"
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <span>Book Service</span>
-          </a>
-        </div>
+
+        <!-- Mobile CTAs Container - CTAs will be moved here when menu opens -->
+        <div id="mobile-ctas-container" class="px-4 pt-4 space-y-3 hidden"></div>
       </nav>
     </div>
   </div>
@@ -254,23 +240,76 @@ import { companyConfig, getPhoneLink, getFormattedPhone } from '../../data/compa
 </style>
 
 <script>
-  // Mobile menu toggle
+  // Mobile menu toggle with CTA movement
   const mobileMenuButton = document.getElementById('mobile-menu-button');
   const mobileMenu = document.getElementById('mobile-menu');
   const menuIcon = mobileMenuButton?.querySelector('.menu-icon');
   const closeIcon = mobileMenuButton?.querySelector('.close-icon');
+  const headerCtasContainer = document.getElementById('header-ctas');
+  const mobileCtasContainer = document.getElementById('mobile-ctas-container');
+
+  // Function to move CTAs to mobile menu
+  function moveCtasToMenu() {
+    if (headerCtasContainer && mobileCtasContainer && window.innerWidth < 1024) {
+      const ctas = headerCtasContainer.cloneNode(true) as HTMLElement;
+      ctas.id = 'menu-ctas';
+      ctas.className = 'flex flex-col gap-3 w-full';
+
+      // Update button styles for mobile menu
+      const buttons = ctas.querySelectorAll('a');
+      buttons.forEach(button => {
+        button.className = button.className
+          .replace('inline-flex items-center gap-2', 'flex items-center justify-center gap-2 w-full')
+          .replace('px-3 py-2 lg:px-5 lg:py-2.5', 'px-6 py-3')
+          .replace('text-sm lg:text-base', 'text-base');
+
+        // Show full text in menu
+        const hiddenSpan = button.querySelector('.hidden.sm\\:inline');
+        const visibleSpan = button.querySelector('.sm\\:hidden');
+        if (hiddenSpan && visibleSpan) {
+          hiddenSpan.classList.remove('hidden', 'sm:inline');
+          visibleSpan.classList.add('hidden');
+        }
+      });
+
+      mobileCtasContainer.innerHTML = '';
+      mobileCtasContainer.appendChild(ctas);
+      mobileCtasContainer.classList.remove('hidden');
+      headerCtasContainer.style.display = 'none';
+    }
+  }
+
+  // Function to move CTAs back to header
+  function moveCtasToHeader() {
+    if (headerCtasContainer && mobileCtasContainer) {
+      headerCtasContainer.style.display = 'flex';
+      mobileCtasContainer.classList.add('hidden');
+      mobileCtasContainer.innerHTML = '';
+    }
+  }
 
   mobileMenuButton?.addEventListener('click', () => {
     const isOpen = mobileMenu?.classList.contains('open');
-    
+
     if (isOpen) {
+      // Close menu
       mobileMenu?.classList.remove('open');
       mobileMenu?.classList.add('hidden');
       menuIcon?.classList.remove('hidden');
       closeIcon?.classList.add('hidden');
       mobileMenuButton?.setAttribute('aria-expanded', 'false');
+
+      // Move CTAs back to header
+      setTimeout(() => {
+        moveCtasToHeader();
+      }, 300); // Wait for menu close animation
     } else {
+      // Open menu
       mobileMenu?.classList.remove('hidden');
+
+      // Move CTAs to menu
+      moveCtasToMenu();
+
       // Small delay to trigger animation
       setTimeout(() => {
         mobileMenu?.classList.add('open');
@@ -284,12 +323,19 @@ import { companyConfig, getPhoneLink, getFormattedPhone } from '../../data/compa
   // Close mobile menu when clicking outside
   document.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
-    if (!target.closest('#mobile-menu') && !target.closest('#mobile-menu-button')) {
-      mobileMenu?.classList.remove('open');
-      mobileMenu?.classList.add('hidden');
-      menuIcon?.classList.remove('hidden');
-      closeIcon?.classList.add('hidden');
-      mobileMenuButton?.setAttribute('aria-expanded', 'false');
+    if (!target.closest('#mobile-menu') && !target.closest('#mobile-menu-button') && !target.closest('#header-ctas')) {
+      if (mobileMenu?.classList.contains('open')) {
+        mobileMenu?.classList.remove('open');
+        mobileMenu?.classList.add('hidden');
+        menuIcon?.classList.remove('hidden');
+        closeIcon?.classList.add('hidden');
+        mobileMenuButton?.setAttribute('aria-expanded', 'false');
+
+        // Move CTAs back to header
+        setTimeout(() => {
+          moveCtasToHeader();
+        }, 300);
+      }
     }
   });
 
@@ -302,6 +348,11 @@ import { companyConfig, getPhoneLink, getFormattedPhone } from '../../data/compa
       menuIcon?.classList.remove('hidden');
       closeIcon?.classList.add('hidden');
       mobileMenuButton?.setAttribute('aria-expanded', 'false');
+
+      // Move CTAs back to header
+      setTimeout(() => {
+        moveCtasToHeader();
+      }, 300);
     });
   });
 
