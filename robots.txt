@@ -1,0 +1,35 @@
+# robots.txt for Key Kings Locksmith
+# https://keykingslocksmithsc.com
+
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Disallow API routes and admin areas
+Disallow: /api/
+Disallow: /thank-you
+
+# Disallow private or sensitive paths (if any)
+# Disallow: /admin/
+# Disallow: /private/
+
+# Allow specific bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Sitemap location
+Sitemap: https://keykingslocksmithsc.com/sitemap-index.xml
+Sitemap: https://keykingslocksmithsc.com/sitemap-0.xml
+
+# Crawl delay (optional, helps prevent server overload)
+# User-agent: *
+# Crawl-delay: 1
+
+# Host preference (helps search engines understand the canonical domain)
+Host: https://keykingslocksmithsc.com

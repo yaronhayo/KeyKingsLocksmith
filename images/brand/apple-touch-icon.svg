@@ -1,0 +1,12 @@
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Key Kings Apple Touch Icon - 180x180 -->
+  <!-- Background -->
+  <rect width="180" height="180" rx="40" fill="#111827"/>
+  
+  <!-- Key icon centered -->
+  <circle cx="65" cy="90" r="22" fill="#FBBF24"/>
+  <circle cx="65" cy="90" r="8" fill="#111827"/>
+  <rect x="80" y="82" width="45" height="16" fill="#FBBF24"/>
+  <rect x="110" y="70" width="8" height="16" fill="#FBBF24"/>
+  <rect x="110" y="94" width="8" height="16" fill="#FBBF24"/>
+</svg>
