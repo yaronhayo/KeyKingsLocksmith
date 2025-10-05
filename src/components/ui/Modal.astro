@@ -1,0 +1,100 @@
+---
+// Accessible modal system
+export interface Props {
+  id: string;
+  title?: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  closeButton?: boolean;
+  class?: string;
+}
+
+const {
+  id,
+  title,
+  size = 'md',
+  closeButton = true,
+  class: className = '',
+} = Astro.props;
+
+const sizeStyles = {
+  sm: 'max-w-md',
+  md: 'max-w-2xl',
+  lg: 'max-w-4xl',
+  xl: 'max-w-6xl',
+  full: 'max-w-full mx-4',
+};
+---
+
+<div
+  id={id}
+  class="modal fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 p-4"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby={title ? `${id}-title` : undefined}
+>
+  <div class={`modal-content bg-white rounded-lg shadow-xl w-full ${sizeStyles[size]} ${className} max-h-[90vh] overflow-y-auto`}>
+    {title && (
+      <div class="modal-header flex items-center justify-between p-6 border-b border-gray-200">
+        <h2 id={`${id}-title`} class="text-2xl font-bold text-gray-900">{title}</h2>
+        {closeButton && (
+          <button
+            type="button"
+            class="modal-close text-gray-400 hover:text-gray-600 transition-colors"
+            aria-label="Close modal"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
+      </div>
+    )}
+    <div class="modal-body p-6">
+      <slot />
+    </div>
+  </div>
+</div>
+
+<script>
+  // Modal functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const modals = document.querySelectorAll('.modal');
+
+    modals.forEach((modal) => {
+      const closeButtons = modal.querySelectorAll('.modal-close');
+
+      // Close on button click
+      closeButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+        });
+      });
+
+      // Close on backdrop click
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+        }
+      });
+
+      // Close on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+        }
+      });
+    });
+  });
+
+  // Global modal open function
+  (window as any).openModal = (id: string) => {
+    const modal = document.getElementById(id);
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+  };
+</script>

@@ -1,0 +1,251 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+import { companyConfig, getCurrentBusinessHours } from '../data/company';
+
+const pageTitle = 'Thank You - Key Kings Locksmith';
+const pageDescription = 'Thank you for contacting Key Kings Locksmith. We\'ll be in touch soon.';
+const currentHours = getCurrentBusinessHours();
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+>
+  <Fragment slot="head">
+    <meta name="robots" content="noindex,nofollow" />
+  </Fragment>
+  <!-- Thank You Hero -->
+  <section class="py-20 md:py-32 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-900 text-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center">
+        <!-- Success Icon -->
+        <div class="mb-8 flex justify-center">
+          <div class="w-20 h-20 bg-gold-400 rounded-full flex items-center justify-center animate-scale-in">
+            <svg class="w-12 h-12 text-charcoal-900" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+        </div>
+
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">
+          Thank You!
+        </h1>
+        <p class="text-xl md:text-2xl text-charcoal-200 mb-8">
+          We've received your request and will contact you shortly.
+        </p>
+        <p class="text-lg text-charcoal-300 mb-12">
+          One of our professional locksmiths will reach out to you to confirm the details and schedule your service.
+        </p>
+
+        <!-- Contact Info -->
+        <div class="bg-charcoal-800 rounded-2xl p-8 mb-8">
+          <h2 class="text-2xl font-bold mb-6">What Happens Next?</h2>
+          <div class="space-y-4 text-left">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-8 h-8 bg-gold-400 rounded-full flex items-center justify-center text-charcoal-900 font-bold">
+                1
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-1">We'll Review Your Request</h3>
+                <p class="text-charcoal-300">Our team will review your service request and prepare for your job.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-8 h-8 bg-gold-400 rounded-full flex items-center justify-center text-charcoal-900 font-bold">
+                2
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-1">We'll Contact You</h3>
+                <p class="text-charcoal-300">We'll call or email you to confirm the details and schedule a convenient time.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-8 h-8 bg-gold-400 rounded-full flex items-center justify-center text-charcoal-900 font-bold">
+                3
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-1">We'll Complete Your Service</h3>
+                <p class="text-charcoal-300">Our professional locksmith will arrive on time and complete your service efficiently.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="bg-gold-400 text-charcoal-900 rounded-2xl p-6 mb-8">
+          <p class="font-semibold mb-4 text-lg">Need immediate assistance?</p>
+          <div class="space-y-3">
+            <a
+              href={`tel:${companyConfig.contact.phone.formatted}`}
+              class="flex items-center justify-center gap-2 text-2xl font-bold hover:underline"
+            >
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+              </svg>
+              {companyConfig.contact.phone.display}
+            </a>
+            <div class="text-sm font-medium">
+              <p>Business Hours: {currentHours}</p>
+            </div>
+            <div class="pt-2 border-t border-charcoal-900/20">
+              <a
+                href={`mailto:${companyConfig.contact.email.primary}`}
+                class="flex items-center justify-center gap-2 text-base font-semibold hover:underline"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                </svg>
+                {companyConfig.contact.email.primary}
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button
+            href="/"
+            variant="primary"
+            size="lg"
+            class="bg-gold-400 hover:bg-gold-500 text-charcoal-900 hover:text-charcoal-900"
+          >
+            Return to Home
+          </Button>
+          <Button
+            href="/services"
+            variant="outline"
+            size="lg"
+            class="border-white text-white hover:bg-gold-400 hover:text-charcoal-900 hover:border-gold-400"
+          >
+            View Our Services
+          </Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Additional Resources -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold text-center text-charcoal-900 mb-4">
+          While You Wait
+        </h2>
+        <p class="text-center text-charcoal-600 mb-12 max-w-2xl mx-auto">
+          Explore our resources to learn more about our services and how we can help protect your property
+        </p>
+        
+        <div class="grid md:grid-cols-3 gap-8 mb-12">
+          <!-- Resource 1 -->
+          <a
+            href="/faq"
+            class="group p-6 bg-charcoal-50 rounded-xl hover:bg-gold-50 hover:shadow-lg transition-all duration-300"
+          >
+            <div class="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-gold-200 transition-colors">
+              <svg class="w-6 h-6 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-charcoal-900 mb-2 group-hover:text-gold-600 transition-colors">Browse FAQs</h3>
+            <p class="text-charcoal-600">
+              Find answers to common locksmith questions and learn about our services
+            </p>
+          </a>
+
+          <!-- Resource 2 -->
+          <a
+            href="/reviews"
+            class="group p-6 bg-charcoal-50 rounded-xl hover:bg-gold-50 hover:shadow-lg transition-all duration-300"
+          >
+            <div class="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-gold-200 transition-colors">
+              <svg class="w-6 h-6 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-charcoal-900 mb-2 group-hover:text-gold-600 transition-colors">Read Reviews</h3>
+            <p class="text-charcoal-600">
+              See what our customers say about our professional locksmith services
+            </p>
+          </a>
+
+          <!-- Resource 3 -->
+          <a
+            href="/about"
+            class="group p-6 bg-charcoal-50 rounded-xl hover:bg-gold-50 hover:shadow-lg transition-all duration-300"
+          >
+            <div class="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-gold-200 transition-colors">
+              <svg class="w-6 h-6 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-charcoal-900 mb-2 group-hover:text-gold-600 transition-colors">About Us</h3>
+            <p class="text-charcoal-600">
+              Learn more about Key Kings Locksmith and our commitment to quality
+            </p>
+          </a>
+        </div>
+
+        <!-- Additional Links -->
+        <div class="grid md:grid-cols-2 gap-6">
+          <a
+            href="/services"
+            class="group p-6 bg-gradient-to-br from-gold-50 to-gold-100 rounded-xl hover:from-gold-100 hover:to-gold-200 hover:shadow-lg transition-all duration-300 border border-gold-200"
+          >
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-gold-400 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-charcoal-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-charcoal-900 mb-1 group-hover:text-gold-700 transition-colors">View All Services</h3>
+                <p class="text-charcoal-700 text-sm">
+                  Explore our complete range of locksmith services
+                </p>
+              </div>
+            </div>
+          </a>
+
+          <a
+            href="/service-areas"
+            class="group p-6 bg-gradient-to-br from-charcoal-50 to-charcoal-100 rounded-xl hover:from-charcoal-100 hover:to-charcoal-200 hover:shadow-lg transition-all duration-300 border border-charcoal-200"
+          >
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-charcoal-700 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-charcoal-900 mb-1 group-hover:text-charcoal-700 transition-colors">Service Areas</h3>
+                <p class="text-charcoal-700 text-sm">
+                  See all the areas we serve in Upstate SC
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  @keyframes scale-in {
+    from {
+      transform: scale(0);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.5s ease-out;
+  }
+</style>

@@ -1,0 +1,114 @@
+---
+// User feedback toast notification system
+---
+
+<div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2 max-w-md"></div>
+
+<script>
+  interface ToastOptions {
+    message: string;
+    type?: 'success' | 'error' | 'warning' | 'info';
+    duration?: number;
+    closable?: boolean;
+  }
+
+  function showToast(options: ToastOptions) {
+    const {
+      message,
+      type = 'info',
+      duration = 5000,
+      closable = true,
+    } = options;
+
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = `toast-notification flex items-center gap-3 p-4 rounded-lg shadow-lg border-l-4 animate-slide-in-right`;
+
+    const typeStyles = {
+      success: 'bg-green-50 border-green-500 text-green-900',
+      error: 'bg-orange-50 border-orange-500 text-orange-900',
+      warning: 'bg-yellow-50 border-yellow-500 text-yellow-900',
+      info: 'bg-blue-50 border-blue-500 text-blue-900',
+    };
+
+    const icons = {
+      success: '✓',
+      error: '✕',
+      warning: '⚠',
+      info: 'ℹ',
+    };
+
+    toast.className += ` ${typeStyles[type]}`;
+
+    toast.innerHTML = `
+      <span class="text-2xl flex-shrink-0">${icons[type]}</span>
+      <p class="flex-1 text-sm font-medium">${message}</p>
+      ${closable ? '<button class="toast-close text-current opacity-50 hover:opacity-100 transition-opacity">✕</button>' : ''}
+    `;
+
+    container.appendChild(toast);
+
+    // Close button functionality
+    if (closable) {
+      const closeBtn = toast.querySelector('.toast-close');
+      closeBtn?.addEventListener('click', () => {
+        removeToast(toast);
+      });
+    }
+
+    // Auto-remove after duration
+    if (duration > 0) {
+      setTimeout(() => {
+        removeToast(toast);
+      }, duration);
+    }
+  }
+
+  function removeToast(toast: HTMLElement) {
+    toast.classList.add('animate-slide-out-right');
+    setTimeout(() => {
+      toast.remove();
+    }, 300);
+  }
+
+  // Make showToast globally available
+  (window as any).showToast = showToast;
+
+  // Example usage:
+  // showToast({ message: 'Success!', type: 'success' });
+  // showToast({ message: 'Error occurred', type: 'error' });
+</script>
+
+<style>
+  @keyframes slide-in-right {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-out-right {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+
+  .animate-slide-in-right {
+    animation: slide-in-right 0.3s ease-out;
+  }
+
+  .animate-slide-out-right {
+    animation: slide-out-right 0.3s ease-in;
+  }
+</style>

@@ -1,0 +1,135 @@
+---
+// Structured Data / Schema.org markup
+import { getSchemaOrgData, companyConfig } from '../../data/company';
+
+export interface Props {
+  type?: 'organization' | 'service' | 'article' | 'breadcrumb' | 'faq' | 'webpage';
+  data?: any;
+  additionalSchemas?: any[];
+}
+
+const { type = 'organization', data, additionalSchemas = [] } = Astro.props;
+
+const baseSchema = getSchemaOrgData();
+const siteUrl = 'https://keykingslocksmithsc.com';
+
+let schemaData: any = baseSchema;
+
+if (type === 'service' && data) {
+  schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": data.title,
+    "description": data.description,
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": companyConfig.name,
+      "telephone": companyConfig.contact.phone.formatted,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": companyConfig.contact.address.street,
+        "addressLocality": companyConfig.contact.address.city,
+        "addressRegion": companyConfig.contact.address.state,
+        "postalCode": companyConfig.contact.address.zipCode,
+        "addressCountry": "US"
+      }
+    },
+    "areaServed": baseSchema.areaServed,
+    "serviceType": data.serviceType || "Locksmith Service",
+    "url": data.url || Astro.url.href,
+    "image": data.image || `${siteUrl}/images/services/locksmith-service.jpg`,
+    "offers": {
+      "@type": "Offer",
+      "availability": "https://schema.org/InStock",
+      "priceCurrency": "USD"
+    }
+  };
+}
+
+if (type === 'article' && data) {
+  schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": data.title,
+    "description": data.description,
+    "image": data.image,
+    "datePublished": data.publishDate,
+    "dateModified": data.updatedDate || data.publishDate,
+    "author": {
+      "@type": "Person",
+      "name": data.author || companyConfig.name,
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": companyConfig.name,
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${siteUrl}/images/brand/logo-text.svg`
+      }
+    },
+  };
+}
+
+if (type === 'faq' && data) {
+  schemaData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": data.map((item: any) => ({
+      "@type": "Question",
+      "name": item.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.answer,
+      },
+    })),
+  };
+}
+
+if (type === 'breadcrumb' && data) {
+  schemaData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": data.map((item: any, index: number) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": item.name,
+      "item": item.url,
+    })),
+  };
+}
+
+if (type === 'webpage' && data) {
+  schemaData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": data.title,
+    "description": data.description,
+    "url": data.url || Astro.url.href,
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": companyConfig.name,
+      "url": siteUrl
+    },
+    "about": {
+      "@type": "LocalBusiness",
+      "name": companyConfig.name
+    },
+    "breadcrumb": data.breadcrumb
+  };
+}
+
+// Combine all schemas if there are additional ones
+const allSchemas = additionalSchemas.length > 0 
+  ? [schemaData, ...additionalSchemas]
+  : schemaData;
+---
+
+{additionalSchemas.length > 0 ? (
+  <>
+    {allSchemas.map((schema: any) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
+  </>
+) : (
+  <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+)}

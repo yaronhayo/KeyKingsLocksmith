@@ -1,0 +1,396 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import FinalCTA from '../components/sections/FinalCTA.astro';
+import { getCollection } from 'astro:content';
+import { companyConfig } from '../data/company';
+
+const title = `Locksmith FAQ | Anderson SC Questions Answered`;
+const description = `Locksmith FAQ for Anderson, SC. Get answers about pricing, services, response times & more from Key Kings Locksmith. Professional Upstate SC service.`;
+const keywords = ['locksmith FAQ', 'locksmith questions', 'locksmith Anderson SC', 'locksmith services', 'emergency locksmith', 'lock rekey cost'];
+
+// Fetch all FAQs
+const allFaqs = await getCollection('faq');
+
+// Group FAQs by category
+const categories = ['General', 'Emergency', 'Residential', 'Commercial', 'Automotive', 'Pricing'] as const;
+
+const faqsByCategory = categories.map(category => ({
+  name: category,
+  faqs: allFaqs
+    .filter(faq => faq.data.category === category)
+    .sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
+})).filter(cat => cat.faqs.length > 0);
+
+// Build FAQ schema markup for SEO
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  'mainEntity': allFaqs.map(faq => ({
+    '@type': 'Question',
+    'name': faq.data.question,
+    'acceptedAnswer': {
+      '@type': 'Answer',
+      'text': faq.body
+    }
+  }))
+};
+---
+
+<BaseLayout title={title} description={description} keywords={keywords}>
+  <Header />
+
+  <main>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-900 text-white py-16 md:py-24 relative overflow-hidden">
+      <!-- Animated Background Pattern -->
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+      </div>
+
+      <!-- Gold Glow Effects -->
+      <div class="absolute top-0 right-0 w-96 h-96 bg-gold-400 rounded-full blur-3xl opacity-10 animate-pulse"></div>
+      <div class="absolute bottom-0 left-0 w-80 h-80 bg-gold-500 rounded-full blur-3xl opacity-10 animate-pulse" style="animation-delay: 1s;"></div>
+
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-4xl mx-auto text-center">
+          <!-- Trust Badge -->
+          <div class="inline-flex items-center gap-2 px-5 py-2.5 bg-gold-400/10 border border-gold-400/30 rounded-full text-gold-400 font-semibold mb-6 backdrop-blur-sm">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+            </svg>
+            Your Questions Answered
+          </div>
+
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 leading-tight">
+            Common <span class="text-gold-400">Questions</span>
+          </h1>
+          <p class="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
+            Answers to questions we hear most often about locksmith services in Anderson. Don't see your question? <a href="tel:+18649009597" class="text-gold-400 hover:text-gold-300 font-semibold hover:underline transition-all">Call (864) 900-9597</a>.
+          </p>
+
+          <!-- Quick Category Navigation -->
+          <div class="flex flex-wrap justify-center gap-3 mb-8">
+            {faqsByCategory.map((category, index) => (
+              <a
+                href={`#${category.name.toLowerCase()}`}
+                class="px-5 py-2.5 bg-white/10 backdrop-blur-sm border-2 border-white/20 text-white rounded-xl hover:border-gold-400 hover:bg-gold-400 hover:text-charcoal-900 transition-all duration-300 font-semibold"
+                style={`animation-delay: ${index * 0.1}s`}
+              >
+                {category.name}
+              </a>
+            ))}
+          </div>
+
+          <!-- Value Props -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto pt-8 border-t border-white/10">
+            <div class="text-center">
+              <div class="text-2xl md:text-3xl font-bold text-gold-400 mb-1">{allFaqs.length}+</div>
+              <div class="text-xs md:text-sm text-white/70 font-medium">Questions Answered</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl md:text-3xl font-bold text-gold-400 mb-1">9+</div>
+              <div class="text-xs md:text-sm text-white/70 font-medium">Years Experience</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl md:text-3xl font-bold text-gold-400 mb-1">5K+</div>
+              <div class="text-xs md:text-sm text-white/70 font-medium">Customers Served</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl md:text-3xl font-bold text-gold-400 mb-1">$1M</div>
+              <div class="text-xs md:text-sm text-white/70 font-medium">Insured</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Content by Category -->
+    <section class="py-20 md:py-28 bg-white relative overflow-hidden">
+      <!-- Decorative Background Pattern -->
+      <div class="absolute inset-0 opacity-5 pointer-events-none">
+        <div class="absolute top-0 left-0 w-96 h-96 bg-gold-400 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-charcoal-900 rounded-full blur-3xl"></div>
+      </div>
+
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-4xl mx-auto space-y-16">
+          {faqsByCategory.map((category, categoryIndex) => (
+            <div id={category.name.toLowerCase()} class="scroll-mt-24">
+              <!-- Category Header -->
+              <div class="mb-8">
+                <!-- Category Icon Badge -->
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-gold-100 rounded-full mb-4">
+                  <svg class="w-4 h-4 text-gold-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+                  </svg>
+                  <span class="text-sm font-semibold text-gold-700">{category.name}</span>
+                </div>
+
+                <h2 class="text-3xl md:text-4xl font-display font-bold text-charcoal-900 mb-3">
+                  {category.name} <span class="text-gold-500">Questions</span>
+                </h2>
+                <div class="w-24 h-1.5 bg-gradient-to-r from-gold-400 to-gold-600 rounded-full"></div>
+              </div>
+
+              <!-- FAQ Items -->
+              <div class="space-y-4">
+                {category.faqs.map((faq, index) => {
+                  const faqId = `faq-${categoryIndex}-${index}`;
+                  return (
+                    <div class="faq-item bg-gradient-to-br from-white to-gold-50/30 border-2 border-charcoal-200 rounded-2xl overflow-hidden hover:border-gold-400 transition-all duration-300 hover:shadow-xl group">
+                      <button
+                        class="faq-question w-full flex items-center justify-between p-6 md:p-8 text-left hover:bg-gold-50 transition-all duration-300"
+                        aria-expanded="false"
+                        aria-controls={faqId}
+                      >
+                        <div class="flex items-start gap-4 flex-1 pr-4">
+                          <!-- Question Icon -->
+                          <div class="w-8 h-8 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-1 group-hover:bg-gold-400 transition-colors duration-300">
+                            <svg class="w-4 h-4 text-gold-600 group-hover:text-charcoal-900 transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
+                              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+                            </svg>
+                          </div>
+                          <span class="font-bold text-lg md:text-xl text-charcoal-900 group-hover:text-gold-600 transition-colors duration-300">
+                            {faq.data.question}
+                          </span>
+                        </div>
+                        <!-- Chevron Icon -->
+                        <svg
+                          class="faq-icon w-6 h-6 text-gold-500 flex-shrink-0 transition-transform duration-300"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          stroke-width="3"
+                        >
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                      </button>
+                      <div
+                        id={faqId}
+                        class="faq-answer hidden"
+                        role="region"
+                      >
+                        <div class="px-6 md:px-20 pb-6 md:pb-8 text-charcoal-700 leading-relaxed text-base md:text-lg">
+                          {faq.body}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Still Have Questions CTA -->
+    <section class="py-20 md:py-24 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-900 relative overflow-hidden">
+      <!-- Background Pattern -->
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+      </div>
+
+      <!-- Gold Glow -->
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gold-400 rounded-full blur-3xl opacity-10"></div>
+
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-4xl mx-auto text-center">
+          <!-- Icon -->
+          <div class="inline-flex items-center justify-center w-16 h-16 bg-gold-400/10 border border-gold-400/30 rounded-full mb-6 backdrop-blur-sm">
+            <svg class="w-8 h-8 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-4">
+            Didn't Find <span class="text-gold-400">Your Answer?</span>
+          </h2>
+          <p class="text-xl md:text-2xl text-white/90 mb-10 leading-relaxed max-w-2xl mx-auto">
+            Call us with your specific question. We'd rather you ask than guess.
+          </p>
+
+          <!-- Triple CTAs -->
+          <div class="flex flex-col sm:flex-row flex-wrap justify-center gap-4 mb-12">
+            <a
+              href="tel:+18649009597"
+              class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gold-400 text-charcoal-900 font-bold text-lg rounded-xl hover:bg-gold-500 hover:text-charcoal-900 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+            >
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+              </svg>
+              <span>Call (864) 900-9597</span>
+            </a>
+            <a
+              href="/book-service"
+              class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-bold text-lg rounded-xl hover:bg-white hover:text-charcoal-900 hover:border-white transition-all duration-300"
+            >
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+              </svg>
+              <span>Book Service</span>
+            </a>
+            <a
+              href="/contact"
+              class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-bold text-lg rounded-xl hover:bg-white hover:text-charcoal-900 hover:border-white transition-all duration-300"
+            >
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+              </svg>
+              <span>Send Message</span>
+            </a>
+          </div>
+
+          <!-- Trust Signals -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto mb-10 pt-10 border-t border-white/10">
+            <div class="text-center">
+              <div class="text-2xl md:text-3xl font-bold text-gold-400 mb-1">9+</div>
+              <div class="text-sm text-white/70 font-medium">Years Experience</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl md:text-3xl font-bold text-gold-400 mb-1">5,000+</div>
+              <div class="text-sm text-white/70 font-medium">Happy Customers</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl md:text-3xl font-bold text-gold-400 mb-1">4.9</div>
+              <div class="text-sm text-white/70 font-medium">Average Rating</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl md:text-3xl font-bold text-gold-400 mb-1">$1M</div>
+              <div class="text-sm text-white/70 font-medium">Insurance Coverage</div>
+            </div>
+          </div>
+
+          <!-- Business Hours -->
+          <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 max-w-2xl mx-auto">
+            <div class="flex items-center justify-center gap-2 mb-4">
+              <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+              </svg>
+              <p class="text-gold-400 font-bold text-lg">When to Call</p>
+            </div>
+            <div class="text-white/90 text-center">
+              <p class="text-base mb-2">Monday - Sunday: 8:00 AM - 8:00 PM</p>
+              <p class="text-sm text-white/70">For after-hours emergencies, call our main line</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <FinalCTA variant="compact" showHours={false} />
+  </main>
+
+  <Footer />
+
+  <!-- FAQ Schema Markup -->
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+</BaseLayout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach((item) => {
+      const question = item.querySelector('.faq-question') as HTMLButtonElement;
+      const answer = item.querySelector('.faq-answer') as HTMLElement;
+      const icon = item.querySelector('.faq-icon') as SVGElement;
+
+      if (!question || !answer || !icon) return;
+
+      question.addEventListener('click', () => {
+        const isExpanded = question.getAttribute('aria-expanded') === 'true';
+
+        // Toggle current item with smooth animation
+        if (isExpanded) {
+          question.setAttribute('aria-expanded', 'false');
+          answer.classList.add('faq-answer-closing');
+          setTimeout(() => {
+            answer.classList.add('hidden');
+            answer.classList.remove('faq-answer-closing');
+          }, 300);
+          icon.style.transform = 'rotate(0deg)';
+        } else {
+          question.setAttribute('aria-expanded', 'true');
+          answer.classList.remove('hidden');
+          answer.classList.add('faq-answer-opening');
+          setTimeout(() => {
+            answer.classList.remove('faq-answer-opening');
+          }, 300);
+          icon.style.transform = 'rotate(180deg)';
+        }
+      });
+    });
+
+    // Handle hash navigation
+    if (window.location.hash) {
+      const target = document.querySelector(window.location.hash);
+      if (target) {
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    }
+  });
+</script>
+
+<style>
+  .faq-answer-opening {
+    animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .faq-answer-closing {
+    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      max-height: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      max-height: 1000px;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 1;
+      max-height: 1000px;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      max-height: 0;
+      transform: translateY(-10px);
+    }
+  }
+
+  /* Smooth scroll offset for fixed header */
+  html {
+    scroll-padding-top: 100px;
+  }
+
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .faq-answer-opening,
+    .faq-answer-closing {
+      animation: none;
+    }
+    
+    .faq-icon {
+      transition: none !important;
+    }
+
+    html {
+      scroll-behavior: auto;
+    }
+  }
+</style>

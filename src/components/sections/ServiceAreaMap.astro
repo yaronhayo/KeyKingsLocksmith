@@ -1,0 +1,222 @@
+---
+// Service Area Map Component with Google Maps Integration
+import { companyConfig } from '../../data/company';
+
+export interface Props {
+  class?: string;
+  height?: string;
+}
+
+const {
+  class: className = '',
+  height = '500px',
+} = Astro.props;
+
+// Service area coordinates for map markers
+const serviceAreas = [
+  { name: 'Anderson, SC', lat: 34.5034, lng: -82.6501, type: 'primary' },
+  { name: 'Greenville, SC', lat: 34.8526, lng: -82.3940, type: 'primary' },
+  { name: 'Clemson, SC', lat: 34.6834, lng: -82.8374, type: 'primary' },
+  { name: 'Easley, SC', lat: 34.8298, lng: -82.6015, type: 'primary' },
+  { name: 'Pendleton, SC', lat: 34.6518, lng: -82.7837, type: 'secondary' },
+  { name: 'Williamston, SC', lat: 34.6182, lng: -82.4779, type: 'secondary' },
+  { name: 'Belton, SC', lat: 34.5232, lng: -82.4943, type: 'secondary' },
+  { name: 'Liberty, SC', lat: 34.7879, lng: -82.6929, type: 'secondary' },
+  { name: 'Seneca, SC', lat: 34.6857, lng: -82.9532, type: 'secondary' },
+  { name: 'Pickens, SC', lat: 34.8835, lng: -82.7074, type: 'secondary' },
+];
+
+// Center point (Anderson, SC - business location)
+const centerLat = companyConfig.contact.address.coordinates?.lat || 34.5034;
+const centerLng = companyConfig.contact.address.coordinates?.lng || -82.6501;
+---
+
+<div class={`service-area-map-container ${className}`}>
+  <div 
+    id="service-area-map" 
+    class="w-full rounded-xl shadow-lg overflow-hidden"
+    style={`height: ${height}`}
+    data-center-lat={centerLat}
+    data-center-lng={centerLng}
+    data-service-areas={JSON.stringify(serviceAreas)}
+  >
+    <!-- Map will be loaded here -->
+    <div class="flex items-center justify-center h-full bg-gray-100">
+      <div class="text-center p-8">
+        <svg class="w-16 h-16 mx-auto mb-4 text-gray-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+        </svg>
+        <p class="text-gray-600 font-medium">Loading service area map...</p>
+        <p class="text-sm text-gray-500 mt-2">Showing coverage across Anderson & Upstate SC</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Google Maps initialization with lazy loading
+  let mapLoaded = false;
+  let mapInitialized = false;
+
+  function initServiceAreaMap() {
+    if (mapInitialized) return;
+    
+    const mapElement = document.getElementById('service-area-map');
+    if (!mapElement) return;
+
+    const centerLat = parseFloat(mapElement.dataset.centerLat || '34.5034');
+    const centerLng = parseFloat(mapElement.dataset.centerLng || '-82.6501');
+    const serviceAreas = JSON.parse(mapElement.dataset.serviceAreas || '[]');
+
+    // @ts-ignore - Google Maps API
+    const map = new google.maps.Map(mapElement, {
+      center: { lat: centerLat, lng: centerLng },
+      zoom: 10,
+      styles: [
+        {
+          featureType: 'poi',
+          elementType: 'labels',
+          stylers: [{ visibility: 'off' }]
+        }
+      ],
+      mapTypeControl: true,
+      streetViewControl: false,
+      fullscreenControl: true,
+    });
+
+    // Add markers for each service area
+    serviceAreas.forEach((area: any) => {
+      const isPrimary = area.type === 'primary';
+      
+      // @ts-ignore - Google Maps API
+      const marker = new google.maps.Marker({
+        position: { lat: area.lat, lng: area.lng },
+        map: map,
+        title: area.name,
+        icon: {
+          path: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z',
+          fillColor: isPrimary ? '#FBBF24' : '#F59E0B', // Gold colors
+          fillOpacity: 1,
+          strokeColor: '#1F2937',
+          strokeWeight: 2,
+          scale: 1.5,
+          anchor: { x: 12, y: 22 } as any,
+        },
+      });
+
+      // @ts-ignore - Google Maps API
+      const infoWindow = new google.maps.InfoWindow({
+        content: `
+          <div style="padding: 8px; font-family: system-ui, sans-serif;">
+            <h3 style="margin: 0 0 4px 0; font-size: 16px; font-weight: 600; color: #1F2937;">
+              ${area.name}
+            </h3>
+            <p style="margin: 0; font-size: 14px; color: #6B7280;">
+              ${isPrimary ? 'Primary Service Area' : 'Extended Coverage'}
+            </p>
+          </div>
+        `,
+      });
+
+      marker.addListener('click', () => {
+        infoWindow.open(map, marker);
+      });
+    });
+
+    // Add coverage circle around Anderson (35-mile radius)
+    // @ts-ignore - Google Maps API
+    new google.maps.Circle({
+      strokeColor: '#FBBF24',
+      strokeOpacity: 0.4,
+      strokeWeight: 2,
+      fillColor: '#FBBF24',
+      fillOpacity: 0.1,
+      map: map,
+      center: { lat: centerLat, lng: centerLng },
+      radius: 56327, // 35 miles in meters
+    });
+
+    mapInitialized = true;
+  }
+
+  function loadGoogleMapsScript() {
+    if (mapLoaded) {
+      initServiceAreaMap();
+      return;
+    }
+
+    // Check if API key is available (will be set via environment variable)
+    const apiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY || '';
+    
+    if (!apiKey) {
+      console.warn('Google Maps API key not configured. Map will not load.');
+      const mapElement = document.getElementById('service-area-map');
+      if (mapElement) {
+        mapElement.innerHTML = `
+          <div class="flex items-center justify-center h-full bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl">
+            <div class="text-center p-8">
+              <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+              </svg>
+              <p class="text-gray-600 font-medium mb-2">Service Area Map</p>
+              <p class="text-sm text-gray-500">We serve Anderson, Greenville, Clemson,<br/>and surrounding areas in Upstate SC</p>
+            </div>
+          </div>
+        `;
+      }
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initServiceAreaMap`;
+    script.async = true;
+    script.defer = true;
+    
+    // @ts-ignore
+    window.initServiceAreaMap = initServiceAreaMap;
+    
+    document.head.appendChild(script);
+    mapLoaded = true;
+  }
+
+  // Lazy load map when it comes into view
+  if ('IntersectionObserver' in window) {
+    const mapContainer = document.querySelector('.service-area-map-container');
+    
+    if (mapContainer) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            loadGoogleMapsScript();
+            observer.disconnect();
+          }
+        });
+      }, {
+        rootMargin: '100px', // Load 100px before it comes into view
+      });
+
+      observer.observe(mapContainer);
+    }
+  } else {
+    // Fallback for browsers without IntersectionObserver
+    loadGoogleMapsScript();
+  }
+</script>
+
+<style>
+  .service-area-map-container {
+    position: relative;
+  }
+
+  /* Ensure map is responsive */
+  #service-area-map {
+    min-height: 400px;
+  }
+
+  @media (max-width: 768px) {
+    #service-area-map {
+      min-height: 350px;
+    }
+  }
+</style>

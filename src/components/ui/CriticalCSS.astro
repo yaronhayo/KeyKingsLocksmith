@@ -1,0 +1,36 @@
+---
+/**
+ * CriticalCSS Component
+ * Inlines critical CSS in the <head> for faster First Contentful Paint
+ * Non-critical CSS is loaded asynchronously
+ */
+
+// Read critical CSS at build time
+import criticalCSS from '../../styles/critical.css?raw';
+---
+
+<!-- Inline critical CSS for instant rendering -->
+<style is:inline set:html={criticalCSS}></style>
+
+<!-- Load non-critical CSS asynchronously -->
+<link
+  rel="preload"
+  href="/styles/globals.css"
+  as="style"
+  onload="this.onload=null;this.rel='stylesheet'"
+/>
+
+<!-- Fallback for browsers without JavaScript -->
+<noscript>
+  <link rel="stylesheet" href="/styles/globals.css" />
+</noscript>
+
+<script>
+  // Polyfill for browsers that don't support preload
+  if (!('onload' in HTMLLinkElement.prototype)) {
+    const links = document.querySelectorAll('link[rel="preload"][as="style"]');
+    links.forEach(link => {
+      link.rel = 'stylesheet';
+    });
+  }
+</script>

@@ -1,0 +1,224 @@
+---
+// Why Choose Key Kings section - Trust-building with specific, credible claims
+import Card from '../ui/Card.astro';
+
+export interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const benefits = [
+  {
+    id: 'locally-owned',
+    icon: 'local',
+    title: "We're Your Neighbors",
+    description: "We live and work in Anderson, SC. When you call, you're reaching people who care about this community and its safety. Local ownership means we're accountable to you.",
+    iconColor: 'text-gold-600',
+    bgColor: 'bg-gold-50',
+  },
+  {
+    id: 'bonded-insured',
+    icon: 'shield',
+    title: 'Protected Service',
+    description: "Bonded and insured with $1M liability coverage. We handle your security with the seriousness it deserves, and we back that up with proper protection.",
+    iconColor: 'text-charcoal-700',
+    bgColor: 'bg-charcoal-100',
+  },
+  {
+    id: 'honest-service',
+    icon: 'handshake',
+    title: 'Clear Communication',
+    description: "We explain what needs to be done and why before starting work. You'll get honest recommendations, not upsells. Clear pricing, no surprises.",
+    iconColor: 'text-gold-600',
+    bgColor: 'bg-gold-50',
+  },
+  {
+    id: 'professional',
+    icon: 'badge',
+    title: 'The Details Matter',
+    description: "Uniformed technicians, marked vehicles, proper equipment. You'll know it's us when we arrive, and you'll see professionalism in every interaction.",
+    iconColor: 'text-charcoal-700',
+    bgColor: 'bg-charcoal-100',
+  },
+];
+---
+
+<section class={`why-choose-section py-16 md:py-24 bg-white ${className}`}>
+  <div class="container mx-auto px-4">
+    <!-- Section Header -->
+    <div class="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-charcoal-900 mb-4">
+        What Sets <span class="text-gold-600">Us Apart</span>
+      </h2>
+      <p class="text-lg md:text-xl text-charcoal-600">
+        When you need a locksmith in Anderson, these are the things that matter most.
+      </p>
+    </div>
+
+    <!-- Benefits Grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-12">
+      {benefits.map((benefit, index) => (
+        <div 
+          class="benefit-card group"
+          style={`animation-delay: ${index * 0.1}s`}
+        >
+          <Card 
+            variant="default" 
+            padding="lg" 
+            hover={true}
+            class="h-full transition-all duration-300 hover:shadow-xl border border-charcoal-200 hover:border-gold-400"
+          >
+            <!-- Icon Circle -->
+            <div class={`mb-6 w-16 h-16 md:w-20 md:h-20 rounded-full ${benefit.bgColor} flex items-center justify-center transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6`}>
+              <div class={`${benefit.iconColor}`}>
+                {benefit.icon === 'local' && (
+                  <svg class="w-8 h-8 md:w-10 md:h-10" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                  </svg>
+                )}
+                {benefit.icon === 'shield' && (
+                  <svg class="w-8 h-8 md:w-10 md:h-10" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                  </svg>
+                )}
+                {benefit.icon === 'handshake' && (
+                  <svg class="w-8 h-8 md:w-10 md:h-10" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M16.48 10.41c-.39.39-1.04.39-1.43 0l-4.47-4.46-7.05 7.04-.66-.63a3 3 0 0 1 0-4.24l4.24-4.24a3 3 0 0 1 4.24 0L16.48 9c.39.39.39 1.02 0 1.41zm-5.66 5.65l-4.47-4.46-7.05 7.04-.66-.63a3 3 0 0 1 0-4.24l4.24-4.24a3 3 0 0 1 4.24 0l5.13 5.13c.39.39.39 1.02 0 1.41-.39.39-1.04.39-1.43-.01z"/>
+                    <path d="M17.5 11c1.93 0 3.5 1.57 3.5 3.5 0 .85-.26 1.64-.71 2.29l-2.79-2.79V11zm-11 0v3l-2.79 2.79c-.45-.65-.71-1.44-.71-2.29 0-1.93 1.57-3.5 3.5-3.5z"/>
+                  </svg>
+                )}
+                {benefit.icon === 'badge' && (
+                  <svg class="w-8 h-8 md:w-10 md:h-10" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12zm-12.91 4.72l-3.8-3.81 1.48-1.48 2.32 2.33 5.85-5.87 1.48 1.48-7.33 7.35z"/>
+                  </svg>
+                )}
+              </div>
+            </div>
+
+            <!-- Content -->
+            <div class="space-y-3">
+              <h3 class="text-xl md:text-2xl font-display font-bold text-charcoal-900 group-hover:text-gold-600 transition-colors duration-300">
+                {benefit.title}
+              </h3>
+              <p class="text-charcoal-600 leading-relaxed">
+                {benefit.description}
+              </p>
+            </div>
+          </Card>
+        </div>
+      ))}
+    </div>
+
+    <!-- Trust Signals Bar -->
+    <div class="bg-charcoal-50 rounded-2xl p-8 md:p-10">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+        <div class="text-center trust-stat">
+          <div class="text-3xl md:text-4xl font-bold text-gold-600 mb-2">9+</div>
+          <div class="text-sm md:text-base text-charcoal-600 font-medium">Years in Business</div>
+        </div>
+        <div class="text-center trust-stat">
+          <div class="text-3xl md:text-4xl font-bold text-gold-600 mb-2">5,000+</div>
+          <div class="text-sm md:text-base text-charcoal-600 font-medium">Customers Served</div>
+        </div>
+        <div class="text-center trust-stat">
+          <div class="text-3xl md:text-4xl font-bold text-gold-600 mb-2">4.9</div>
+          <div class="text-sm md:text-base text-charcoal-600 font-medium">Average Rating</div>
+        </div>
+        <div class="text-center trust-stat">
+          <div class="text-3xl md:text-4xl font-bold text-gold-600 mb-2">$1M</div>
+          <div class="text-sm md:text-base text-charcoal-600 font-medium">Insurance Coverage</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="text-center mt-12">
+      <p class="text-lg text-charcoal-600 mb-6">
+        See the difference professional locksmith service makes
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href="tel:+18649009597"
+          class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gold-600 text-white font-bold text-lg rounded-lg hover:bg-gold-700 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
+        >
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+          </svg>
+          <span>Call (864) 900-9597</span>
+        </a>
+        <a
+          href="/about"
+          class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent border-2 border-gold-600 text-gold-700 font-bold text-lg rounded-lg hover:bg-gold-600 hover:text-white transition-all"
+        >
+          <span>Learn More About Us</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Entrance Animation */
+  .benefit-card {
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 30px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  /* Trust Stats Animation */
+  .trust-stat {
+    animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    opacity: 0;
+  }
+
+  .trust-stat:nth-child(1) { animation-delay: 0.1s; }
+  .trust-stat:nth-child(2) { animation-delay: 0.2s; }
+  .trust-stat:nth-child(3) { animation-delay: 0.3s; }
+  .trust-stat:nth-child(4) { animation-delay: 0.4s; }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Card Hover Effect - GPU Accelerated */
+  .benefit-card {
+    will-change: transform;
+  }
+
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .benefit-card,
+    .trust-stat {
+      animation: none;
+      opacity: 1;
+      transform: none;
+      will-change: auto;
+    }
+
+    .benefit-card :global(.group-hover\:scale-110),
+    .benefit-card :global(.group-hover\:rotate-6) {
+      transform: none !important;
+    }
+  }
+</style>

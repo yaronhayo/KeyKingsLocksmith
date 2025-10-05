@@ -1,0 +1,561 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import FinalCTA from '../../components/sections/FinalCTA.astro';
+import { companyConfig, getPhoneLink } from '../../data/company';
+
+const title = `Service Areas | Key Kings Locksmith Anderson SC`;
+const description = `Locksmith service in Anderson, Greenville, Clemson & Upstate SC. Mobile service to your location in 3 counties. Call (864) 900-9597 now.`;
+const keywords = ['locksmith Anderson SC', 'locksmith Greenville SC', 'locksmith Clemson SC', 'locksmith Easley SC', 'Upstate SC locksmith', 'mobile locksmith'];
+
+// Comprehensive service area data
+const serviceAreas = [
+  {
+    city: 'Anderson',
+    state: 'SC',
+    description: 'Our home base. We know Anderson—from downtown to every surrounding neighborhood. Fastest response times in Anderson County for residential, commercial, and automotive locksmith work.',
+    zipCodes: ['29621', '29622', '29623', '29624', '29625', '29626'],
+    neighborhoods: ['Downtown Anderson', 'Homeland Park', 'Northlake', 'Westside', 'Southwood', 'Lakeside'],
+    services: ['Emergency Lockout Service', 'Residential Lock Installation', 'Commercial Master Keys', 'Automotive Key Programming', 'Lock Rekeying', 'Smart Lock Installation']
+  },
+  {
+    city: 'Clemson',
+    state: 'SC',
+    description: 'Locksmith service for Clemson homeowners, student housing, and local businesses. We understand both university area needs and surrounding residential communities.',
+    zipCodes: ['29631', '29632', '29633', '29634'],
+    neighborhoods: ['Downtown Clemson', 'University Area', 'Old Central Road', 'Keowee Trail', 'Calhoun Corners', 'Clemson West'],
+    services: ['Student Housing Lockouts', 'Apartment Rekeying', 'Business Access Control', 'Car Key Replacement', 'High-Security Locks', 'Emergency Services']
+  },
+  {
+    city: 'Greenville',
+    state: 'SC',
+    description: 'Mobile locksmith service throughout Greenville. Downtown, West Greenville, North Main, and surrounding areas. We bring professional service to your location.',
+    zipCodes: ['29601', '29605', '29607', '29609', '29615', '29617'],
+    neighborhoods: ['Downtown Greenville', 'West Greenville', 'North Main', 'Augusta Road', 'Pleasantburg', 'Verdae'],
+    services: ['Business Lock Systems', 'Residential Security', 'Emergency Lockouts', 'Key Duplication', 'Lock Repair', 'Smart Home Integration']
+  },
+  {
+    city: 'Easley',
+    state: 'SC',
+    description: 'Locksmith service throughout Easley and surrounding Pickens County. Residential, commercial, and automotive work with straightforward pricing.',
+    zipCodes: ['29640', '29641', '29642'],
+    neighborhoods: ['Downtown Easley', 'Gentry Memorial', 'Crosswell', 'Brushy Creek', 'West End', 'Powdersville area'],
+    services: ['Home Lockouts', 'Commercial Locksmith', 'Car Key Services', 'Lock Installation', 'Deadbolt Upgrade', 'Master Key Systems']
+  },
+  {
+    city: 'Seneca',
+    state: 'SC',
+    description: 'Locksmith service for Seneca and the Lake Keowee area. We handle homes, lake properties, businesses, and vehicles throughout the region.',
+    zipCodes: ['29672', '29678', '29679'],
+    neighborhoods: ['Downtown Seneca', 'Utica', 'Oakway', 'Lake Keowee area', 'Shiloh', 'Ravenel'],
+    services: ['Residential Locksmith', 'Lake Home Security', 'Business Services', 'Automotive Locksmith', 'Emergency Response', 'Lock Maintenance']
+  },
+  {
+    city: 'Pickens',
+    state: 'SC',
+    description: 'Service for Pickens and foothills communities. Residential and commercial locksmith work from downtown Pickens to Table Rock area.',
+    zipCodes: ['29671'],
+    neighborhoods: ['Downtown Pickens', 'Cateechee', 'Pumpkintown area', 'Table Rock area'],
+    services: ['Home Locksmith Services', 'Business Lock Solutions', 'Car Key Replacement', 'Lock Rekeying', 'Security Upgrades', 'Emergency Services']
+  },
+  {
+    city: 'Liberty',
+    state: 'SC',
+    description: 'Locksmith coverage for Liberty and surrounding Pickens County. Reliable service for locks, keys, and security throughout the area.',
+    zipCodes: ['29657'],
+    neighborhoods: ['Downtown Liberty', 'Norris', 'Holly Springs area'],
+    services: ['Residential Lockouts', 'Commercial Locks', 'Car Locksmith', 'Lock Installation', 'Key Services', 'Emergency Assistance']
+  },
+  {
+    city: 'Pendleton',
+    state: 'SC',
+    description: 'Service for historic Pendleton and surrounding areas. We work with historic homes and provide modern security that fits the character of older properties.',
+    zipCodes: ['29670'],
+    neighborhoods: ['Historic Pendleton', 'Calhoun Falls Highway area'],
+    services: ['Historic Home Locks', 'Modern Security', 'Business Services', 'Automotive Locksmith', 'Custom Solutions', 'Lock Restoration']
+  }
+];
+
+// Additional counties and regions
+const counties = [
+  {
+    name: 'Anderson County',
+    description: 'Complete coverage throughout Anderson County including all cities, towns, and unincorporated areas.',
+    cities: ['Anderson', 'Belton', 'Honea Path', 'Iva', 'Pelzer', 'Pendleton', 'Williamston', 'West Pelzer', 'Homeland Park', 'Northlake']
+  },
+  {
+    name: 'Pickens County',
+    description: 'Serving all of Pickens County from the college town of Clemson to the mountain communities.',
+    cities: ['Clemson', 'Easley', 'Liberty', 'Pickens', 'Six Mile', 'Central', 'Norris', 'Dacusville', 'Pumpkintown']
+  },
+  {
+    name: 'Greenville County (Select Areas)',
+    description: 'We serve portions of Greenville County, particularly areas near Anderson and Pickens County borders.',
+    cities: ['Greenville', 'Mauldin', 'Simpsonville', 'Fountain Inn', 'Travelers Rest']
+  }
+];
+---
+
+<BaseLayout title={title} description={description} keywords={keywords}>
+  <Header />
+
+  <main>
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-900 text-white py-20 md:py-28 overflow-hidden">
+      <!-- Animated Background Pattern -->
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+      </div>
+
+      <!-- Gold Glow Effects -->
+      <div class="absolute top-0 right-0 w-96 h-96 bg-gold-400 rounded-full blur-3xl opacity-10 animate-pulse"></div>
+      <div class="absolute bottom-0 left-0 w-80 h-80 bg-gold-500 rounded-full blur-3xl opacity-10 animate-pulse" style="animation-delay: 1s;"></div>
+
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-5xl mx-auto text-center">
+          <!-- Trust Badge -->
+          <div class="inline-flex items-center gap-2 px-5 py-2.5 bg-gold-400/10 border border-gold-400/30 rounded-full text-gold-400 font-semibold mb-8 backdrop-blur-sm">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+            </svg>
+            Serving Upstate South Carolina
+          </div>
+
+          <!-- Headline -->
+          <h1 class="text-4xl md:text-5xl lg:text-7xl font-display font-bold mb-6 leading-tight">
+            Where We <span class="text-gold-400">Serve</span>
+          </h1>
+
+          <!-- Subheadline -->
+          <p class="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed">
+            Mobile locksmith service throughout Anderson, Greenville, Clemson, and surrounding Upstate South Carolina communities. We come to your location.
+          </p>
+
+          <!-- CTA Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <a
+              href={getPhoneLink()}
+              class="group inline-flex items-center justify-center gap-3 px-10 py-5 bg-gold-400 text-charcoal-900 font-bold text-lg rounded-xl hover:bg-gold-500 hover:text-charcoal-900 transition-all shadow-2xl hover:shadow-gold-400/50 hover:-translate-y-1"
+            >
+              <svg class="w-6 h-6 group-hover:rotate-12 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+              </svg>
+              <div class="text-left">
+                <div class="text-xs font-medium opacity-75 uppercase tracking-wide">Call Now</div>
+                <div class="text-lg font-bold">(864) 900-9597</div>
+              </div>
+            </a>
+            <a
+              href="#service-areas"
+              class="inline-flex items-center justify-center gap-3 px-10 py-5 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-bold text-lg rounded-xl hover:bg-white hover:text-charcoal-900 hover:border-white transition-all"
+            >
+              <span>View Coverage Areas</span>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Stats Bar -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto pt-12 border-t border-white/10">
+            <div class="text-center">
+              <div class="text-3xl md:text-4xl font-bold text-gold-400 mb-1">8+</div>
+              <div class="text-sm text-white/70 font-medium">Cities Served</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl md:text-4xl font-bold text-gold-400 mb-1">9+</div>
+              <div class="text-sm text-white/70 font-medium">Years Experience</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl md:text-4xl font-bold text-gold-400 mb-1">3</div>
+              <div class="text-sm text-white/70 font-medium">Counties Covered</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl md:text-4xl font-bold text-gold-400 mb-1">$1M</div>
+              <div class="text-sm text-white/70 font-medium">Insurance Coverage</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Service Areas Section -->
+    <section id="service-areas" class="py-20 md:py-28 bg-white relative overflow-hidden">
+      <!-- Decorative Background Pattern -->
+      <div class="absolute inset-0 opacity-5 pointer-events-none">
+        <div class="absolute top-0 left-0 w-96 h-96 bg-gold-400 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-charcoal-900 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gold-500 rounded-full blur-3xl"></div>
+      </div>
+
+      <div class="container mx-auto px-4 relative z-10">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <!-- Category Badge -->
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-gold-100 rounded-full mb-4">
+            <svg class="w-4 h-4 text-gold-600" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+            </svg>
+            <span class="text-sm font-semibold text-gold-700">Service Areas</span>
+          </div>
+
+          <h2 class="text-4xl md:text-5xl font-display font-bold text-charcoal-900 mb-6">
+            Coverage <span class="text-gold-500">Areas</span>
+          </h2>
+          <p class="text-xl text-charcoal-600 leading-relaxed">
+            Locksmith service throughout these Upstate South Carolina communities. Mobile service means we come to your location—home, business, or wherever you're stuck.
+          </p>
+        </div>
+
+        <!-- Service Area Cards -->
+        <div class="space-y-20 max-w-7xl mx-auto">
+          {serviceAreas.map((area, index) => (
+            <article class="service-area-card group">
+              <div class="grid lg:grid-cols-5 gap-8 items-start">
+                <!-- Left: City Info (2 columns) -->
+                <div class={`lg:col-span-2 ${index % 2 === 0 ? 'lg:order-1' : 'lg:order-2'}`}>
+                  <div class="sticky top-8">
+                    <!-- City Header -->
+                    <div class="flex items-center gap-4 mb-6">
+                      <div class="w-16 h-16 bg-gradient-to-br from-gold-400 to-gold-500 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-xl group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-8 h-8 text-charcoal-900" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                        </svg>
+                      </div>
+                      <div>
+                        <h3 class="text-3xl md:text-4xl font-display font-bold text-charcoal-900 group-hover:text-gold-600 transition-colors duration-300">
+                          {area.city}
+                        </h3>
+                      </div>
+                    </div>
+
+                    <!-- Description -->
+                    <p class="text-lg text-charcoal-700 leading-relaxed mb-8">
+                      {area.description}
+                    </p>
+
+                    <!-- Value Props Grid -->
+                    <div class="grid grid-cols-2 gap-3 mb-8">
+                      <div class="flex items-center gap-2 text-sm">
+                        <svg class="w-4 h-4 text-gold-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span class="text-charcoal-700 font-medium">Local Team</span>
+                      </div>
+                      <div class="flex items-center gap-2 text-sm">
+                        <svg class="w-4 h-4 text-gold-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span class="text-charcoal-700 font-medium">Bonded & Insured</span>
+                      </div>
+                      <div class="flex items-center gap-2 text-sm">
+                        <svg class="w-4 h-4 text-gold-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                        </svg>
+                        <span class="text-charcoal-700 font-medium">Fast Response</span>
+                      </div>
+                      <div class="flex items-center gap-2 text-sm">
+                        <svg class="w-4 h-4 text-gold-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+                        </svg>
+                        <span class="text-charcoal-700 font-medium">9+ Years</span>
+                      </div>
+                    </div>
+
+                    <!-- Dual CTAs -->
+                    <div class="flex flex-col sm:flex-row gap-3">
+                      <a
+                        href={getPhoneLink()}
+                        class="inline-flex items-center justify-center gap-3 px-6 py-4 bg-gold-400 text-charcoal-900 font-bold text-base rounded-xl hover:bg-gold-500 hover:text-charcoal-900 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
+                      >
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                        </svg>
+                        <span>Call Now</span>
+                      </a>
+                      <a
+                        href="/book-service"
+                        class="inline-flex items-center justify-center gap-3 px-6 py-4 bg-charcoal-100 text-charcoal-900 font-bold text-base rounded-xl hover:bg-charcoal-200 transition-all border-2 border-charcoal-200"
+                      >
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>Book Service</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Right: Details (3 columns) -->
+                <div class={`lg:col-span-3 ${index % 2 === 0 ? 'lg:order-2' : 'lg:order-1'}`}>
+                  <div class="bg-gradient-to-br from-charcoal-50 via-gold-50 to-charcoal-50 rounded-3xl p-8 border-2 border-charcoal-200 shadow-2xl relative overflow-hidden group-hover:shadow-gold-400/20 transition-all duration-300">
+                    <!-- Decorative corner accent -->
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-gold-400/20 to-transparent rounded-bl-full"></div>
+
+                    <!-- ZIP Codes -->
+                    <div class="mb-8 relative z-10">
+                      <h4 class="text-lg font-bold text-charcoal-900 mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-gold-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10 2a8 8 0 100 16 8 8 0 000-16zM9 9a1 1 0 112 0v4a1 1 0 11-2 0V9zm1-4a1 1 0 100 2 1 1 0 000-2z"/>
+                        </svg>
+                        ZIP Codes Served
+                      </h4>
+                      <div class="flex flex-wrap gap-2">
+                        {area.zipCodes.map((zip) => (
+                          <span class="px-3 py-2 bg-white/90 backdrop-blur-sm rounded-lg text-charcoal-900 font-semibold text-sm shadow-sm hover:shadow-md hover:bg-white transition-all">
+                            {zip}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <!-- Neighborhoods -->
+                    <div class="mb-8 relative z-10">
+                      <h4 class="text-lg font-bold text-charcoal-900 mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-gold-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                        </svg>
+                        Neighborhoods & Areas
+                      </h4>
+                      <div class="grid sm:grid-cols-2 gap-2">
+                        {area.neighborhoods.map((neighborhood) => (
+                          <div class="flex items-center gap-2 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2.5 shadow-sm hover:shadow-md hover:bg-white transition-all">
+                            <svg class="w-4 h-4 text-gold-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-sm text-charcoal-700 font-medium">{neighborhood}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <!-- Services Available -->
+                    <div class="relative z-10">
+                      <h4 class="text-lg font-bold text-charcoal-900 mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-gold-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                          <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+                        </svg>
+                        Services Available
+                      </h4>
+                      <div class="grid sm:grid-cols-2 gap-3">
+                        {area.services.map((service) => (
+                          <div class="flex items-start gap-2 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-3 shadow-sm hover:shadow-md hover:bg-white transition-all">
+                            <div class="w-5 h-5 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                              <svg class="w-3 h-3 text-gold-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                              </svg>
+                            </div>
+                            <span class="text-sm text-charcoal-700 font-medium leading-relaxed">{service}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- County Coverage Section -->
+    <section class="py-20 md:py-28 bg-gradient-to-b from-charcoal-50 to-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+          <!-- Header -->
+          <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-display font-bold text-charcoal-900 mb-6">
+              Complete <span class="text-gold-500">County Coverage</span>
+            </h2>
+            <p class="text-xl text-charcoal-600 leading-relaxed max-w-3xl mx-auto">
+              We serve entire counties, not just major cities. If you're anywhere in these counties, we can help.
+            </p>
+          </div>
+
+          <!-- County Cards -->
+          <div class="grid md:grid-cols-3 gap-8 mb-12">
+            {counties.map((county) => (
+              <div class="bg-white rounded-2xl p-8 border-2 border-charcoal-200 hover:border-gold-400 transition-all shadow-lg hover:shadow-xl">
+                <div class="w-12 h-12 bg-gold-400 rounded-xl flex items-center justify-center mb-6">
+                  <svg class="w-6 h-6 text-charcoal-900" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-charcoal-900 mb-4">{county.name}</h3>
+                <p class="text-charcoal-600 mb-6 leading-relaxed">{county.description}</p>
+                <div class="space-y-2">
+                  <p class="text-sm font-semibold text-charcoal-900 mb-2">Cities & Towns:</p>
+                  <div class="flex flex-wrap gap-2">
+                    {county.cities.map((city) => (
+                      <span class="text-xs px-2.5 py-1 bg-charcoal-50 text-charcoal-700 rounded-lg font-medium">
+                        {city}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <!-- Don't See Your Area -->
+          <div class="bg-gradient-to-br from-gold-50 to-charcoal-50 border-2 border-gold-400 rounded-2xl p-8 md:p-12 text-center">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-gold-400 rounded-full mb-6">
+              <svg class="w-8 h-8 text-charcoal-900" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+              </svg>
+            </div>
+            <h3 class="text-3xl md:text-4xl font-display font-bold text-charcoal-900 mb-4">
+              Don't See Your Area?
+            </h3>
+            <p class="text-xl text-charcoal-700 mb-8 max-w-2xl mx-auto">
+              We regularly travel throughout Upstate South Carolina. Call us to confirm we can reach your location.
+            </p>
+            <a
+              href={getPhoneLink()}
+              class="inline-flex items-center gap-3 px-10 py-5 bg-charcoal-900 text-white font-bold text-xl rounded-xl hover:bg-charcoal-800 transition-all shadow-xl hover:-translate-y-1"
+            >
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+              </svg>
+              <span>Call (864) 900-9597</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Local Section -->
+    <section class="py-20 md:py-28 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+          <!-- Header -->
+          <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-display font-bold text-charcoal-900 mb-6">
+              Why Choose <span class="text-gold-500">Local?</span>
+            </h2>
+            <p class="text-xl text-charcoal-600 leading-relaxed max-w-3xl mx-auto">
+              When you choose Key Kings, you're supporting a local Anderson business that's invested in our community.
+            </p>
+          </div>
+
+          <!-- Benefits Grid -->
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="bg-charcoal-50 rounded-2xl p-8 hover:bg-gold-50 transition-colors text-center">
+              <div class="w-14 h-14 bg-gold-400 rounded-xl flex items-center justify-center mb-6 mx-auto">
+                <svg class="w-7 h-7 text-charcoal-900" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-charcoal-900 mb-3">Faster Response</h3>
+              <p class="text-charcoal-700 leading-relaxed">
+                Based in Anderson, we're never far away. Local means faster arrival times when you need help.
+              </p>
+            </div>
+
+            <div class="bg-charcoal-50 rounded-2xl p-8 hover:bg-gold-50 transition-colors text-center">
+              <div class="w-14 h-14 bg-gold-400 rounded-xl flex items-center justify-center mb-6 mx-auto">
+                <svg class="w-7 h-7 text-charcoal-900" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-charcoal-900 mb-3">Local Knowledge</h3>
+              <p class="text-charcoal-700 leading-relaxed">
+                We know the area inside and out—neighborhoods, streets, and the quickest routes to reach you.
+              </p>
+            </div>
+
+            <div class="bg-charcoal-50 rounded-2xl p-8 hover:bg-gold-50 transition-colors text-center">
+              <div class="w-14 h-14 bg-gold-400 rounded-xl flex items-center justify-center mb-6 mx-auto">
+                <svg class="w-7 h-7 text-charcoal-900" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-charcoal-900 mb-3">Community Trust</h3>
+              <p class="text-charcoal-700 leading-relaxed">
+                Our reputation depends on our neighbors. We're accountable to the community we serve.
+              </p>
+            </div>
+
+            <div class="bg-charcoal-50 rounded-2xl p-8 hover:bg-gold-50 transition-colors text-center">
+              <div class="w-14 h-14 bg-gold-400 rounded-xl flex items-center justify-center mb-6 mx-auto">
+                <svg class="w-7 h-7 text-charcoal-900" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-charcoal-900 mb-3">Fair Pricing</h3>
+              <p class="text-charcoal-700 leading-relaxed">
+                No corporate markups. We offer honest, competitive pricing with upfront quotes.
+              </p>
+            </div>
+
+            <div class="bg-charcoal-50 rounded-2xl p-8 hover:bg-gold-50 transition-colors text-center">
+              <div class="w-14 h-14 bg-gold-400 rounded-xl flex items-center justify-center mb-6 mx-auto">
+                <svg class="w-7 h-7 text-charcoal-900" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-charcoal-900 mb-3">Experienced Team</h3>
+              <p class="text-charcoal-700 leading-relaxed">
+                Years of experience serving Upstate SC means we've seen it all and can handle any situation.
+              </p>
+            </div>
+
+            <div class="bg-charcoal-50 rounded-2xl p-8 hover:bg-gold-50 transition-colors text-center">
+              <div class="w-14 h-14 bg-gold-400 rounded-xl flex items-center justify-center mb-6 mx-auto">
+                <svg class="w-7 h-7 text-charcoal-900" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-charcoal-900 mb-3">Personal Service</h3>
+              <p class="text-charcoal-700 leading-relaxed">
+                You're never just a number. We take time to understand your needs and ensure satisfaction.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <FinalCTA />
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.1;
+    }
+    50% {
+      opacity: 0.15;
+    }
+  }
+
+  .service-area-card {
+    padding: 2rem;
+    background: white;
+    border: 2px solid #E5E7EB;
+    border-radius: 1.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .service-area-card:hover {
+    border-color: #FBBF24;
+    box-shadow: 0 20px 40px -10px rgba(251, 191, 36, 0.2);
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>

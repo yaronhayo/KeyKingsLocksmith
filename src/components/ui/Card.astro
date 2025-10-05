@@ -1,0 +1,43 @@
+---
+// Conversion-optimized card component
+export interface Props {
+  variant?: 'default' | 'elevated' | 'bordered' | 'ghost';
+  padding?: 'sm' | 'md' | 'lg' | 'xl';
+  hover?: boolean;
+  clickable?: boolean;
+  class?: string;
+}
+
+const {
+  variant = 'default',
+  padding = 'md',
+  hover = false,
+  clickable = false,
+  class: className = '',
+} = Astro.props;
+
+const baseStyles = 'rounded-lg';
+
+const variantStyles = {
+  default: 'bg-white shadow-sm',
+  elevated: 'bg-white shadow-lg',
+  bordered: 'bg-white border-2 border-gray-200',
+  ghost: 'bg-transparent',
+};
+
+const paddingStyles = {
+  sm: 'p-4',
+  md: 'p-6',
+  lg: 'p-8',
+  xl: 'p-10',
+};
+
+const hoverStyles = hover ? 'transition-shadow duration-200 hover:shadow-md' : '';
+const clickableStyles = clickable ? 'cursor-pointer' : '';
+
+const classes = `${baseStyles} ${variantStyles[variant]} ${paddingStyles[padding]} ${hoverStyles} ${clickableStyles} ${className}`;
+---
+
+<div class={classes}>
+  <slot />
+</div>

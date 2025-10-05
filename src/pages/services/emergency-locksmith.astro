@@ -1,0 +1,322 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import FAQ from '../../components/sections/FAQ.astro';
+import Reviews from '../../components/sections/Reviews.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import { companyConfig, getPhoneLink } from '../../data/company';
+
+const title = `Emergency Locksmith Anderson SC | Fast Lockout Service`;
+const description = `Emergency locksmith Anderson SC. Fast response for lockouts - home, car, business. Non-destructive entry. Serving Upstate SC. Call (864) 900-9597.`;
+const keywords = ['emergency locksmith Anderson SC', 'lockout service', 'house lockout', 'car lockout Anderson', 'emergency locksmith', 'locked out', 'fast locksmith'];
+
+// Breadcrumb schema
+const breadcrumbData = [
+  { name: 'Home', url: 'https://keykingslocksmithsc.com' },
+  { name: 'Services', url: 'https://keykingslocksmithsc.com/services' },
+  { name: 'Emergency Locksmith', url: 'https://keykingslocksmithsc.com/services/emergency-locksmith' }
+];
+
+// Emergency situations - conversion focused
+const emergencySituations = [
+  {
+    situation: "Locked Out of Your House",
+    problem: "Standing outside your home, keys are inside or lost, and you need to get in now",
+    solution: "Emergency Residential Lockout Service",
+    description: "We arrive quickly and unlock your door without breaking it. Works on all residential locks including deadbolts, knob locks, and smart locks. No damage to your door, frame, or lock. We verify you live there before unlocking. Get back inside your home fast.",
+    icon: '<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>'
+  },
+  {
+    situation: "Keys Locked in Running Car",
+    problem: "Car is running with keys inside, wasting gas and creating a security risk",
+    solution: "Emergency Car Lockout Service",
+    description: "Especially urgent when the car is running, a child or pet is inside, or you're in an unsafe location. We unlock your car door quickly using professional automotive lockout tools. No broken windows or damaged locks. Works on all vehicles including newer models with anti-theft systems.",
+    icon: '<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" /></svg>'
+  },
+  {
+    situation: "Locked Out of Your Business",
+    problem: "Employees waiting, customers can't enter, or you need access for an important meeting",
+    solution: "Commercial Emergency Lockout",
+    description: "Business lockouts cost you money every minute you're unable to operate. We prioritize commercial lockouts and arrive quickly to get you back to work. Handle office doors, storefront locks, warehouse gates, and back doors. Verify business ownership before unlocking.",
+    icon: '<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>'
+  },
+  {
+    situation: "Broken Key Stuck in Lock",
+    problem: "Part of your key broke off inside the lock, and you can't use that lock anymore",
+    solution: "Emergency Key Extraction",
+    description: "Broken keys get stuck in door locks, car ignitions, and trunk locks. We extract the broken piece without damaging the lock cylinder. Then we make you a new key from the broken pieces or by code. Common with worn keys or when forcing a sticky lock.",
+    icon: '<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>'
+  },
+  {
+    situation: "Lock Broken After Break-In Attempt",
+    problem: "Someone tried to break in, your lock is damaged, and you need security restored immediately",
+    solution: "Emergency Lock Replacement",
+    description: "After a break-in or attempted break-in, your damaged lock needs immediate replacement. We carry common residential and commercial locks and can install new ones on the spot. Re-secure your property right away so you can feel safe.",
+    icon: '<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>'
+  },
+  {
+    situation: "Lost Keys With No Spare",
+    problem: "Lost your only set of keys and have no way to get back into your home or car",
+    solution: "Emergency Key Replacement",
+    description: "Lost keys are a crisis when you have no spare. For homes, we can unlock your door and make new keys from the lock. For cars, we create new keys using your VIN, including programming transponder chips. Get you back inside and provide working keys the same day.",
+    icon: '<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>'
+  }
+];
+
+// Why choose us
+const whyChooseUs = [
+  {
+    title: "Fast Response Time",
+    description: "We understand emergencies can't wait. Quick response throughout Anderson and Upstate SC.",
+    icon: '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>'
+  },
+  {
+    title: "Non-Destructive Entry",
+    description: "Professional tools and techniques to unlock doors without breaking locks or windows.",
+    icon: '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>'
+  },
+  {
+    title: "Come to You",
+    description: "Mobile service means we bring all equipment to your location. No need to go anywhere.",
+    icon: '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/><path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z"/></svg>'
+  },
+  {
+    title: "Verify Ownership",
+    description: "We require proof you live/work there or own the vehicle before providing service.",
+    icon: '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>'
+  },
+  {
+    title: "All Types of Locks",
+    description: "Residential, commercial, and automotive lockouts. Traditional locks to smart locks.",
+    icon: '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 8a6 6 0 01-7.743 5.743L10 14l-1 1-1 1H6v2H2v-4l4.257-4.257A6 6 0 1118 8zm-6-4a1 1 0 100 2 2 2 0 012 2 1 1 0 102 0 4 4 0 00-4-4z" clip-rule="evenodd"/></svg>'
+  },
+  {
+    title: "Transparent Pricing",
+    description: "Clear pricing before we start work. No hidden fees or surprise charges.",
+    icon: '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/></svg>'
+  }
+];
+---
+
+<BaseLayout title={title} description={description} keywords={keywords}>
+  <Header />
+
+  <main>
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-red-900 via-charcoal-900 to-charcoal-800 text-white py-20 md:py-28 overflow-hidden">
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-1/4 right-1/4 w-96 h-96 bg-gold-400 rounded-full blur-3xl opacity-10 animate-pulse"></div>
+        <div class="absolute bottom-1/4 left-1/4 w-96 h-96 bg-gold-500 rounded-full blur-3xl opacity-10 animate-pulse" style="animation-delay: 1s"></div>
+      </div>
+
+      <div class="absolute inset-0 opacity-5">
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+      </div>
+
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-4xl mx-auto text-center">
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-red-500/20 border border-red-400/40 rounded-full text-red-200 text-sm font-semibold mb-6">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
+            </svg>
+            Emergency Lockout Service
+          </div>
+
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6">
+            Locked Out?<br/>
+            <span class="text-gold-400">We'll Get You Back In Fast</span>
+          </h1>
+
+          <p class="text-xl md:text-2xl text-white/90 mb-10 leading-relaxed">
+            Emergency locksmith for house lockouts, car lockouts, and business lockouts throughout Anderson and Upstate SC. Fast response, non-destructive entry.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href={getPhoneLink()}
+              class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gold-400 text-charcoal-900 font-bold text-lg rounded-lg hover:bg-gold-500 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
+            >
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+              </svg>
+              Call (864) 900-9597
+            </a>
+            <a
+              href="/contact"
+              class="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-gold-400 text-gold-400 font-bold text-lg rounded-lg hover:bg-gold-400 hover:text-charcoal-900 transition-all"
+            >
+              Get Help Now
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Emergency Situations Section -->
+    <section class="relative py-20 bg-gradient-to-br from-white via-gold-50/30 to-white overflow-hidden">
+      <!-- Background Pattern -->
+      <div class="absolute inset-0 opacity-[0.03]">
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, #1a1a1a 1px, transparent 0); background-size: 32px 32px;"></div>
+      </div>
+
+      <!-- Decorative Elements -->
+      <div class="absolute top-20 right-10 w-64 h-64 bg-gold-400 rounded-full blur-3xl opacity-[0.07]"></div>
+      <div class="absolute bottom-20 left-10 w-64 h-64 bg-gold-500 rounded-full blur-3xl opacity-[0.07]"></div>
+
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-charcoal-900 mb-4">
+              Emergency <span class="text-gold-600">Lockout Situations</span>
+            </h2>
+            <p class="text-lg md:text-xl text-charcoal-600 max-w-3xl mx-auto">
+              Fast response for all lockout emergencies in Anderson and Upstate SC. We come to you.
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {emergencySituations.map((item) => (
+              <div class="bg-gradient-to-br from-white to-gold-50/30 border-2 border-charcoal-200 rounded-2xl p-8 hover:border-gold-400 hover:shadow-xl transition-all duration-300 text-center">
+                <div class="flex justify-center mb-6">
+                  <div class="w-20 h-20 bg-gradient-to-br from-gold-400 to-gold-500 rounded-xl flex items-center justify-center shadow-lg">
+                    <Fragment set:html={item.icon} />
+                  </div>
+                </div>
+
+                <h3 class="text-xl font-bold text-charcoal-900 mb-4">{item.situation}</h3>
+
+                <div class="mb-4 pb-4 border-b border-charcoal-200">
+                  <div class="text-xs font-bold text-gold-600 uppercase tracking-wide mb-2">The Problem</div>
+                  <p class="text-sm text-charcoal-700 leading-relaxed">{item.problem}</p>
+                </div>
+
+                <div class="mb-6">
+                  <div class="text-xs font-bold text-gold-600 uppercase tracking-wide mb-2">The Solution</div>
+                  <p class="text-lg font-bold text-charcoal-900 mb-3">{item.solution}</p>
+                  <p class="text-sm text-charcoal-700 leading-relaxed">{item.description}</p>
+                </div>
+
+                <a
+                  href={getPhoneLink()}
+                  class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gold-400 text-charcoal-900 font-semibold rounded-lg hover:bg-gold-600 hover:shadow-lg transition-all w-full"
+                >
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                  </svg>
+                  Get Help Now
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-display font-bold text-charcoal-900 mb-4">
+              Why Choose <span class="text-gold-600">Key Kings Emergency Locksmith</span>
+            </h2>
+            <p class="text-lg text-charcoal-600 max-w-2xl mx-auto">
+              Professional emergency locksmith service for Anderson and Upstate SC
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {whyChooseUs.map((benefit) => (
+              <div class="bg-gradient-to-br from-gold-50 to-white border-2 border-gold-200 rounded-xl p-8 hover:border-gold-400 hover:shadow-lg transition-all duration-300 text-center">
+                <div class="flex justify-center mb-4">
+                  <div class="w-16 h-16 bg-gold-400 rounded-xl flex items-center justify-center">
+                    <Fragment set:html={benefit.icon} />
+                  </div>
+                </div>
+                <h3 class="text-lg font-bold text-charcoal-900 mb-3">{benefit.title}</h3>
+                <p class="text-sm text-charcoal-600 leading-relaxed">{benefit.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <FAQ category="emergency" limit={6} />
+
+    <!-- Reviews Section -->
+    <Reviews category="emergency" limit={8} />
+
+    <!-- Final CTA Section -->
+    <section class="py-16 md:py-20 bg-gradient-to-br from-red-900 via-charcoal-900 to-charcoal-800">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-6">
+            Need Emergency <span class="text-gold-400">Lockout Service?</span>
+          </h2>
+          <p class="text-xl text-white/80 mb-10 leading-relaxed">
+            Fast response for house lockouts, car lockouts, and business lockouts. Non-destructive entry throughout Anderson, Clemson, Greenville, and all of Upstate SC.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href={getPhoneLink()}
+              class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gold-400 text-charcoal-900 font-bold text-lg rounded-lg hover:bg-gold-500 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
+            >
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+              </svg>
+              Call (864) 900-9597
+            </a>
+            <a
+              href="/contact"
+              class="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-gold-400 text-gold-400 font-bold text-lg rounded-lg hover:bg-gold-400 hover:text-charcoal-900 transition-all"
+            >
+              Get Help Now
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <SchemaMarkup type="breadcrumb" data={breadcrumbData} />
+  <SchemaMarkup type="service" data={{
+    title: "Emergency Locksmith Service",
+    description: "Fast emergency locksmith response for house lockouts, car lockouts, and business lockouts.",
+    serviceType: "Emergency Locksmith",
+    url: "https://keykingslocksmithsc.com/services/emergency-locksmith"
+  }} />
+</BaseLayout>
+
+<style>
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.1;
+    }
+    50% {
+      opacity: 0.15;
+    }
+  }
+
+  .animate-pulse {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-pulse {
+      animation: none !important;
+      opacity: 0.1 !important;
+    }
+  }
+</style>

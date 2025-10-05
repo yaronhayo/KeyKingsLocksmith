@@ -1,0 +1,253 @@
+---
+// FAQ section with accordion functionality
+import { getCollection } from 'astro:content';
+
+export interface Props {
+  class?: string;
+  limit?: number;
+  category?: string;
+  showViewAllLink?: boolean;
+}
+
+const {
+  class: className = '',
+  limit = 8,
+  category,
+  showViewAllLink = true,
+} = Astro.props;
+
+// Fetch FAQs from content collection
+let faqs = await getCollection('faq');
+
+if (category) {
+  faqs = faqs.filter(faq => faq.data.category.toLowerCase() === category.toLowerCase());
+}
+
+// For homepage or when no category specified, show featured FAQs
+// For category pages, show random selection from that category
+let displayFaqs;
+if (!category) {
+  // Homepage: use featured FAQs or all if no featured
+  const featuredFaqs = faqs.filter(faq => faq.data.featured === true);
+  displayFaqs = featuredFaqs.length > 0 ? featuredFaqs : faqs;
+  // Sort by order for homepage
+  displayFaqs = displayFaqs.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+} else {
+  // Category pages: randomize to show different FAQs each time
+  displayFaqs = faqs.sort(() => Math.random() - 0.5);
+}
+
+const sortedFaqs = displayFaqs.slice(0, limit);
+---
+
+<section class={`faq-section py-16 ${className}`}>
+  <div class="container mx-auto px-4">
+    <!-- Section Header -->
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-charcoal-900 mb-4">
+        Frequently Asked Questions
+      </h2>
+      <p class="text-lg text-charcoal-600 max-w-2xl mx-auto">
+        Find answers to common questions about our locksmith services
+      </p>
+    </div>
+
+    <!-- FAQ Accordion -->
+    <div class="max-w-4xl mx-auto space-y-4">
+      {sortedFaqs.map((faq, index) => (
+        <div class="faq-item bg-white border-2 border-charcoal-200 rounded-lg overflow-hidden hover:border-gold-400 transition-all duration-300">
+          <button
+            class="faq-question w-full flex items-center justify-between p-6 text-left hover:bg-gold-50 transition-all duration-300"
+            aria-expanded="false"
+            aria-controls={`faq-answer-${index}`}
+          >
+            <div class="flex items-start gap-3 flex-1 pr-4">
+              <span class="flex-shrink-0 w-7 h-7 bg-gold-400 text-charcoal-900 rounded-full flex items-center justify-center font-bold text-sm">
+                Q
+              </span>
+              <span class="font-semibold text-lg text-charcoal-900">
+                {faq.data.question}
+              </span>
+            </div>
+            <svg
+              class="faq-icon w-6 h-6 text-gold-400 flex-shrink-0 transition-transform duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div
+            id={`faq-answer-${index}`}
+            class="faq-answer hidden"
+            role="region"
+          >
+            <div class="px-6 pb-6">
+              <div class="flex items-start gap-3 text-charcoal-700 leading-relaxed">
+                <span class="flex-shrink-0 w-7 h-7 bg-charcoal-700 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                  A
+                </span>
+                <div class="flex-1">
+                  {faq.body}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- View All FAQs Link -->
+    {showViewAllLink && limit < 10 && (
+      <div class="mt-8 text-center">
+        <a
+          href="/faq"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-gold-400 text-charcoal-900 font-semibold rounded-lg hover:bg-gold-500 hover:text-charcoal-900 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          View All FAQs
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </a>
+      </div>
+    )}
+
+    <!-- Still Have Questions CTA -->
+    <div class="mt-12 text-center p-8 bg-gradient-to-br from-gold-50 to-charcoal-50 rounded-xl border-2 border-gold-200">
+      <h3 class="text-2xl font-bold text-charcoal-900 mb-3">
+        Still have questions?
+      </h3>
+      <p class="text-charcoal-600 mb-6">
+        Our team is here to help. Contact us and we'll answer any questions you have.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a
+          href="tel:+18649009597"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-gold-400 text-charcoal-900 font-semibold rounded-lg hover:bg-gold-500 hover:text-charcoal-900 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+        >
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+          </svg>
+          Call Us: (864) 900-9597
+        </a>
+        <a
+          href="/contact"
+          class="inline-flex items-center gap-2 px-6 py-3 border-2 border-charcoal-300 text-charcoal-700 font-semibold rounded-lg hover:border-gold-400 hover:bg-white transition-all duration-300"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+          </svg>
+          Send a Message
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach((item) => {
+      const question = item.querySelector('.faq-question') as HTMLButtonElement;
+      const answer = item.querySelector('.faq-answer') as HTMLElement;
+      const icon = item.querySelector('.faq-icon') as SVGElement;
+
+      if (!question || !answer || !icon) return;
+
+      question.addEventListener('click', () => {
+        const isExpanded = question.getAttribute('aria-expanded') === 'true';
+
+        // Close all other FAQ items with smooth animation
+        faqItems.forEach((otherItem) => {
+          if (otherItem !== item) {
+            const otherQuestion = otherItem.querySelector('.faq-question') as HTMLButtonElement;
+            const otherAnswer = otherItem.querySelector('.faq-answer') as HTMLElement;
+            const otherIcon = otherItem.querySelector('.faq-icon') as SVGElement;
+
+            if (otherQuestion && otherAnswer && otherIcon) {
+              otherQuestion.setAttribute('aria-expanded', 'false');
+              otherAnswer.classList.add('faq-answer-closing');
+              setTimeout(() => {
+                otherAnswer.classList.add('hidden');
+                otherAnswer.classList.remove('faq-answer-closing');
+              }, 300);
+              otherIcon.style.transform = 'rotate(0deg)';
+            }
+          }
+        });
+
+        // Toggle current item with smooth animation
+        if (isExpanded) {
+          question.setAttribute('aria-expanded', 'false');
+          answer.classList.add('faq-answer-closing');
+          setTimeout(() => {
+            answer.classList.add('hidden');
+            answer.classList.remove('faq-answer-closing');
+          }, 300);
+          icon.style.transform = 'rotate(0deg)';
+        } else {
+          question.setAttribute('aria-expanded', 'true');
+          answer.classList.remove('hidden');
+          answer.classList.add('faq-answer-opening');
+          setTimeout(() => {
+            answer.classList.remove('faq-answer-opening');
+          }, 300);
+          icon.style.transform = 'rotate(180deg)';
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .faq-answer-opening {
+    animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .faq-answer-closing {
+    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      max-height: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      max-height: 500px;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 1;
+      max-height: 500px;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      max-height: 0;
+      transform: translateY(-10px);
+    }
+  }
+
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .faq-answer-opening,
+    .faq-answer-closing {
+      animation: none;
+    }
+    
+    .faq-icon {
+      transition: none !important;
+    }
+  }
+</style>

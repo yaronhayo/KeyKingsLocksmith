@@ -1,0 +1,562 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import FinalCTA from '../components/sections/FinalCTA.astro';
+import { getCollection } from 'astro:content';
+import { companyConfig } from '../data/company';
+
+const title = `Customer Reviews | Key Kings Locksmith Anderson SC`;
+const description = `Read 150+ verified reviews for Key Kings Locksmith Anderson, SC. See what customers say about our locksmith services. 4.9-star rated in Upstate SC.`;
+const keywords = ['locksmith reviews', 'locksmith testimonials', 'Anderson SC locksmith reviews', 'best locksmith', 'trusted locksmith', 'locksmith ratings'];
+
+// Fetch all reviews from content collection
+const allReviews = await getCollection('reviews');
+const sortedReviews = allReviews.sort((a, b) => 
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+const averageRating = companyConfig.content.reviews.averageRating;
+const totalReviews = companyConfig.content.reviews.totalReviews;
+
+// Platform badge configurations
+const platformBadges = {
+  google: {
+    name: 'Google',
+    icon: 'M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z',
+    color: 'text-blue-600',
+    bgColor: 'bg-blue-50'
+  },
+  facebook: {
+    name: 'Facebook',
+    icon: 'M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z',
+    color: 'text-blue-700',
+    bgColor: 'bg-blue-50'
+  },
+  yelp: {
+    name: 'Yelp',
+    icon: 'M42.9 240.32l99.62 48.61c19.2 9.4 16.2 37.51-4.5 42.71L30.5 358.45a22.79 22.79 0 0 1-28.21-19.6 197.16 197.16 0 0 1 9-85.32 22.8 22.8 0 0 1 31.61-13.21zm44 239.25a199.45 199.45 0 0 0 79.42 32.11A22.78 22.78 0 0 0 192.94 490l3.9-110.82c.7-21.3-25.5-31.91-39.81-16.1l-74.21 82.4a22.82 22.82 0 0 0 4.09 34.09zm145.34-109.92l58.81 94a22.93 22.93 0 0 0 34 5.5 198.36 198.36 0 0 0 52.71-67.61A23 23 0 0 0 364.17 370l-105.42-34.26c-20.31-6.5-37.81 15.8-26.51 33.91zm148.33-132.23a197.44 197.44 0 0 0-50.41-69.31 22.85 22.85 0 0 0-34 4.4l-62 91.92c-11.9 17.7 4.7 40.61 25.2 34.71L366 268.63a23 23 0 0 0 14.61-31.21zM62.11 30.18a22.86 22.86 0 0 0-9.9 32l104.12 180.44c11.7 20.2 42.61 11.9 42.61-11.4V22.88a22.67 22.67 0 0 0-24.5-22.8 320.37 320.37 0 0 0-112.33 30.1z',
+    color: 'text-red-600',
+    bgColor: 'bg-red-50'
+  },
+  website: {
+    name: 'Website',
+    icon: 'M352 256c0 22.2-1.2 43.6-3.3 64H163.3c-2.2-20.4-3.3-41.8-3.3-64s1.2-43.6 3.3-64H348.7c2.2 20.4 3.3 41.8 3.3 64zm28.8-64H503.9c5.3 20.5 8.1 41.9 8.1 64s-2.8 43.5-8.1 64H380.8c2.1-20.6 3.2-42 3.2-64s-1.1-43.4-3.2-64zm112.6-32H376.7c-10-63.9-29.8-117.4-55.3-151.6c78.3 20.7 142 77.5 171.9 151.6zm-149.1 0H167.7c6.1-36.4 15.5-68.6 27-94.7c10.5-23.6 22.2-40.7 33.5-51.5C239.4 3.2 248.7 0 256 0s16.6 3.2 27.8 13.8c11.3 10.8 23 27.9 33.5 51.5c11.6 26 20.9 58.2 27 94.7zm-209 0H18.6C48.6 85.9 112.2 29.1 190.6 8.4C165.1 42.6 145.3 96.1 135.3 160zM8.1 192H131.2c-2.1 20.6-3.2 42-3.2 64s1.1 43.4 3.2 64H8.1C2.8 299.5 0 278.1 0 256s2.8-43.5 8.1-64zM194.7 446.6c-11.6-26-20.9-58.2-27-94.6H344.3c-6.1 36.4-15.5 68.6-27 94.6c-10.5 23.6-22.2 40.7-33.5 51.5C272.6 508.8 263.3 512 256 512s-16.6-3.2-27.8-13.8c-11.3-10.8-23-27.9-33.5-51.5zM135.3 352c10 63.9 29.8 117.4 55.3 151.6C112.2 482.9 48.6 426.1 18.6 352H135.3zm358.1 0c-30 74.1-93.6 130.9-171.9 151.6c25.5-34.2 45.2-87.7 55.3-151.6H493.4z',
+    color: 'text-charcoal-700',
+    bgColor: 'bg-charcoal-50'
+  }
+};
+---
+
+<BaseLayout title={title} description={description} keywords={keywords}>
+  <Header />
+
+  <main>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-900 text-white py-16 md:py-24 relative overflow-hidden">
+      <!-- Animated Background Pattern -->
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+      </div>
+
+      <!-- Gold Glow Effects -->
+      <div class="absolute top-0 right-0 w-96 h-96 bg-gold-400 rounded-full blur-3xl opacity-10 animate-pulse"></div>
+      <div class="absolute bottom-0 left-0 w-80 h-80 bg-gold-500 rounded-full blur-3xl opacity-10 animate-pulse" style="animation-delay: 1s;"></div>
+
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-4xl mx-auto text-center">
+          <!-- Trust Badge -->
+          <div class="inline-flex items-center gap-2 px-5 py-2.5 bg-gold-400/10 border border-gold-400/30 rounded-full text-gold-400 font-semibold mb-6 backdrop-blur-sm">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+            </svg>
+            Verified Customer Reviews
+          </div>
+
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 leading-tight">
+            Customer <span class="text-gold-400">Reviews</span>
+          </h1>
+          <p class="text-xl md:text-2xl text-white/90 mb-12 leading-relaxed">
+            What people in Anderson, Greenville, and Clemson say about our locksmith service
+          </p>
+
+          <!-- Overall Rating Display -->
+          <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 md:p-10 shadow-2xl inline-block">
+            <div class="flex items-center justify-center gap-2 mb-6">
+              <div class="flex items-center gap-1">
+                {[...Array(5)].map((_, i) => {
+                  const rating = averageRating;
+                  const isFullStar = i < Math.floor(rating);
+                  const isHalfStar = i === Math.floor(rating) && rating % 1 >= 0.5;
+                  const isEmpty = !isFullStar && !isHalfStar;
+
+                  return (
+                    <div class="relative w-10 h-10 md:w-12 md:h-12">
+                      {isFullStar ? (
+                        <svg class="w-full h-full text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                      ) : isHalfStar ? (
+                        <>
+                          <svg class="absolute w-full h-full text-white/20" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                          </svg>
+                          <div class="absolute inset-0 overflow-hidden" style="width: 75%;">
+                            <svg class="w-full h-full text-gold-400" fill="currentColor" viewBox="0 0 20 20" style="width: 133.33%;">
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                          </div>
+                        </>
+                      ) : (
+                        <svg class="w-full h-full text-white/20" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <p class="text-5xl md:text-6xl font-bold text-white mb-2">{averageRating}</p>
+            <p class="text-xl md:text-2xl font-semibold text-gold-400 mb-1">out of 5 stars</p>
+            <p class="text-base md:text-lg text-white/70">Based on {totalReviews}+ verified reviews</p>
+          </div>
+
+          <!-- Quick Stats -->
+          <div class="grid grid-cols-3 gap-4 max-w-2xl mx-auto mt-12 pt-12 border-t border-white/10">
+            <div class="text-center">
+              <div class="text-2xl md:text-3xl font-bold text-gold-400 mb-1">{totalReviews}+</div>
+              <div class="text-xs md:text-sm text-white/70 font-medium">Total Reviews</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl md:text-3xl font-bold text-gold-400 mb-1">9+</div>
+              <div class="text-xs md:text-sm text-white/70 font-medium">Years Trusted</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl md:text-3xl font-bold text-gold-400 mb-1">5,000+</div>
+              <div class="text-xs md:text-sm text-white/70 font-medium">Happy Customers</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews Grid Section -->
+    <section class="py-20 md:py-28 bg-white relative overflow-hidden">
+      <!-- Decorative Background Pattern -->
+      <div class="absolute inset-0 opacity-5 pointer-events-none">
+        <div class="absolute top-0 left-0 w-96 h-96 bg-gold-400 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-charcoal-900 rounded-full blur-3xl"></div>
+      </div>
+
+      <div class="container mx-auto px-4 relative z-10">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-gold-100 rounded-full mb-4">
+            <svg class="w-4 h-4 text-gold-600" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+            </svg>
+            <span class="text-sm font-semibold text-gold-700">What Our Customers Say</span>
+          </div>
+          <h2 class="text-3xl md:text-4xl font-display font-bold text-charcoal-900 mb-4">
+            Real Reviews from <span class="text-gold-500">Real Customers</span>
+          </h2>
+        </div>
+
+        <!-- Reviews Grid -->
+        <div id="reviews-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12">
+          {sortedReviews.map((review) => {
+            const platform = review.data.platform || 'website';
+            const badge = platformBadges[platform as keyof typeof platformBadges] || platformBadges.website;
+
+            return (
+              <div
+                class="review-card group bg-gradient-to-br from-white to-gold-50/30 border-2 border-charcoal-200 rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-2xl hover:border-gold-400 transition-all duration-300 transform hover:-translate-y-2"
+                data-rating={review.data.rating}
+                data-platform={platform}
+              >
+                <!-- Review Header -->
+                <div class="flex items-start justify-between mb-6">
+                  <div class="flex items-center gap-3">
+                    <!-- Avatar -->
+                    <div class="w-14 h-14 bg-gradient-to-br from-gold-400 to-gold-500 rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                      {review.data.name.charAt(0)}
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-lg text-charcoal-900">{review.data.name}</h4>
+                      <p class="text-sm text-charcoal-600 flex items-center gap-1">
+                        <svg class="w-3 h-3 text-gold-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                        </svg>
+                        {review.data.location}
+                      </p>
+                    </div>
+                  </div>
+                  {review.data.verified && (
+                    <span class="inline-flex items-center gap-1 px-2 py-1 bg-gold-100 text-gold-700 text-xs font-bold rounded-lg border border-gold-300">
+                      <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                      </svg>
+                      Verified
+                    </span>
+                  )}
+                </div>
+
+                <!-- Star Rating -->
+                <div class="flex items-center gap-1 mb-6">
+                  {[...Array(5)].map((_, i) => (
+                    <svg
+                      class={`w-6 h-6 ${i < review.data.rating ? 'text-gold-400' : 'text-charcoal-300'}`}
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                    </svg>
+                  ))}
+                </div>
+
+                <!-- Service Type -->
+                <div class="mb-6 pb-6 border-b border-charcoal-200">
+                  <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-charcoal-100 rounded-lg">
+                    <svg class="w-4 h-4 text-gold-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                      <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-sm font-semibold text-charcoal-900">{review.data.service}</span>
+                  </div>
+                </div>
+
+                <!-- Review Content -->
+                <div class="text-charcoal-700 leading-relaxed mb-6 text-base">
+                  <svg class="w-8 h-8 text-gold-400/30 mb-2" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+                  </svg>
+                  {review.body}
+                </div>
+
+                <!-- Footer with Date -->
+                <div class="pt-6 border-t border-charcoal-200 flex items-center justify-between">
+                  <p class="text-sm text-charcoal-600 font-medium">
+                    {new Date(review.data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <!-- Pagination Controls -->
+        <div id="pagination" class="flex justify-center items-center gap-4">
+          <button 
+            id="prev-page"
+            class="px-6 py-3 bg-charcoal-100 text-charcoal-700 font-semibold rounded-lg hover:bg-charcoal-200 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled
+          >
+            Previous
+          </button>
+          <div id="page-info" class="text-charcoal-700 font-semibold">
+            Page <span id="current-page">1</span> of <span id="total-pages">1</span>
+          </div>
+          <button 
+            id="next-page"
+            class="px-6 py-3 bg-gold-400 text-charcoal-900 font-semibold rounded-lg hover:bg-gold-500 hover:text-charcoal-900 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Next
+          </button>
+        </div>
+
+        <!-- No Results Message -->
+        <div id="no-results" class="hidden text-center py-12">
+          <div class="max-w-md mx-auto">
+            <svg class="w-24 h-24 mx-auto mb-6 text-charcoal-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <h3 class="text-2xl font-bold text-charcoal-900 mb-2">No reviews found</h3>
+            <p class="text-charcoal-600">Try adjusting your filters to see more reviews.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Leave a Review CTA Section -->
+    <section class="py-20 md:py-28 bg-gradient-to-br from-charcoal-50 to-white relative overflow-hidden">
+      <!-- Decorative circles -->
+      <div class="absolute inset-0 opacity-5 pointer-events-none">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-gold-400 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-charcoal-900 rounded-full blur-3xl"></div>
+      </div>
+
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-5xl mx-auto">
+          <div class="bg-gradient-to-br from-gold-400 via-gold-500 to-gold-600 rounded-3xl p-8 md:p-16 shadow-2xl text-center relative overflow-hidden">
+            <!-- Decorative Pattern -->
+            <div class="absolute inset-0 opacity-10">
+              <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 30px 30px;"></div>
+            </div>
+
+            <div class="relative z-10">
+              <!-- Icon -->
+              <div class="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full mb-8">
+                <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+              </div>
+
+              <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-charcoal-900 mb-6">
+                Had a Great <span class="text-white">Experience?</span>
+              </h2>
+              <p class="text-lg md:text-xl text-charcoal-800 mb-10 max-w-2xl mx-auto leading-relaxed">
+                We'd love to hear about it! Share your experience and help others find trusted locksmith services in Upstate SC.
+              </p>
+
+              <!-- Review Platform Links -->
+              <div class="flex flex-col sm:flex-row flex-wrap justify-center gap-4 mb-10">
+                <a
+                  href="https://g.page/r/key-kings-locksmith-anderson/review"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-blue-600 font-bold text-lg rounded-xl hover:shadow-2xl hover:bg-blue-50 transition-all duration-300 transform hover:scale-105"
+                >
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 512 512">
+                    <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
+                  </svg>
+                  Review on Google
+                </a>
+
+                <a
+                  href={companyConfig.social.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-blue-700 font-bold text-lg rounded-xl hover:shadow-2xl hover:bg-blue-50 transition-all duration-300 transform hover:scale-105"
+                >
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 512 512">
+                    <path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"></path>
+                  </svg>
+                  Review on Facebook
+                </a>
+
+                <a
+                  href={companyConfig.social.yelp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-red-600 font-bold text-lg rounded-xl hover:shadow-2xl hover:bg-red-50 transition-all duration-300 transform hover:scale-105"
+                >
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 512 512">
+                    <path d="M42.9 240.32l99.62 48.61c19.2 9.4 16.2 37.51-4.5 42.71L30.5 358.45a22.79 22.79 0 0 1-28.21-19.6 197.16 197.16 0 0 1 9-85.32 22.8 22.8 0 0 1 31.61-13.21zm44 239.25a199.45 199.45 0 0 0 79.42 32.11A22.78 22.78 0 0 0 192.94 490l3.9-110.82c.7-21.3-25.5-31.91-39.81-16.1l-74.21 82.4a22.82 22.82 0 0 0 4.09 34.09zm145.34-109.92l58.81 94a22.93 22.93 0 0 0 34 5.5 198.36 198.36 0 0 0 52.71-67.61A23 23 0 0 0 364.17 370l-105.42-34.26c-20.31-6.5-37.81 15.8-26.51 33.91zm148.33-132.23a197.44 197.44 0 0 0-50.41-69.31 22.85 22.85 0 0 0-34 4.4l-62 91.92c-11.9 17.7 4.7 40.61 25.2 34.71L366 268.63a23 23 0 0 0 14.61-31.21zM62.11 30.18a22.86 22.86 0 0 0-9.9 32l104.12 180.44c11.7 20.2 42.61 11.9 42.61-11.4V22.88a22.67 22.67 0 0 0-24.5-22.8 320.37 320.37 0 0 0-112.33 30.1z"></path>
+                  </svg>
+                  Review on Yelp
+                </a>
+              </div>
+
+              <div class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl p-6">
+                <p class="text-base text-charcoal-900 font-semibold">
+                  Your feedback helps us improve and helps others make informed decisions
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <FinalCTA variant="default" showHours={true} showServiceAreas={true} />
+  </main>
+
+  <Footer />
+
+  <!-- Individual Review Schemas -->
+  {sortedReviews.slice(0, 10).map((review) => (
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Review",
+      "itemReviewed": {
+        "@type": "LocalBusiness",
+        "name": "Key Kings Locksmith",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Anderson",
+          "addressRegion": "SC"
+        }
+      },
+      "author": {
+        "@type": "Person",
+        "name": review.data.name
+      },
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": review.data.rating,
+        "bestRating": "5"
+      },
+      "datePublished": review.data.date,
+      "reviewBody": review.body
+    })} />
+  ))}
+</BaseLayout>
+
+<script>
+  // Reviews filtering and pagination functionality
+  const REVIEWS_PER_PAGE = 12;
+  let currentPage = 1;
+  let currentRatingFilter = 'all';
+  let currentPlatformFilter = 'all';
+
+  // Get all review cards
+  const allReviewCards = Array.from(document.querySelectorAll('.review-card'));
+  
+  // Get filter buttons and controls
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const platformSelect = document.getElementById('platform-filter') as HTMLSelectElement;
+  const prevButton = document.getElementById('prev-page') as HTMLButtonElement;
+  const nextButton = document.getElementById('next-page') as HTMLButtonElement;
+  const currentPageSpan = document.getElementById('current-page');
+  const totalPagesSpan = document.getElementById('total-pages');
+  const noResultsDiv = document.getElementById('no-results');
+  const reviewsGrid = document.getElementById('reviews-grid');
+
+  // Filter reviews based on current filters
+  function getFilteredReviews() {
+    return allReviewCards.filter(card => {
+      const rating = parseInt(card.getAttribute('data-rating') || '0');
+      const platform = card.getAttribute('data-platform') || '';
+
+      // Rating filter
+      let ratingMatch = true;
+      if (currentRatingFilter === '5') {
+        ratingMatch = rating === 5;
+      } else if (currentRatingFilter === '4') {
+        ratingMatch = rating >= 4;
+      }
+
+      // Platform filter
+      const platformMatch = currentPlatformFilter === 'all' || platform === currentPlatformFilter;
+
+      return ratingMatch && platformMatch;
+    });
+  }
+
+  // Display reviews for current page
+  function displayReviews() {
+    const filteredReviews = getFilteredReviews();
+    const totalPages = Math.ceil(filteredReviews.length / REVIEWS_PER_PAGE);
+    
+    // Hide all reviews first
+    allReviewCards.forEach(card => {
+      card.classList.add('hidden');
+    });
+
+    // Show reviews for current page
+    const startIndex = (currentPage - 1) * REVIEWS_PER_PAGE;
+    const endIndex = startIndex + REVIEWS_PER_PAGE;
+    const reviewsToShow = filteredReviews.slice(startIndex, endIndex);
+
+    reviewsToShow.forEach(card => {
+      card.classList.remove('hidden');
+    });
+
+    // Update pagination controls
+    if (currentPageSpan) currentPageSpan.textContent = currentPage.toString();
+    if (totalPagesSpan) totalPagesSpan.textContent = totalPages.toString();
+
+    // Update button states
+    if (prevButton) prevButton.disabled = currentPage === 1;
+    if (nextButton) nextButton.disabled = currentPage >= totalPages || totalPages === 0;
+
+    // Show/hide no results message
+    if (filteredReviews.length === 0) {
+      if (noResultsDiv) noResultsDiv.classList.remove('hidden');
+      if (reviewsGrid) reviewsGrid.classList.add('hidden');
+    } else {
+      if (noResultsDiv) noResultsDiv.classList.add('hidden');
+      if (reviewsGrid) reviewsGrid.classList.remove('hidden');
+    }
+  }
+
+  // Handle rating filter button clicks
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Update active state
+      filterButtons.forEach(btn => {
+        btn.classList.remove('bg-gold-400', 'text-charcoal-900', 'border-gold-400');
+        btn.classList.add('bg-white', 'text-charcoal-700', 'border-charcoal-200');
+      });
+      button.classList.remove('bg-white', 'text-charcoal-700', 'border-charcoal-200');
+      button.classList.add('bg-gold-400', 'text-charcoal-900', 'border-gold-400');
+
+      // Update filter and reset to page 1
+      currentRatingFilter = button.getAttribute('data-filter') || 'all';
+      currentPage = 1;
+      displayReviews();
+    });
+  });
+
+  // Handle platform filter change
+  if (platformSelect) {
+    platformSelect.addEventListener('change', () => {
+      currentPlatformFilter = platformSelect.value;
+      currentPage = 1;
+      displayReviews();
+    });
+  }
+
+  // Handle pagination buttons
+  if (prevButton) {
+    prevButton.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        displayReviews();
+        // Scroll to reviews grid
+        reviewsGrid?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
+
+  if (nextButton) {
+    nextButton.addEventListener('click', () => {
+      const filteredReviews = getFilteredReviews();
+      const totalPages = Math.ceil(filteredReviews.length / REVIEWS_PER_PAGE);
+      if (currentPage < totalPages) {
+        currentPage++;
+        displayReviews();
+        // Scroll to reviews grid
+        reviewsGrid?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
+
+  // Initial display
+  displayReviews();
+</script>
+
+<style>
+  /* Smooth animations for review cards */
+  .review-card {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Enhanced hover effects */
+  @media (prefers-reduced-motion: no-preference) {
+    .review-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+  }
+
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .review-card {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+</style>

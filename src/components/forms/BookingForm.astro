@@ -1,0 +1,452 @@
+---
+// Enhanced booking form with validation and lead tracking
+import Button from '../ui/Button.astro';
+
+export interface Props {
+  class?: string;
+  showTitle?: boolean;
+  urgencyDefault?: 'asap' | 'same-day' | 'few-days' | 'few-weeks' | 'other';
+}
+
+const {
+  class: className = '',
+  showTitle = true,
+  urgencyDefault = 'asap',
+} = Astro.props;
+
+const recaptchaSiteKey = import.meta.env.GOOGLE_RECAPTCHA_SITE_KEY || import.meta.env.PUBLIC_GOOGLE_RECAPTCHA_SITE_KEY;
+---
+
+<div class={`booking-form-container ${className}`}>
+  {showTitle && (
+    <div class="mb-6">
+      <h3 class="text-2xl font-bold text-charcoal-900 mb-2">Get Fast Service</h3>
+      <p class="text-charcoal-600">Fill out the form and we'll contact you to confirm your service</p>
+    </div>
+  )}
+
+  <form id="booking-form" class="space-y-4">
+    <!-- Name -->
+    <div>
+      <label for="booking-name" class="block text-sm font-semibold text-charcoal-800 mb-2">
+        Full Name <span class="text-gold-600">*</span>
+      </label>
+      <input
+        type="text"
+        id="booking-name"
+        name="name"
+        required
+        class="w-full px-4 py-3 border-2 border-charcoal-200 rounded-lg focus:ring-2 focus:ring-gold-400 focus:border-gold-400 transition-colors duration-200 bg-white text-charcoal-900 placeholder-charcoal-400"
+        placeholder="John Smith"
+      />
+      <div class="error-message hidden text-gold-700 text-sm mt-1.5 font-medium" data-field="name"></div>
+    </div>
+
+    <!-- Phone -->
+    <div>
+      <label for="booking-phone" class="block text-sm font-semibold text-charcoal-800 mb-2">
+        Phone Number <span class="text-gold-600">*</span>
+      </label>
+      <input
+        type="tel"
+        id="booking-phone"
+        name="phone"
+        required
+        class="w-full px-4 py-3 border-2 border-charcoal-200 rounded-lg focus:ring-2 focus:ring-gold-400 focus:border-gold-400 transition-colors duration-200 bg-white text-charcoal-900 placeholder-charcoal-400"
+        placeholder="(864) 555-0123"
+      />
+      <div class="error-message hidden text-gold-700 text-sm mt-1.5 font-medium" data-field="phone"></div>
+    </div>
+
+    <!-- Email (Optional) -->
+    <div>
+      <label for="booking-email" class="block text-sm font-semibold text-charcoal-800 mb-2">
+        Email <span class="text-charcoal-500 text-xs font-normal">(Optional)</span>
+      </label>
+      <input
+        type="email"
+        id="booking-email"
+        name="email"
+        class="w-full px-4 py-3 border-2 border-charcoal-200 rounded-lg focus:ring-2 focus:ring-gold-400 focus:border-gold-400 transition-colors duration-200 bg-white text-charcoal-900 placeholder-charcoal-400"
+        placeholder="john@example.com"
+      />
+      <div class="error-message hidden text-gold-700 text-sm mt-1.5 font-medium" data-field="email"></div>
+    </div>
+
+    <!-- Address -->
+    <div>
+      <label for="booking-address" class="block text-sm font-semibold text-charcoal-800 mb-2">
+        Service Address <span class="text-gold-600">*</span>
+      </label>
+      <input
+        type="text"
+        id="booking-address"
+        name="address"
+        required
+        class="w-full px-4 py-3 border-2 border-charcoal-200 rounded-lg focus:ring-2 focus:ring-gold-400 focus:border-gold-400 transition-colors duration-200 bg-white text-charcoal-900 placeholder-charcoal-400"
+        placeholder="123 Main St, Anderson, SC 29621"
+      />
+      <div class="error-message hidden text-gold-700 text-sm mt-1.5 font-medium" data-field="address"></div>
+    </div>
+
+    <!-- Service Type -->
+    <div>
+      <label for="booking-service-type" class="block text-sm font-semibold text-charcoal-800 mb-2">
+        Service Needed <span class="text-gold-600">*</span>
+      </label>
+      <select
+        id="booking-service-type"
+        name="serviceType"
+        required
+        class="w-full px-4 py-3 border-2 border-charcoal-200 rounded-lg focus:ring-2 focus:ring-gold-400 focus:border-gold-400 transition-colors duration-200 bg-white text-charcoal-900"
+      >
+        <option value="">Select a service...</option>
+        <optgroup label="Emergency Services">
+          <option value="Car Lockout">Car Lockout</option>
+          <option value="House Lockout">House Lockout</option>
+          <option value="Business Lockout">Business Lockout</option>
+          <option value="Storage Unit Lockout">Storage Unit Lockout</option>
+        </optgroup>
+        <optgroup label="Residential Services">
+          <option value="Lock Replacement">Lock Replacement</option>
+          <option value="Lock Rekey">Lock Rekey</option>
+          <option value="Lock Repair">Lock Repair</option>
+          <option value="Gate Locks">Gate Locks</option>
+        </optgroup>
+        <optgroup label="Commercial Services">
+          <option value="Commercial Lock Replacement">Commercial Lock Replacement</option>
+          <option value="Master Key Systems">Master Key Systems</option>
+          <option value="Access Control">Access Control</option>
+          <option value="Emergency Exit Devices">Emergency Exit Devices</option>
+        </optgroup>
+        <optgroup label="Automotive Services">
+          <option value="Car Key Replacement">Car Key Replacement</option>
+          <option value="Key Fob Programming">Key Fob Programming</option>
+          <option value="Car Key Duplicate">Car Key Duplicate</option>
+          <option value="Ignition Repair">Ignition Repair</option>
+        </optgroup>
+        <option value="Other">Other Service</option>
+      </select>
+      <div class="error-message hidden text-gold-700 text-sm mt-1.5 font-medium" data-field="serviceType"></div>
+    </div>
+
+    <!-- Urgency -->
+    <div>
+      <label for="booking-urgency" class="block text-sm font-semibold text-charcoal-800 mb-2">
+        When do you need service? <span class="text-gold-600">*</span>
+      </label>
+      <select
+        id="booking-urgency"
+        name="urgency"
+        required
+        class="w-full px-4 py-3 border-2 border-charcoal-200 rounded-lg focus:ring-2 focus:ring-gold-400 focus:border-gold-400 transition-colors duration-200 bg-white text-charcoal-900"
+      >
+        <option value="asap" selected={urgencyDefault === 'asap'}>As soon as possible (Emergency)</option>
+        <option value="same-day" selected={urgencyDefault === 'same-day'}>Today</option>
+        <option value="few-days" selected={urgencyDefault === 'few-days'}>Within a few days</option>
+        <option value="few-weeks" selected={urgencyDefault === 'few-weeks'}>Within a few weeks</option>
+        <option value="other" selected={urgencyDefault === 'other'}>Just getting information</option>
+      </select>
+      <div class="error-message hidden text-gold-700 text-sm mt-1.5 font-medium" data-field="urgency"></div>
+    </div>
+
+    <!-- Notes (Optional) -->
+    <div>
+      <label for="booking-notes" class="block text-sm font-semibold text-charcoal-800 mb-2">
+        Additional Details <span class="text-charcoal-500 text-xs font-normal">(Optional)</span>
+      </label>
+      <textarea
+        id="booking-notes"
+        name="notes"
+        rows="3"
+        class="w-full px-4 py-3 border-2 border-charcoal-200 rounded-lg focus:ring-2 focus:ring-gold-400 focus:border-gold-400 transition-colors duration-200 bg-white text-charcoal-900 placeholder-charcoal-400 resize-none"
+        placeholder="Any additional information that would help us serve you better..."
+      ></textarea>
+    </div>
+
+    <!-- Honeypot (spam protection) -->
+    <input type="text" name="website" class="hidden" tabindex="-1" autocomplete="off" />
+
+    <!-- reCAPTCHA Badge Info -->
+    {recaptchaSiteKey && (
+      <div class="text-xs text-charcoal-500 text-center">
+        This site is protected by reCAPTCHA and the Google{' '}
+        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="text-gold-600 hover:text-gold-700 underline">Privacy Policy</a> and{' '}
+        <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" class="text-gold-600 hover:text-gold-700 underline">Terms of Service</a> apply.
+      </div>
+    )}
+
+    <!-- Submit Button -->
+    <Button
+      type="submit"
+      variant="primary"
+      size="lg"
+      fullWidth={true}
+      class="booking-submit-btn bg-gold-400 hover:bg-gold-500 text-charcoal-900 font-bold shadow-lg hover:shadow-xl transition-all duration-200"
+    >
+      <span class="btn-text">Request Service</span>
+      <span class="btn-loading hidden">Sending...</span>
+    </Button>
+
+    <!-- Success Message -->
+    <div id="booking-success" class="hidden p-4 bg-gold-50 border-l-4 border-gold-500 rounded-lg animate-fade-in">
+      <div class="flex items-start">
+        <svg class="w-6 h-6 text-gold-600 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+        </svg>
+        <div>
+          <h4 class="font-bold text-charcoal-900">Request Received!</h4>
+          <p class="text-charcoal-700 text-sm mt-1">
+            Thank you! We'll contact you shortly to confirm your service.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    <div id="booking-error" class="hidden p-4 bg-gold-50 border-l-4 border-gold-600 rounded-lg animate-fade-in">
+      <div class="flex items-start">
+        <svg class="w-6 h-6 text-gold-700 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+        </svg>
+        <div>
+          <h4 class="font-bold text-charcoal-900">Submission Failed</h4>
+          <p class="text-charcoal-700 text-sm mt-1" id="booking-error-message">
+            Please try again or call us at (864) 900-9597
+          </p>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  import { submitBookingForm, validateForm, handleFormError, trackFormSuccess } from '../../lib/api/client';
+
+  // Load reCAPTCHA script
+  const recaptchaSiteKey = import.meta.env.GOOGLE_RECAPTCHA_SITE_KEY || import.meta.env.PUBLIC_GOOGLE_RECAPTCHA_SITE_KEY;
+  if (recaptchaSiteKey && typeof window !== 'undefined') {
+    const script = document.createElement('script');
+    script.src = `https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`;
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('booking-form') as HTMLFormElement;
+    if (!form) return;
+
+    const submitBtn = form.querySelector('.booking-submit-btn') as HTMLButtonElement;
+    const btnText = submitBtn?.querySelector('.btn-text');
+    const btnLoading = submitBtn?.querySelector('.btn-loading');
+    const successMessage = document.getElementById('booking-success');
+    const errorMessage = document.getElementById('booking-error');
+    const errorMessageText = document.getElementById('booking-error-message');
+
+    // Clear previous errors
+    const clearErrors = () => {
+      form.querySelectorAll('.error-message').forEach((el) => el.classList.add('hidden'));
+      form.querySelectorAll('input, select, textarea').forEach((el) => {
+        el.classList.remove('border-gold-600', 'border-gold-700');
+        el.classList.add('border-charcoal-200');
+      });
+      errorMessage?.classList.add('hidden');
+    };
+
+    // Show field error
+    const showFieldError = (field: string, message: string) => {
+      const errorEl = form.querySelector(`.error-message[data-field="${field}"]`);
+      const inputEl = form.querySelector(`[name="${field}"]`) as HTMLElement;
+      if (errorEl && inputEl) {
+        errorEl.textContent = message;
+        errorEl.classList.remove('hidden');
+        inputEl.classList.remove('border-charcoal-200');
+        inputEl.classList.add('border-gold-600');
+      }
+    };
+
+    // Clear field error
+    const clearFieldError = (field: string) => {
+      const errorEl = form.querySelector(`.error-message[data-field="${field}"]`);
+      const inputEl = form.querySelector(`[name="${field}"]`) as HTMLElement;
+      if (errorEl && inputEl) {
+        errorEl.classList.add('hidden');
+        inputEl.classList.remove('border-gold-600', 'border-gold-700');
+        inputEl.classList.add('border-charcoal-200');
+      }
+    };
+
+    // Real-time validation
+    const validateField = (field: string, value: string) => {
+      let error: string | null = null;
+
+      switch (field) {
+        case 'name':
+          error = validateForm.name(value);
+          break;
+        case 'phone':
+          error = validateForm.phone(value);
+          break;
+        case 'email':
+          if (value.trim()) {
+            error = validateForm.email(value);
+          }
+          break;
+        case 'address':
+          error = validateForm.address(value);
+          break;
+      }
+
+      if (error) {
+        showFieldError(field, error);
+      } else {
+        clearFieldError(field);
+      }
+
+      return !error;
+    };
+
+    // Add real-time validation listeners
+    ['name', 'phone', 'email', 'address'].forEach((fieldName) => {
+      const field = form.querySelector(`[name="${fieldName}"]`) as HTMLInputElement | HTMLTextAreaElement;
+      if (field) {
+        // Validate on blur
+        field.addEventListener('blur', () => {
+          if (field.value.trim()) {
+            validateField(fieldName, field.value);
+          }
+        });
+
+        // Clear error on input
+        field.addEventListener('input', () => {
+          if (field.classList.contains('border-gold-600')) {
+            validateField(fieldName, field.value);
+          }
+        });
+      }
+    });
+
+    // Form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      // Check honeypot
+      const honeypot = (form.querySelector('[name="website"]') as HTMLInputElement)?.value;
+      if (honeypot) {
+        console.log('Spam detected');
+        return;
+      }
+
+      // Get form data
+      const formData = new FormData(form);
+      const data = {
+        name: formData.get('name') as string,
+        phone: formData.get('phone') as string,
+        email: (formData.get('email') as string) || undefined,
+        address: formData.get('address') as string,
+        serviceType: formData.get('serviceType') as string,
+        urgency: formData.get('urgency') as 'asap' | 'same-day' | 'few-days' | 'few-weeks' | 'other',
+        notes: (formData.get('notes') as string) || undefined,
+      };
+
+      // Validate all fields
+      let isValid = true;
+      if (validateForm.name(data.name)) {
+        showFieldError('name', validateForm.name(data.name) || '');
+        isValid = false;
+      }
+      if (validateForm.phone(data.phone)) {
+        showFieldError('phone', validateForm.phone(data.phone) || '');
+        isValid = false;
+      }
+      if (data.email && validateForm.email(data.email)) {
+        showFieldError('email', validateForm.email(data.email) || '');
+        isValid = false;
+      }
+      if (validateForm.address(data.address)) {
+        showFieldError('address', validateForm.address(data.address) || '');
+        isValid = false;
+      }
+
+      if (!isValid) return;
+
+      // Get reCAPTCHA token
+      let recaptchaToken: string | undefined;
+      if (recaptchaSiteKey && typeof (window as any).grecaptcha !== 'undefined') {
+        try {
+          recaptchaToken = await (window as any).grecaptcha.execute(recaptchaSiteKey, { action: 'booking' });
+        } catch (error) {
+          console.error('reCAPTCHA error:', error);
+        }
+      }
+
+      // Show loading state
+      if (submitBtn && btnText && btnLoading) {
+        submitBtn.disabled = true;
+        btnText.classList.add('hidden');
+        btnLoading.classList.remove('hidden');
+      }
+
+      try {
+        // Submit form
+        const response = await submitBookingForm({
+          ...data,
+          recaptchaToken,
+        });
+
+        if (response.success) {
+          // Track conversion
+          trackFormSuccess('booking');
+
+          // Redirect to thank you page
+          window.location.href = '/thank-you';
+        } else {
+          throw new Error(response.error?.message || 'Submission failed');
+        }
+      } catch (error) {
+        console.error('Booking form error:', error);
+
+        const errorMsg = handleFormError(error);
+        if (errorMessageText) {
+          errorMessageText.textContent = errorMsg;
+        }
+        errorMessage?.classList.remove('hidden');
+
+        // Scroll to error
+        errorMessage?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } finally {
+        // Reset button state
+        if (submitBtn && btnText && btnLoading) {
+          submitBtn.disabled = false;
+          btnText.classList.remove('hidden');
+          btnLoading.classList.add('hidden');
+        }
+      }
+    });
+  });
+</script>
+
+<style>
+  .booking-form-container input:focus,
+  .booking-form-container select:focus,
+  .booking-form-container textarea:focus {
+    outline: none;
+  }
+
+  .error-message {
+    animation: slideDown 0.2s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

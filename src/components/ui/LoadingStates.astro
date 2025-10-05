@@ -1,0 +1,466 @@
+---
+// Enhanced Loading States and Skeleton Components for Superior UX
+import type { BaseComponentProps } from '../../types';
+
+// Skeleton Loading Components for Dynamic Content
+export interface SkeletonProps extends BaseComponentProps {
+  variant?: 'text' | 'rectangle' | 'circle' | 'card' | 'button';
+  width?: string | number;
+  height?: string | number;
+  count?: number;
+  animation?: 'pulse' | 'wave' | 'none';
+}
+
+const SkeletonBase = ({ 
+  variant = 'text',
+  width,
+  height,
+  count = 1,
+  animation = 'pulse',
+  className = '',
+  ...props
+}: SkeletonProps) => {
+  const baseClasses = 'bg-gray-200 rounded animate-pulse';
+  const animationClasses = {
+    pulse: 'animate-pulse',
+    wave: 'animate-wave',
+    none: ''
+  };
+  
+  const variantClasses = {
+    text: 'h-4 bg-gray-200 rounded',
+    rectangle: 'bg-gray-200 rounded',
+    circle: 'bg-gray-200 rounded-full',
+    card: 'bg-gray-200 rounded-lg p-4',
+    button: 'bg-gray-200 rounded-lg h-10'
+  };
+
+  const skeletonClass = `${baseClasses} ${variantClasses[variant]} ${animationClasses[animation]} ${className}`;
+  
+  const style = {
+    width: typeof width === 'number' ? `${width}px` : width,
+    height: typeof height === 'number' ? `${height}px` : height,
+  };
+
+  if (count === 1) {
+    return <div className={skeletonClass} style={style} {...props} />;
+  }
+
+  return (
+    <div className="space-y-2">
+      {Array.from({ length: count }, (_, index) => (
+        <div key={index} className={skeletonClass} style={style} {...props} />
+      ))}
+    </div>
+  );
+};
+
+// Specific Skeleton Components
+const SkeletonText = ({ 
+  lines = 1, 
+  className = '',
+  ...props 
+}: { lines?: number } & Omit<SkeletonProps, 'variant' | 'count'>) => (
+  <SkeletonBase variant="text" count={lines} className={className} {...props} />
+);
+
+const SkeletonCard = ({ className = '', ...props }: Omit<SkeletonProps, 'variant'>) => (
+  <div className={`animate-pulse ${className}`}>
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="flex items-center space-x-3 mb-4">
+        <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
+        <div className="flex-1">
+          <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+          <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+        </div>
+      </div>
+      <div className="space-y-2">
+        <div className="h-3 bg-gray-200 rounded"></div>
+        <div className="h-3 bg-gray-200 rounded w-5/6"></div>
+        <div className="h-3 bg-gray-200 rounded w-4/6"></div>
+      </div>
+      <div className="mt-4 flex space-x-2">
+        <div className="h-8 bg-gray-200 rounded w-20"></div>
+        <div className="h-8 bg-gray-200 rounded w-16"></div>
+      </div>
+    </div>
+  </div>
+);
+
+const SkeletonForm = ({ className = '' }: { className?: string }) => (
+  <div className={`animate-pulse space-y-4 ${className}`}>
+    {/* Form Fields */}
+    <div className="grid md:grid-cols-2 gap-4">
+      <div>
+        <div className="h-4 bg-gray-200 rounded w-1/3 mb-2"></div>
+        <div className="h-12 bg-gray-200 rounded-lg"></div>
+      </div>
+      <div>
+        <div className="h-4 bg-gray-200 rounded w-1/4 mb-2"></div>
+        <div className="h-12 bg-gray-200 rounded-lg"></div>
+      </div>
+    </div>
+    
+    <div>
+      <div className="h-4 bg-gray-200 rounded w-1/3 mb-2"></div>
+      <div className="h-12 bg-gray-200 rounded-lg"></div>
+    </div>
+    
+    <div>
+      <div className="h-4 bg-gray-200 rounded w-1/4 mb-2"></div>
+      <div className="h-12 bg-gray-200 rounded-lg"></div>
+    </div>
+    
+    <div>
+      <div className="h-4 bg-gray-200 rounded w-1/5 mb-2"></div>
+      <div className="h-12 bg-gray-200 rounded-lg"></div>
+    </div>
+    
+    <div>
+      <div className="h-4 bg-gray-200 rounded w-1/3 mb-2"></div>
+      <div className="h-24 bg-gray-200 rounded-lg"></div>
+    </div>
+    
+    {/* Submit Button */}
+    <div className="h-12 bg-gray-200 rounded-lg"></div>
+  </div>
+);
+
+const SkeletonReview = ({ className = '' }: { className?: string }) => (
+  <div className={`animate-pulse ${className}`}>
+    <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+      <div className="flex items-start space-x-4">
+        <div className="w-12 h-12 bg-gray-200 rounded-full flex-shrink-0"></div>
+        <div className="flex-1">
+          <div className="flex items-center space-x-2 mb-2">
+            <div className="h-4 bg-gray-200 rounded w-24"></div>
+            <div className="flex space-x-1">
+              {[...Array(5)].map((_, i) => (
+                <div key={i} className="w-4 h-4 bg-gray-200 rounded"></div>
+              ))}
+            </div>
+          </div>
+          <div className="h-3 bg-gray-200 rounded w-32 mb-3"></div>
+          <div className="space-y-2">
+            <div className="h-3 bg-gray-200 rounded"></div>
+            <div className="h-3 bg-gray-200 rounded w-5/6"></div>
+            <div className="h-3 bg-gray-200 rounded w-4/6"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const SkeletonService = ({ className = '' }: { className?: string }) => (
+  <div className={`animate-pulse ${className}`}>
+    <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+      <div className="flex items-center space-x-4 mb-4">
+        <div className="w-12 h-12 bg-gray-200 rounded-lg flex-shrink-0"></div>
+        <div className="flex-1">
+          <div className="h-5 bg-gray-200 rounded w-3/4 mb-2"></div>
+          <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+        </div>
+      </div>
+      <div className="space-y-2 mb-4">
+        <div className="h-3 bg-gray-200 rounded"></div>
+        <div className="h-3 bg-gray-200 rounded w-5/6"></div>
+      </div>
+      <div className="flex items-center justify-between">
+        <div className="h-6 bg-gray-200 rounded w-16"></div>
+        <div className="h-8 bg-gray-200 rounded w-20"></div>
+      </div>
+    </div>
+  </div>
+);
+
+// Loading States for Different Sections
+const LoadingStates = {
+  // Hero Section Loading
+  Hero: ({ className = '' }: { className?: string }) => (
+    <section className={`relative min-h-[90vh] bg-gray-100 ${className}`}>
+      <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/30"></div>
+      <div className="container mx-auto px-4 py-16 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="text-white space-y-8 animate-pulse">
+            <div className="h-8 bg-white/20 rounded w-64 mb-4"></div>
+            <div className="space-y-4">
+              <div className="h-12 bg-white/20 rounded w-full"></div>
+              <div className="h-6 bg-white/20 rounded w-5/6"></div>
+              <div className="h-4 bg-white/20 rounded w-4/6"></div>
+            </div>
+            <div className="space-y-3">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <div className="w-6 h-6 bg-white/20 rounded-full"></div>
+                  <div className="h-4 bg-white/20 rounded w-48"></div>
+                </div>
+              ))}
+            </div>
+            <div className="flex gap-4">
+              <div className="h-12 bg-white/20 rounded w-32"></div>
+              <div className="h-12 bg-white/20 rounded w-36"></div>
+            </div>
+          </div>
+          <div className="bg-white rounded-2xl p-8 animate-pulse">
+            <SkeletonForm />
+          </div>
+        </div>
+      </div>
+    </section>
+  ),
+
+  // Services Grid Loading
+  ServicesGrid: ({ count = 6, className = '' }: { count?: number; className?: string }) => (
+    <section className={`py-16 bg-gray-50 ${className}`}>
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12 animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-96 mx-auto mb-4"></div>
+          <div className="h-4 bg-gray-200 rounded w-[600px] mx-auto"></div>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[...Array(count)].map((_, i) => (
+            <SkeletonService key={i} />
+          ))}
+        </div>
+      </div>
+    </section>
+  ),
+
+  // Reviews Section Loading
+  ReviewsSection: ({ count = 6, className = '' }: { count?: number; className?: string }) => (
+    <section className={`py-16 bg-white ${className}`}>
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12 animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-80 mx-auto mb-4"></div>
+          <div className="h-4 bg-gray-200 rounded w-[500px] mx-auto mb-6"></div>
+          <div className="flex items-center justify-center space-x-2">
+            <div className="flex space-x-1">
+              {[...Array(5)].map((_, i) => (
+                <div key={i} className="w-6 h-6 bg-gray-200 rounded"></div>
+              ))}
+            </div>
+            <div className="h-4 bg-gray-200 rounded w-32"></div>
+          </div>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...Array(count)].map((_, i) => (
+            <SkeletonReview key={i} />
+          ))}
+        </div>
+      </div>
+    </section>
+  ),
+
+  // FAQ Section Loading
+  FAQSection: ({ count = 8, className = '' }: { count?: number; className?: string }) => (
+    <section className={`py-16 bg-gray-50 ${className}`}>
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12 animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-72 mx-auto mb-4"></div>
+          <div className="h-4 bg-gray-200 rounded w-96 mx-auto"></div>
+        </div>
+        <div className="max-w-4xl mx-auto space-y-4">
+          {[...Array(count)].map((_, i) => (
+            <div key={i} className="bg-white rounded-lg border border-gray-200 p-6 animate-pulse">
+              <div className="flex items-center justify-between">
+                <div className="h-5 bg-gray-200 rounded w-3/4"></div>
+                <div className="w-6 h-6 bg-gray-200 rounded"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  ),
+
+  // Blog Loading
+  BlogGrid: ({ count = 6, className = '' }: { count?: number; className?: string }) => (
+    <section className={`py-16 bg-white ${className}`}>
+      <div className="container mx-auto px-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[...Array(count)].map((_, i) => (
+            <div key={i} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden animate-pulse">
+              <div className="h-48 bg-gray-200"></div>
+              <div className="p-6">
+                <div className="flex items-center space-x-2 mb-2">
+                  <div className="h-3 bg-gray-200 rounded w-16"></div>
+                  <div className="h-3 bg-gray-200 rounded w-20"></div>
+                </div>
+                <div className="h-6 bg-gray-200 rounded w-full mb-2"></div>
+                <div className="h-4 bg-gray-200 rounded w-5/6 mb-4"></div>
+                <div className="space-y-2">
+                  <div className="h-3 bg-gray-200 rounded"></div>
+                  <div className="h-3 bg-gray-200 rounded w-4/5"></div>
+                </div>
+                <div className="mt-4 flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-6 h-6 bg-gray-200 rounded-full"></div>
+                    <div className="h-3 bg-gray-200 rounded w-20"></div>
+                  </div>
+                  <div className="h-3 bg-gray-200 rounded w-16"></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  ),
+
+  // Service Areas Loading
+  ServiceAreas: ({ count = 6, className = '' }: { count?: number; className?: string }) => (
+    <section className={`py-16 bg-gray-50 ${className}`}>
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12 animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-[500px] mx-auto mb-4"></div>
+          <div className="h-4 bg-gray-200 rounded w-[400px] mx-auto"></div>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...Array(count)].map((_, i) => (
+            <div key={i} className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 animate-pulse">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-8 h-8 bg-gray-200 rounded"></div>
+                <div className="h-5 bg-gray-200 rounded w-32"></div>
+              </div>
+              <div className="space-y-2 mb-4">
+                <div className="h-3 bg-gray-200 rounded"></div>
+                <div className="h-3 bg-gray-200 rounded w-4/5"></div>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="h-4 bg-gray-200 rounded w-24"></div>
+                <div className="h-8 bg-gray-200 rounded w-20"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  ),
+
+  // Full Page Loading
+  FullPage: ({ className = '' }: { className?: string }) => (
+    <div className={`min-h-screen bg-gray-50 ${className}`}>
+      <LoadingStates.Hero />
+      <LoadingStates.ServicesGrid />
+      <LoadingStates.ReviewsSection />
+      <LoadingStates.FAQSection />
+    </div>
+  )
+};
+
+// Loading Spinner Component
+export const LoadingSpinner = ({ 
+  size = 'md', 
+  color = 'primary',
+  className = '' 
+}: {
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  color?: 'primary' | 'secondary' | 'white';
+  className?: string;
+}) => {
+  const sizeClasses = {
+    sm: 'w-4 h-4',
+    md: 'w-6 h-6', 
+    lg: 'w-8 h-8',
+    xl: 'w-12 h-12'
+  };
+
+  const colorClasses = {
+    primary: 'text-gold-400',
+    secondary: 'text-gold-500',
+    white: 'text-white'
+  };
+
+  return (
+    <div className={`animate-spin ${sizeClasses[size]} ${colorClasses[color]} ${className}`}>
+      <svg className="w-full h-full" fill="none" viewBox="0 0 24 24">
+        <circle 
+          className="opacity-25" 
+          cx="12" 
+          cy="12" 
+          r="10" 
+          stroke="currentColor" 
+          strokeWidth="4"
+        />
+        <path 
+          className="opacity-75" 
+          fill="currentColor" 
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        />
+      </svg>
+    </div>
+  );
+};
+
+// Loading Button State
+export const LoadingButton = ({ 
+  loading = false,
+  children,
+  className = '',
+  disabled = false,
+  ...props
+}: {
+  loading?: boolean;
+  children: React.ReactNode;
+  className?: string;
+  disabled?: boolean;
+  [key: string]: any;
+}) => (
+  <button 
+    className={`relative inline-flex items-center justify-center ${className}`}
+    disabled={disabled || loading}
+    {...props}
+  >
+    {loading && (
+      <div className="absolute inset-0 flex items-center justify-center">
+        <LoadingSpinner size="sm" color="white" />
+      </div>
+    )}
+    <span className={loading ? 'opacity-0' : 'opacity-100'}>
+      {children}
+    </span>
+  </button>
+);
+
+// Progressive Loading Component
+export const ProgressiveLoader = ({ 
+  steps,
+  currentStep,
+  className = ''
+}: {
+  steps: string[];
+  currentStep: number;
+  className?: string;
+}) => (
+  <div className={`space-y-4 ${className}`}>
+    <div className="flex items-center justify-between text-sm text-gray-600">
+      <span>Loading...</span>
+      <span>{Math.round((currentStep / steps.length) * 100)}%</span>
+    </div>
+    
+    <div className="w-full bg-gray-200 rounded-full h-2">
+      <div 
+        className="bg-gold-400 h-2 rounded-full transition-all duration-500 ease-out"
+        style={{ width: `${(currentStep / steps.length) * 100}%` }}
+      />
+    </div>
+    
+    <div className="text-sm text-gray-500">
+      {steps[currentStep - 1] || 'Preparing...'}
+    </div>
+  </div>
+);
+
+export {
+  SkeletonBase as Skeleton,
+  SkeletonText,
+  SkeletonCard,
+  SkeletonForm,
+  SkeletonReview,
+  SkeletonService,
+  LoadingStates
+};
+
+export default LoadingStates;
+---

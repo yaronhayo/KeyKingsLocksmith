@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import Hero from '../components/sections/Hero.astro';
+import ServiceCategories from '../components/sections/ServiceCategories.astro';
+import WhyChooseUs from '../components/sections/WhyChooseUs.astro';
+import Reviews from '../components/sections/Reviews.astro';
+import FAQ from '../components/sections/FAQ.astro';
+import TrustSignals from '../components/sections/TrustSignals.astro';
+import FinalCTA from '../components/sections/FinalCTA.astro';
+import SchemaMarkup from '../components/seo/SchemaMarkup.astro';
+import { companyConfig } from '../data/company';
+
+const title = `Professional Locksmith Anderson SC | Key Kings Locksmith`;
+const description = `Bonded & insured locksmith in Anderson, SC. Emergency lockouts, key replacement, commercial security. Fast response in Upstate SC. Call (864) 900-9597 now.`;
+const keywords = ['locksmith Anderson SC', 'emergency locksmith', 'car lockout', 'house lockout', 'key replacement', 'lock rekey', 'Greenville locksmith', 'Clemson locksmith'];
+
+// Breadcrumb schema for homepage
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Home",
+    "item": "https://keykingslocksmithsc.com"
+  }]
+};
+---
+
+<BaseLayout title={title} description={description} keywords={keywords}>
+  <Header />
+
+  <main>
+    <!-- Hero Section with Booking Form -->
+    <Hero showForm={true} urgency="asap" />
+
+    <!-- Trust Signals Bar - Build Credibility Immediately -->
+    <TrustSignals variant="detailed" background="gradient" />
+
+    <!-- Service Categories - 4 Main Categories -->
+    <ServiceCategories />
+
+    <!-- Why Choose Key Kings Section -->
+    <WhyChooseUs />
+
+    <!-- FAQ Preview Section -->
+    <FAQ limit={8} class="bg-white" />
+
+    <!-- Customer Reviews -->
+    <Reviews limit={6} showRating={true} />
+
+    <!-- Final CTA Section -->
+    <FinalCTA variant="default" showHours={true} showServiceAreas={true} />
+  </main>
+
+  <Footer />
+
+  <!-- Additional Schema Markup for Homepage -->
+  <SchemaMarkup type="breadcrumb" data={breadcrumbSchema.itemListElement} />
+</BaseLayout>
