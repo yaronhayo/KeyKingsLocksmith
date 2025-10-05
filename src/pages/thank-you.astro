@@ -12,6 +12,9 @@ const currentHours = getCurrentBusinessHours();
   title={pageTitle}
   description={pageDescription}
 >
+  <Fragment slot="head">
+    <meta name="robots" content="noindex,nofollow" />
+  </Fragment>
   <!-- Thank You Hero -->
   <section class="py-20 md:py-32 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-900 text-white">
     <div class="container mx-auto px-4">

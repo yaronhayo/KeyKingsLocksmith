@@ -8,7 +8,7 @@ import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import { companyConfig, getPhoneLink } from '../../data/company';
 
 const title = `Residential Locksmith Anderson SC | Home Security Services`;
-const description = `Home locksmith services in Anderson SC. Lock rekeying for new homeowners, deadbolt installation, smart locks, and lockout help. Serving homeowners throughout Upstate SC. Call (864) 900-9597.`;
+const description = `Home locksmith Anderson SC. Lock rekeying, deadbolts, smart locks, lockout help. Serving Upstate SC homeowners. Call (864) 900-9597 now.`;
 const keywords = ['residential locksmith Anderson SC', 'home locksmith', 'lock rekey Anderson', 'deadbolt installation', 'smart lock installation', 'house lockout service'];
 
 // Breadcrumb schema
@@ -290,6 +290,12 @@ const whyChooseUs = [
   <Footer />
 
   <SchemaMarkup type="breadcrumb" data={breadcrumbData} />
+  <SchemaMarkup type="service" data={{
+    title: "Residential Locksmith Service",
+    description: "Lock rekeying, deadbolt installation, smart locks, and home security.",
+    serviceType: "Residential Locksmith",
+    url: "https://keykingslocksmithsc.com/services/residential-locksmith"
+  }} />
 </BaseLayout>
 
 <style>

@@ -7,8 +7,8 @@ import Reviews from '../../components/sections/Reviews.astro';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import { companyConfig, getPhoneLink } from '../../data/company';
 
-const title = `Emergency Locksmith Anderson SC | 24/7 Lockout Service`;
-const description = `Emergency locksmith Anderson SC. Fast response for house lockouts, car lockouts, business lockouts. Non-destructive entry. Serving Upstate SC. Call (864) 900-9597 now.`;
+const title = `Emergency Locksmith Anderson SC | Fast Lockout Service`;
+const description = `Emergency locksmith Anderson SC. Fast response for lockouts - home, car, business. Non-destructive entry. Serving Upstate SC. Call (864) 900-9597.`;
 const keywords = ['emergency locksmith Anderson SC', 'lockout service', 'house lockout', 'car lockout Anderson', 'emergency locksmith', 'locked out', 'fast locksmith'];
 
 // Breadcrumb schema
@@ -291,6 +291,12 @@ const whyChooseUs = [
   <Footer />
 
   <SchemaMarkup type="breadcrumb" data={breadcrumbData} />
+  <SchemaMarkup type="service" data={{
+    title: "Emergency Locksmith Service",
+    description: "Fast emergency locksmith response for house lockouts, car lockouts, and business lockouts.",
+    serviceType: "Emergency Locksmith",
+    url: "https://keykingslocksmithsc.com/services/emergency-locksmith"
+  }} />
 </BaseLayout>
 
 <style>

@@ -7,7 +7,7 @@ import { getCollection } from 'astro:content';
 import { companyConfig } from '../data/company';
 
 const title = `Customer Reviews | Key Kings Locksmith Anderson SC`;
-const description = `Real reviews from Anderson, Greenville, and Clemson customers. See what people say about Key Kings Locksmith service. 4.9-star rating. Call (864) 900-9597.`;
+const description = `Read 150+ verified reviews for Key Kings Locksmith Anderson, SC. See what customers say about our locksmith services. 4.9-star rated in Upstate SC.`;
 const keywords = ['locksmith reviews', 'locksmith testimonials', 'Anderson SC locksmith reviews', 'best locksmith', 'trusted locksmith', 'locksmith ratings'];
 
 // Fetch all reviews from content collection
@@ -364,6 +364,34 @@ const platformBadges = {
   </main>
 
   <Footer />
+
+  <!-- Individual Review Schemas -->
+  {sortedReviews.slice(0, 10).map((review) => (
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Review",
+      "itemReviewed": {
+        "@type": "LocalBusiness",
+        "name": "Key Kings Locksmith",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Anderson",
+          "addressRegion": "SC"
+        }
+      },
+      "author": {
+        "@type": "Person",
+        "name": review.data.name
+      },
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": review.data.rating,
+        "bestRating": "5"
+      },
+      "datePublished": review.data.date,
+      "reviewBody": review.body
+    })} />
+  ))}
 </BaseLayout>
 
 <script>

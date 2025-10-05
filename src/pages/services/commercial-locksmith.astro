@@ -7,8 +7,8 @@ import Reviews from '../../components/sections/Reviews.astro';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import { companyConfig, getPhoneLink } from '../../data/company';
 
-const title = `Commercial Locksmith Anderson SC | Business Security Solutions`;
-const description = `Commercial locksmith for Anderson SC businesses. Master key systems, access control, panic bars, high-security locks. Code-compliant installations. Call (864) 900-9597.`;
+const title = `Commercial Locksmith Anderson SC | Business Security`;
+const description = `Commercial locksmith Anderson SC. Master keys, access control, panic bars, high-security locks. Code-compliant. Call (864) 900-9597 now.`;
 const keywords = ['commercial locksmith Anderson SC', 'business locksmith', 'master key system', 'access control Anderson', 'panic bar installation', 'commercial lock rekey', 'high security locks'];
 
 // Breadcrumb schema
@@ -290,6 +290,12 @@ const whyChooseUs = [
   <Footer />
 
   <SchemaMarkup type="breadcrumb" data={breadcrumbData} />
+  <SchemaMarkup type="service" data={{
+    title: "Commercial Locksmith Service",
+    description: "Master key systems, access control, and commercial security solutions.",
+    serviceType: "Commercial Locksmith",
+    url: "https://keykingslocksmithsc.com/services/commercial-locksmith"
+  }} />
 </BaseLayout>
 
 <style>

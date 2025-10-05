@@ -17,7 +17,7 @@ This guide provides step-by-step instructions for optimizing your Key Kings Lock
 2. **Add Your Property**
    - Click "Add Property"
    - Choose "Domain" (recommended) or "URL prefix"
-   - Enter your domain: `keykingslocksmith.com`
+   - Enter your domain: `keykingslocksmithsc.com`
 
 3. **Verify Ownership** (Choose one method)
 
@@ -437,7 +437,7 @@ Same exact format everywhere:
 ✅ Name: Key Kings Locksmith
 ✅ Phone: (864) 900-9597
 ✅ Address: Anderson, SC [full address when required]
-✅ Website: https://keykingslocksmith.com
+✅ Website: https://keykingslocksmithsc.com
 ```
 
 ### Link Building Strategy

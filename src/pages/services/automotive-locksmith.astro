@@ -7,7 +7,7 @@ import Reviews from '../../components/sections/Reviews.astro';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import { companyConfig, getPhoneLink } from '../../data/company';
 
-const title = `Automotive Locksmith Anderson SC | Car Key Replacement & Lockout`;
+const title = `Automotive Locksmith Anderson SC | Car Key & Lockout`;
 const description = `Car locksmith Anderson SC. Lost car keys, key fob programming, ignition repair, car lockouts. All makes and models. Mobile service. Call (864) 900-9597.`;
 const keywords = ['automotive locksmith Anderson SC', 'car locksmith', 'car key replacement Anderson', 'key fob programming', 'car lockout service', 'ignition repair', 'transponder key', 'lost car keys'];
 
@@ -290,6 +290,12 @@ const whyChooseUs = [
   <Footer />
 
   <SchemaMarkup type="breadcrumb" data={breadcrumbData} />
+  <SchemaMarkup type="service" data={{
+    title: "Automotive Locksmith Service",
+    description: "Car key replacement, key fob programming, and automotive lockout services.",
+    serviceType: "Automotive Locksmith",
+    url: "https://keykingslocksmithsc.com/services/automotive-locksmith"
+  }} />
 </BaseLayout>
 
 <style>
