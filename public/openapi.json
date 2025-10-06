@@ -1,0 +1,123 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Key Kings Locksmith API",
+    "description": "Professional locksmith services in Anderson, SC and Upstate South Carolina",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Key Kings Locksmith",
+      "email": "keykingslocksmithsc@gmail.com",
+      "url": "https://keykingslocksmithsc.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://keykingslocksmithsc.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Get business information",
+        "description": "Returns complete information about Key Kings Locksmith including services, hours, location, and contact details",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services": {
+      "get": {
+        "summary": "Get available services",
+        "description": "Returns list of all locksmith services offered",
+        "responses": {
+          "200": {
+            "description": "List of services"
+          }
+        }
+      }
+    },
+    "/service-areas": {
+      "get": {
+        "summary": "Get service coverage areas",
+        "description": "Returns list of cities and areas served",
+        "responses": {
+          "200": {
+            "description": "List of service areas"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Business": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Key Kings Locksmith"
+          },
+          "phone": {
+            "type": "string",
+            "example": "(864) 900-9597"
+          },
+          "email": {
+            "type": "string",
+            "example": "keykingslocksmithsc@gmail.com"
+          },
+          "address": {
+            "type": "string",
+            "example": "4105 Liberty Highway Unit B, Anderson, SC 29621"
+          },
+          "services": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Emergency Lockout Service",
+              "Lock Rekeying",
+              "Key Replacement",
+              "Lock Installation",
+              "Commercial Locksmith",
+              "Residential Locksmith",
+              "Automotive Locksmith"
+            ]
+          },
+          "serviceAreas": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Anderson, SC",
+              "Greenville, SC",
+              "Clemson, SC",
+              "Seneca, SC",
+              "Easley, SC"
+            ]
+          },
+          "hours": {
+            "type": "object",
+            "properties": {
+              "emergency": {
+                "type": "string",
+                "example": "24/7 Available"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

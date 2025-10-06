@@ -10,12 +10,20 @@
       "source": "/(.*)",
       "headers": [
         {
+          "key": "X-DNS-Prefetch-Control",
+          "value": "on"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
+        {
           "key": "X-Content-Type-Options",
           "value": "nosniff"
         },
         {
           "key": "X-Frame-Options",
-          "value": "DENY"
+          "value": "SAMEORIGIN"
         },
         {
           "key": "X-XSS-Protection",
@@ -27,7 +35,11 @@
         },
         {
           "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(), geolocation=(self)"
+          "value": "camera=(), microphone=(), geolocation=(self), interest-cohort=()"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://maps.googleapis.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://maps.googleapis.com https://www.google-analytics.com https://analytics.google.com https://api.resend.com; frame-src https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self';"
         }
       ]
     },
@@ -64,12 +76,71 @@
       "source": "/home",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/services.html",
+      "destination": "/services",
+      "permanent": true
+    },
+    {
+      "source": "/contact.html",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/about.html",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/locksmith-anderson-sc",
+      "destination": "/service-areas/anderson-sc",
+      "permanent": true
+    },
+    {
+      "source": "/locksmith-greenville-sc",
+      "destination": "/service-areas/greenville-sc",
+      "permanent": true
+    },
+    {
+      "source": "/locksmith-clemson-sc",
+      "destination": "/service-areas/clemson-sc",
+      "permanent": true
+    },
+    {
+      "source": "/emergency",
+      "destination": "/services/emergency-locksmith",
+      "permanent": true
+    },
+    {
+      "source": "/car-lockout",
+      "destination": "/services/automotive-locksmith",
+      "permanent": true
+    },
+    {
+      "source": "/house-lockout",
+      "destination": "/services/residential-locksmith",
+      "permanent": true
+    },
+    {
+      "source": "/commercial",
+      "destination": "/services/commercial-locksmith",
+      "permanent": true
     }
   ],
   "rewrites": [
     {
       "source": "/sitemap.xml",
       "destination": "/sitemap-index.xml"
+    },
+    {
+      "source": "/security.txt",
+      "destination": "/.well-known/security.txt"
     }
   ],
   "crons": []

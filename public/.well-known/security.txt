@@ -1,0 +1,20 @@
+Contact: mailto:keykingslocksmithsc@gmail.com
+Contact: mailto:yaron@gettmarketing.com
+Expires: 2026-12-31T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://keykingslocksmithsc.com/.well-known/security.txt
+Policy: https://keykingslocksmithsc.com/security-policy
+Acknowledgments: https://keykingslocksmithsc.com/security-acknowledgments
+
+# Security Contact Information
+# If you discover a security vulnerability, please report it to:
+# - keykingslocksmithsc@gmail.com
+# - yaron@gettmarketing.com
+#
+# Please include:
+# - Description of the vulnerability
+# - Steps to reproduce
+# - Potential impact
+# - Your contact information (optional)
+#
+# We appreciate responsible disclosure and will respond within 48 hours.
