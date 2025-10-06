@@ -7,7 +7,7 @@ import react from '@astrojs/react';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://keykingslocksmithsc.com',
-  output: 'static',
+  output: 'hybrid',
   adapter: vercel({
     webAnalytics: {
       enabled: true
