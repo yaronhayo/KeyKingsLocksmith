@@ -6,21 +6,25 @@ This error means the Google Maps API key exists but hasn't been properly configu
 
 ---
 
-## ✅ Quick Fix Steps
+## ✅ Quick Fix Steps (Official Google Requirements)
 
-### Step 1: Enable the Places API
+### Step 1: Enable Required APIs
 
-1. **Go to Google Cloud Console:**
-   - Visit: https://console.cloud.google.com/apis/library/places-backend.googleapis.com
-   - Make sure you're in the correct project
+**According to Google's official documentation, you need BOTH APIs enabled:**
 
-2. **Enable Places API:**
-   - Click **"ENABLE"** button
-   - Wait for it to activate (takes a few seconds)
-
-3. **Also enable Maps JavaScript API:**
+1. **Enable Maps JavaScript API** (Required):
    - Visit: https://console.cloud.google.com/apis/library/maps-backend.googleapis.com
    - Click **"ENABLE"** button
+   - Wait for activation
+
+2. **Enable Places API** (Required):
+   - Visit: https://console.cloud.google.com/apis/library/places-backend.googleapis.com
+   - Click **"ENABLE"** button
+   - Wait for activation
+
+**Important:** The Places library is part of the Maps JavaScript API but requires the Places API to be enabled separately in your Google Cloud project.
+
+**Reference:** [Google Maps JavaScript API - Places Autocomplete](https://developers.google.com/maps/documentation/javascript/places-autocomplete)
 
 ### Step 2: Configure API Key Restrictions
 
