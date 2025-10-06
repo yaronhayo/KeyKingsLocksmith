@@ -2,6 +2,9 @@ import type { APIRoute } from 'astro';
 import emailService from '../../../lib/email/resend';
 import { verifyRecaptcha, getClientIP, RecaptchaConfig } from '../../../lib/recaptcha/verify';
 
+// Disable prerendering for this API route (required for hybrid mode)
+export const prerender = false;
+
 export const POST: APIRoute = async ({ request }) => {
   try {
     // Parse request body
