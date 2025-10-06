@@ -42,28 +42,28 @@ const serviceAreasCollection = defineCollection({
   }),
 });
 
-// Blog collection schema
-const blogCollection = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    author: z.string().default('Key Kings Locksmith'),
-    authorImage: z.string().optional(),
-    publishDate: z.date(),
-    updateDate: z.date().optional(),
-    category: z.enum(['Security Tips', 'Emergency Help', 'Technology', 'Business', 'Local News']),
-    tags: z.array(z.string()),
-    image: z.string(),
-    featured: z.boolean().default(false),
-    draft: z.boolean().default(false),
-    seo: z.object({
-      title: z.string().optional(),
-      description: z.string().optional(),
-      keywords: z.array(z.string()).optional(),
-    }).optional(),
-  }),
-});
+// Blog collection schema (not currently used - can be enabled later)
+// const blogCollection = defineCollection({
+//   type: 'content',
+//   schema: z.object({
+//     title: z.string(),
+//     description: z.string(),
+//     author: z.string().default('Key Kings Locksmith'),
+//     authorImage: z.string().optional(),
+//     publishDate: z.date(),
+//     updateDate: z.date().optional(),
+//     category: z.enum(['Security Tips', 'Emergency Help', 'Technology', 'Business', 'Local News']),
+//     tags: z.array(z.string()),
+//     image: z.string(),
+//     featured: z.boolean().default(false),
+//     draft: z.boolean().default(false),
+//     seo: z.object({
+//       title: z.string().optional(),
+//       description: z.string().optional(),
+//       keywords: z.array(z.string()).optional(),
+//     }).optional(),
+//   }),
+// });
 
 // Reviews collection schema
 const reviewsCollection = defineCollection({
@@ -93,23 +93,23 @@ const faqCollection = defineCollection({
   }),
 });
 
-// Legal pages collection schema
-const legalCollection = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    lastUpdated: z.date(),
-    effectiveDate: z.date(),
-    noindex: z.boolean().default(false),
-  }),
-});
+// Legal pages collection schema (not currently used - legal pages in src/pages/)
+// const legalCollection = defineCollection({
+//   type: 'content',
+//   schema: z.object({
+//     title: z.string(),
+//     description: z.string(),
+//     lastUpdated: z.date(),
+//     effectiveDate: z.date(),
+//     noindex: z.boolean().default(false),
+//   }),
+// });
 
 export const collections = {
   services: servicesCollection,
   'service-areas': serviceAreasCollection,
-  blog: blogCollection,
+  // blog: blogCollection, // Commented out - not currently used
   reviews: reviewsCollection,
   faq: faqCollection,
-  legal: legalCollection,
+  // legal: legalCollection, // Commented out - legal pages in src/pages/ instead
 };
