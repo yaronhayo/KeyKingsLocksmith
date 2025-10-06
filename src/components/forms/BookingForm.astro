@@ -221,19 +221,32 @@ const recaptchaSiteKey = import.meta.env.GOOGLE_RECAPTCHA_SITE_KEY || import.met
 </div>
 
 <script>
-  import { submitBookingForm, validateForm, handleFormError, trackFormSuccess } from '../../lib/api/client';
-
-  // Load reCAPTCHA script
+  // Lazy load form logic only when user interacts
+  let formInitialized = false;
   const recaptchaSiteKey = import.meta.env.GOOGLE_RECAPTCHA_SITE_KEY || import.meta.env.PUBLIC_GOOGLE_RECAPTCHA_SITE_KEY;
-  if (recaptchaSiteKey && typeof window !== 'undefined') {
+
+  // Load reCAPTCHA lazily on first interaction
+  let recaptchaLoaded = false;
+  const loadRecaptcha = () => {
+    if (recaptchaLoaded || !recaptchaSiteKey) return;
+    recaptchaLoaded = true;
     const script = document.createElement('script');
     script.src = `https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`;
     script.async = true;
     script.defer = true;
     document.head.appendChild(script);
-  }
+  };
 
-  document.addEventListener('DOMContentLoaded', () => {
+  // Initialize form on first interaction (input focus or form focus)
+  const initializeForm = async () => {
+    if (formInitialized) return;
+    formInitialized = true;
+
+    // Dynamically import heavy validation logic
+    const { submitBookingForm, validateForm, handleFormError, trackFormSuccess } = await import('../../lib/api/client');
+
+    // Load reCAPTCHA when form is used
+    loadRecaptcha();
     const form = document.getElementById('booking-form') as HTMLFormElement;
     if (!form) return;
 
@@ -425,6 +438,21 @@ const recaptchaSiteKey = import.meta.env.GOOGLE_RECAPTCHA_SITE_KEY || import.met
         }
       }
     });
+  };
+
+  // Set up lazy initialization
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('booking-form') as HTMLFormElement;
+    if (!form) return;
+
+    // Initialize on first focus of any form field
+    const initOnFocus = () => {
+      initializeForm();
+      // Remove listeners after first interaction
+      form.removeEventListener('focusin', initOnFocus);
+    };
+
+    form.addEventListener('focusin', initOnFocus, { once: true, passive: true });
   });
 </script>
 
