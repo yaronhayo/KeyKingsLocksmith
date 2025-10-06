@@ -83,8 +83,9 @@ const recaptchaSiteKey = import.meta.env.GOOGLE_RECAPTCHA_SITE_KEY || import.met
         id="booking-address"
         name="address"
         required
+        autocomplete="off"
         class="w-full px-4 py-3 border-2 border-charcoal-200 rounded-lg focus:ring-2 focus:ring-gold-400 focus:border-gold-400 transition-colors duration-200 bg-white text-charcoal-900 placeholder-charcoal-400"
-        placeholder="123 Main St, Anderson, SC 29621"
+        placeholder="Start typing your address..."
       />
       <div class="error-message hidden text-gold-700 text-sm mt-1.5 font-medium" data-field="address"></div>
     </div>
@@ -223,6 +224,7 @@ const recaptchaSiteKey = import.meta.env.GOOGLE_RECAPTCHA_SITE_KEY || import.met
 <script>
   // Lazy load form logic only when user interacts
   let formInitialized = false;
+  let autocompleteInstance: google.maps.places.Autocomplete | null = null;
   const recaptchaSiteKey = import.meta.env.GOOGLE_RECAPTCHA_SITE_KEY || import.meta.env.PUBLIC_GOOGLE_RECAPTCHA_SITE_KEY;
 
   // Load reCAPTCHA lazily on first interaction
@@ -242,13 +244,45 @@ const recaptchaSiteKey = import.meta.env.GOOGLE_RECAPTCHA_SITE_KEY || import.met
     if (formInitialized) return;
     formInitialized = true;
 
-    // Dynamically import heavy validation logic
+    // Dynamically import heavy validation logic and autocomplete
     const { submitBookingForm, validateForm, handleFormError, trackFormSuccess } = await import('../../lib/api/client');
+    const { initializeAutocomplete } = await import('../../lib/google-places/autocomplete');
 
     // Load reCAPTCHA when form is used
     loadRecaptcha();
     const form = document.getElementById('booking-form') as HTMLFormElement;
     if (!form) return;
+
+    // Initialize Google Places Autocomplete for address field
+    const addressInput = document.getElementById('booking-address') as HTMLInputElement;
+    if (addressInput) {
+      try {
+        autocompleteInstance = await initializeAutocomplete(
+          addressInput,
+          (addressData) => {
+            // Use formatted address or construct from components
+            const formattedAddress = addressData.fullAddress ||
+              `${addressData.streetNumber || ''} ${addressData.route || ''}, ${addressData.city || ''}, ${addressData.state || ''} ${addressData.zipCode || ''}`.trim();
+            addressInput.value = formattedAddress;
+
+            // Clear any address validation errors
+            const addressError = form.querySelector('.error-message[data-field="address"]');
+            if (addressError) {
+              addressError.classList.add('hidden');
+              addressInput.classList.remove('border-gold-600', 'border-gold-700');
+              addressInput.classList.add('border-charcoal-200');
+            }
+          },
+          {
+            componentRestrictions: { country: 'us' },
+            types: ['address'],
+          }
+        );
+      } catch (error) {
+        console.warn('Google Places Autocomplete not available:', error);
+        // Form still works without autocomplete
+      }
+    }
 
     const submitBtn = form.querySelector('.booking-submit-btn') as HTMLButtonElement;
     const btnText = submitBtn?.querySelector('.btn-text');
