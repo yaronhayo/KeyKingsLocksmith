@@ -76,7 +76,7 @@ const recaptchaSiteKey = import.meta.env.GOOGLE_RECAPTCHA_SITE_KEY || import.met
     <!-- Address -->
     <div>
       <label for="booking-address" class="block text-sm font-semibold text-charcoal-800 mb-2">
-        Service Address <span class="text-gold-600">*</span>
+        Street Address <span class="text-gold-600">*</span>
       </label>
       <input
         type="text"
@@ -88,6 +88,37 @@ const recaptchaSiteKey = import.meta.env.GOOGLE_RECAPTCHA_SITE_KEY || import.met
         placeholder="Start typing your address..."
       />
       <div class="error-message hidden text-gold-700 text-sm mt-1.5 font-medium" data-field="address"></div>
+    </div>
+
+    <!-- Additional Address Fields -->
+    <div class="grid md:grid-cols-2 gap-4">
+      <!-- Apartment/Unit -->
+      <div>
+        <label for="booking-apartment" class="block text-sm font-semibold text-charcoal-800 mb-2">
+          Apt/Unit/Suite <span class="text-charcoal-500 text-xs font-normal">(Optional)</span>
+        </label>
+        <input
+          type="text"
+          id="booking-apartment"
+          name="apartment"
+          class="w-full px-4 py-3 border-2 border-charcoal-200 rounded-lg focus:ring-2 focus:ring-gold-400 focus:border-gold-400 transition-colors duration-200 bg-white text-charcoal-900 placeholder-charcoal-400"
+          placeholder="e.g., Apt 4B"
+        />
+      </div>
+
+      <!-- Gate Code -->
+      <div>
+        <label for="booking-gate-code" class="block text-sm font-semibold text-charcoal-800 mb-2">
+          Gate/Access Code <span class="text-charcoal-500 text-xs font-normal">(Optional)</span>
+        </label>
+        <input
+          type="text"
+          id="booking-gate-code"
+          name="gateCode"
+          class="w-full px-4 py-3 border-2 border-charcoal-200 rounded-lg focus:ring-2 focus:ring-gold-400 focus:border-gold-400 transition-colors duration-200 bg-white text-charcoal-900 placeholder-charcoal-400"
+          placeholder="e.g., #1234"
+        />
+      </div>
     </div>
 
     <!-- Service Type -->
@@ -185,7 +216,12 @@ const recaptchaSiteKey = import.meta.env.GOOGLE_RECAPTCHA_SITE_KEY || import.met
       fullWidth={true}
       class="booking-submit-btn bg-gold-500 hover:bg-gold-600 text-charcoal-900 font-bold shadow-lg hover:shadow-xl transition-all duration-200"
     >
-      <span class="btn-text">Request Service</span>
+      <span class="btn-text inline-flex items-center justify-center gap-2">
+        Request Service
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+        </svg>
+      </span>
       <span class="btn-loading hidden">Sending...</span>
     </Button>
 
@@ -393,6 +429,8 @@ const recaptchaSiteKey = import.meta.env.GOOGLE_RECAPTCHA_SITE_KEY || import.met
         phone: formData.get('phone') as string,
         email: (formData.get('email') as string) || undefined,
         address: formData.get('address') as string,
+        apartment: (formData.get('apartment') as string) || undefined,
+        gateCode: (formData.get('gateCode') as string) || undefined,
         serviceType: formData.get('serviceType') as string,
         urgency: formData.get('urgency') as 'asap' | 'same-day' | 'few-days' | 'few-weeks' | 'other',
         notes: (formData.get('notes') as string) || undefined,

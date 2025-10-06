@@ -1,9 +1,10 @@
 // Resend email service integration
 import type { BookingFormData, ContactFormData } from '../../types';
+import { formatEmailTimestamp } from '../utils/timezone';
 
 const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
 const FROM_EMAIL = import.meta.env.FROM_EMAIL || 'noreply@keykingslocksmithsc.com';
-const TO_EMAIL = import.meta.env.TO_EMAIL || 'keykingslocksmithsc@gmail.com';
+const TO_EMAIL = import.meta.env.TO_EMAIL || 'yaron@gettmarketing.com';
 
 export interface EmailOptions {
   to: string | string[];
@@ -164,6 +165,18 @@ class ResendEmailService {
           <td style="padding: 8px 0; border-bottom: 1px solid #e5e7eb;"><strong>Address:</strong></td>
           <td style="padding: 8px 0; border-bottom: 1px solid #e5e7eb;">${data.address}</td>
         </tr>
+        ${data.apartment ? `
+        <tr>
+          <td style="padding: 8px 0; border-bottom: 1px solid #e5e7eb;"><strong>Apt/Unit:</strong></td>
+          <td style="padding: 8px 0; border-bottom: 1px solid #e5e7eb;">${data.apartment}</td>
+        </tr>
+        ` : ''}
+        ${data.gateCode ? `
+        <tr>
+          <td style="padding: 8px 0; border-bottom: 1px solid #e5e7eb;"><strong>Gate Code:</strong></td>
+          <td style="padding: 8px 0; border-bottom: 1px solid #e5e7eb;">${data.gateCode}</td>
+        </tr>
+        ` : ''}
       </table>
 
       <h2 style="color: #DC143C; margin-top: 20px; margin-bottom: 15px;">Service Details</h2>
@@ -186,7 +199,7 @@ class ResendEmailService {
 
       <div style="margin-top: 20px; padding: 15px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 4px;">
         <strong>Submission ID:</strong> ${submissionId}<br>
-        <strong>Received:</strong> ${new Date().toLocaleString()}
+        <strong>Received:</strong> ${formatEmailTimestamp()}
       </div>
     </div>
 
@@ -213,11 +226,15 @@ Name: ${data.name}
 Phone: ${data.phone}
 Email: ${data.email || 'Not provided'}
 Address: ${data.address}
+${data.apartment ? `Apt/Unit: ${data.apartment}` : ''}
+${data.gateCode ? `Gate Code: ${data.gateCode}` : ''}
 
 Service Details:
 Service Type: ${data.serviceType}
 Urgency: ${data.urgency}
 ${data.notes ? `Notes: ${data.notes}` : ''}
+
+Received: ${formatEmailTimestamp()}
 
 Please contact the customer as soon as possible.
     `;
@@ -344,7 +361,7 @@ Key Kings Locksmith
 
       <div style="margin-top: 20px; padding: 15px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 4px; font-size: 12px;">
         <strong>Submission ID:</strong> ${submissionId}<br>
-        <strong>Received:</strong> ${new Date().toLocaleString()}
+        <strong>Received:</strong> ${formatEmailTimestamp()}
       </div>
     </div>
 

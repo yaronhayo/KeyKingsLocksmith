@@ -373,6 +373,8 @@ export interface BookingFormData {
 
   // Service Details
   address: string;
+  apartment?: string;
+  gateCode?: string;
   serviceType: string;
   urgency: 'asap' | 'same-day' | 'few-days' | 'few-weeks' | 'other';
   notes?: string;
