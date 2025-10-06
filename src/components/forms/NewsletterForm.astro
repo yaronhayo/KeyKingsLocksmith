@@ -56,6 +56,12 @@ const {
   const loadRecaptcha = () => {
     if (recaptchaLoaded || !recaptchaSiteKey) return;
     recaptchaLoaded = true;
+
+    // Hide the default reCAPTCHA badge
+    const style = document.createElement('style');
+    style.textContent = '.grecaptcha-badge { visibility: hidden !important; }';
+    document.head.appendChild(style);
+
     const script = document.createElement('script');
     script.src = `https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`;
     script.async = true;

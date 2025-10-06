@@ -5,14 +5,23 @@ import Footer from '../components/layout/Footer.astro';
 import Button from '../components/ui/Button.astro';
 import TrustBadge from '../components/ui/TrustBadge.astro';
 import ServiceAreaMap from '../components/sections/ServiceAreaMap.astro';
+import SchemaMarkup from '../components/seo/SchemaMarkup.astro';
 import { companyConfig, getPhoneLink } from '../data/company';
 
 const title = `About Key Kings Locksmith | Anderson SC Since 2016`;
 const description = `Trusted Anderson SC locksmith since 2016. Bonded, insured team serving residential, commercial & auto needs. Meet our professional locksmiths.`;
 const keywords = ['about Key Kings', 'locksmith Anderson SC', 'bonded locksmith', 'insured locksmith', 'professional locksmith', 'Anderson locksmith'];
+
+const breadcrumbData = [
+  { name: "Home", url: "https://keykingslocksmithsc.com/" },
+  { name: "About", url: "https://keykingslocksmithsc.com/about" }
+];
 ---
 
 <BaseLayout title={title} description={description} keywords={keywords}>
+  <Fragment slot="head">
+    <SchemaMarkup type="breadcrumb" data={breadcrumbData} />
+  </Fragment>
   <Header />
 
   <main>

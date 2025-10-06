@@ -201,10 +201,15 @@ const recaptchaSiteKey = import.meta.env.GOOGLE_RECAPTCHA_SITE_KEY || import.met
 
     <!-- reCAPTCHA Badge Info -->
     {recaptchaSiteKey && (
-      <div class="text-xs text-charcoal-500 text-center">
-        This site is protected by reCAPTCHA and the Google{' '}
-        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="text-gold-600 hover:text-gold-700 underline">Privacy Policy</a> and{' '}
-        <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" class="text-gold-600 hover:text-gold-700 underline">Terms of Service</a> apply.
+      <div class="recaptcha-notice flex items-start gap-2 p-3 bg-charcoal-50 border border-charcoal-200 rounded-lg text-xs text-charcoal-600">
+        <svg class="w-4 h-4 text-charcoal-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+        </svg>
+        <span>
+          Protected by reCAPTCHA. Google{' '}
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="text-gold-600 hover:text-gold-700 underline">Privacy Policy</a> and{' '}
+          <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" class="text-gold-600 hover:text-gold-700 underline">Terms</a> apply.
+        </span>
       </div>
     )}
 
@@ -217,10 +222,10 @@ const recaptchaSiteKey = import.meta.env.GOOGLE_RECAPTCHA_SITE_KEY || import.met
       class="booking-submit-btn bg-gold-500 hover:bg-gold-600 text-charcoal-900 font-bold shadow-lg hover:shadow-xl transition-all duration-200"
     >
       <span class="btn-text inline-flex items-center justify-center gap-2">
-        Request Service
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
         </svg>
+        Request Service
       </span>
       <span class="btn-loading hidden">Sending...</span>
     </Button>
@@ -268,6 +273,12 @@ const recaptchaSiteKey = import.meta.env.GOOGLE_RECAPTCHA_SITE_KEY || import.met
   const loadRecaptcha = () => {
     if (recaptchaLoaded || !recaptchaSiteKey) return;
     recaptchaLoaded = true;
+
+    // Hide the default reCAPTCHA badge
+    const style = document.createElement('style');
+    style.textContent = '.grecaptcha-badge { visibility: hidden !important; }';
+    document.head.appendChild(style);
+
     const script = document.createElement('script');
     script.src = `https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`;
     script.async = true;

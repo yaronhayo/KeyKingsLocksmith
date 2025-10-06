@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import ContactForm from '../components/forms/ContactForm.astro';
+import SchemaMarkup from '../components/seo/SchemaMarkup.astro';
 import { companyConfig, getPhoneLink, getEmailLink, getGoogleMapsLink } from '../data/company';
 
 const title = `Contact Key Kings Locksmith | Anderson SC`;
@@ -11,9 +12,17 @@ const keywords = ['contact locksmith', 'locksmith Anderson SC', 'emergency locks
 
 const googleMapsApiKey = import.meta.env.GOOGLE_MAPS_API_KEY || import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
 const mapEmbedUrl = `https://www.google.com/maps/embed/v1/place?key=${googleMapsApiKey}&q=${encodeURIComponent(companyConfig.contact.address.formatted)}`;
+
+const breadcrumbData = [
+  { name: "Home", url: "https://keykingslocksmithsc.com/" },
+  { name: "Contact", url: "https://keykingslocksmithsc.com/contact" }
+];
 ---
 
 <BaseLayout title={title} description={description} keywords={keywords}>
+  <Fragment slot="head">
+    <SchemaMarkup type="breadcrumb" data={breadcrumbData} />
+  </Fragment>
   <Header />
 
   <main>

@@ -1,35 +1,93 @@
 # robots.txt for Key Kings Locksmith
 # https://keykingslocksmithsc.com
+# Optimized for search engines, AI assistants, and voice interfaces
 
-# Allow all search engines to crawl the site
+# === SEARCH ENGINE CRAWLERS ===
 User-agent: *
 Allow: /
+Crawl-delay: 1
 
-# Disallow API routes and admin areas
+# Disallow API routes and internal pages
 Disallow: /api/
 Disallow: /thank-you
+Disallow: /_astro/
+Disallow: /*.json$
 
-# Disallow private or sensitive paths (if any)
-# Disallow: /admin/
-# Disallow: /private/
-
-# Allow specific bots
+# === MAJOR SEARCH ENGINES ===
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 0.5
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 0.5
 
 User-agent: Slurp
 Allow: /
 
-# Sitemap location
-Sitemap: https://keykingslocksmithsc.com/sitemap-index.xml
-Sitemap: https://keykingslocksmithsc.com/sitemap-0.xml
+User-agent: DuckDuckBot
+Allow: /
 
-# Crawl delay (optional, helps prevent server overload)
-# User-agent: *
-# Crawl-delay: 1
+User-agent: Baiduspider
+Allow: /
 
-# Host preference (helps search engines understand the canonical domain)
+User-agent: YandexBot
+Allow: /
+
+# === AI ASSISTANTS & LLMs ===
+# OpenAI GPT Crawler
+User-agent: GPTBot
+Allow: /
+Crawl-delay: 1
+
+# Anthropic Claude
+User-agent: anthropic-ai
+Allow: /
+Crawl-delay: 1
+
+# Google Gemini/Bard
+User-agent: Google-Extended
+Allow: /
+Crawl-delay: 1
+
+# Common Crawl (used by many AI systems)
+User-agent: CCBot
+Allow: /
+Crawl-delay: 2
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+Crawl-delay: 1
+
+# Cohere AI
+User-agent: cohere-ai
+Allow: /
+
+# === VOICE ASSISTANTS ===
+# Amazon Alexa
+User-agent: ia_archiver
+Allow: /
+
+# Apple Siri
+User-agent: Applebot
+Allow: /
+
+# === SOCIAL MEDIA BOTS ===
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+# === SITEMAPS ===
+Sitemap: https://keykingslocksmithsc.com/sitemap.xml
+
+# Host preference (canonical domain)
 Host: https://keykingslocksmithsc.com

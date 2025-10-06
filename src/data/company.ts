@@ -112,29 +112,15 @@ export const companyConfig: CompanyConfig = {
     established: "2016",
     familiesServed: 5000,
     yearsExperience: 9,
-    bbb: {
-      accredited: false,
-      rating: "Not Rated",
-      url: "",
-      since: ""
-    },
     associations: [
       {
         name: "Associated Locksmiths of America (ALOA)",
-        logo: "/images/certifications/aloa-logo.svg",
         url: "https://aloa.org",
         memberSince: "2016"
       },
       {
         name: "Anderson Area Chamber of Commerce",
-        logo: "/images/certifications/chamber-logo.svg",
         url: "https://andersonareachamber.com",
-        memberSince: "2016"
-      },
-      {
-        name: "South Carolina Locksmith Association",
-        logo: "/images/certifications/scla-logo.svg",
-        url: "",
         memberSince: "2016"
       }
     ],
@@ -177,8 +163,8 @@ export const companyConfig: CompanyConfig = {
       appleTouchIcon: "/apple-touch-icon.png"
     },
     imagery: {
-      heroBackground: "/images/hero/locksmith-service-hero.jpg",
-      placeholder: "/images/placeholders/service-placeholder.jpg"
+      heroBackground: "/images/og/og-default.jpg",
+      placeholder: "/images/brand/logo.png"
     }
   },
 
@@ -228,10 +214,10 @@ export const companyConfig: CompanyConfig = {
 
   // Analytics & Tracking Configuration
   analytics: {
-    googleAnalytics: "G-XXXXXXXXXX", // Replace with actual GA4 ID
-    googleTagManager: "GTM-XXXXXXX", // Replace with actual GTM ID
-    facebookPixel: "XXXXXXXXXXXXXXXXX", // Replace with actual Pixel ID
-    microsoftClarity: "XXXXXXXXX", // Replace with actual Clarity ID
+    googleAnalytics: "", // Add GA4 ID when ready
+    googleTagManager: "GTM-KZGVN746", // Active GTM container
+    facebookPixel: "", // Add when ready
+    microsoftClarity: "", // Add when ready
     customEvents: true,
     conversionTracking: true
   },
@@ -267,7 +253,6 @@ export const companyConfig: CompanyConfig = {
   // Legal & Compliance Information
   legal: {
     businessName: "Key Kings Locksmith",
-    taxId: "XX-XXXXXXX", // Masked for security
     privacyPolicy: "/privacy-policy",
     termsOfService: "/terms-of-service",
     accessibility: "/accessibility",
@@ -290,7 +275,7 @@ export const companyConfig: CompanyConfig = {
       platform: "multiple", // Google, Facebook, Yelp, etc.
       displayCount: 12,
       averageRating: 4.9,
-      totalReviews: 150,
+      totalReviews: 12, // Reviews on this website (additional reviews exist on Google/Facebook/Yelp)
       showPhotos: true
     },
     faq: {
@@ -324,7 +309,7 @@ export const companyConfig: CompanyConfig = {
     available247: false,
     coverage: "All primary service areas",
     phone: "(864) 900-9597",
-    message: "Professional locksmith service available during business hours: Sun-Thu 7am-10pm, Fri 6:30am-5:30pm.",
+    message: "Emergency locksmith service available during business hours: Mon-Thu 7am-10pm, Fri 6:30am-5:30pm, Sun 7am-10pm. Closed Saturday.",
     priorityAreas: ["Anderson", "Greenville", "Clemson", "Easley"],
     holidayService: false
   },
@@ -436,6 +421,7 @@ export const getSchemaOrgData = () => ({
     "We 07:00-22:00",
     "Th 07:00-22:00",
     "Fr 06:30-17:30",
+    "Sa", // Closed on Saturday
     "Su 07:00-22:00"
   ],
   "aggregateRating": {
@@ -445,8 +431,7 @@ export const getSchemaOrgData = () => ({
   },
   "priceRange": companyConfig.seo.schema.priceRange,
   "image": [
-    "https://keykingslocksmithsc.com/images/services/locksmith-team.jpg",
-    "https://keykingslocksmithsc.com/images/services/mobile-locksmith.jpg",
-    "https://keykingslocksmithsc.com/images/services/emergency-service.jpg"
+    "https://keykingslocksmithsc.com/images/brand/logo.png",
+    "https://keykingslocksmithsc.com/images/og/og-default.jpg"
   ]
 });

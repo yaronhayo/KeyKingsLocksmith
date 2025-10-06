@@ -22,20 +22,29 @@ export function loadGoogleMapsScript(): Promise<void> {
 
     // Get API key from environment
     const apiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
-    if (!apiKey) {
-      console.warn('Google Maps API key not found. Address autocomplete will not work.');
+    if (!apiKey || apiKey === 'your_google_maps_api_key_here') {
+      console.warn('Google Maps API key not found or not configured. Address autocomplete will not work.');
+      console.warn('Please add your Google Maps API key to the .env file as PUBLIC_GOOGLE_MAPS_API_KEY');
       reject(new Error('Google Maps API key not configured'));
       return;
     }
 
     // Create and load script
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&loading=async`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initGoogleMaps`;
     script.async = true;
     script.defer = true;
 
-    script.addEventListener('load', () => resolve());
-    script.addEventListener('error', () => reject(new Error('Failed to load Google Maps script')));
+    // Set up callback for when Google Maps is ready
+    (window as any).initGoogleMaps = () => {
+      delete (window as any).initGoogleMaps; // Clean up
+      resolve();
+    };
+
+    script.addEventListener('error', () => {
+      delete (window as any).initGoogleMaps; // Clean up
+      reject(new Error('Failed to load Google Maps script'));
+    });
 
     document.head.appendChild(script);
   });
@@ -71,6 +80,16 @@ export async function initializeAutocomplete(
   try {
     // Load Google Maps API
     await loadGoogleMapsScript();
+
+    // Verify Google Maps Places library is available
+    if (!window.google?.maps?.places?.Autocomplete) {
+      console.error('Google Maps Places library not loaded. Please check:');
+      console.error('1. Places API is enabled in Google Cloud Console');
+      console.error('2. API key has correct restrictions');
+      console.error('3. Billing is enabled (free tier available)');
+      console.error('See GOOGLE-MAPS-API-SETUP.md for detailed instructions');
+      return null;
+    }
 
     // Default options for US addresses
     const defaultOptions: AutocompleteOptions = {

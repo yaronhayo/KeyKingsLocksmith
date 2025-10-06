@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "key_kings_locksmith",
+  "name_for_human": "Key Kings Locksmith",
+  "description_for_model": "Key Kings Locksmith provides professional locksmith services in Anderson, SC and surrounding areas. Services include emergency lockouts (car, house, business), lock rekeying, key replacement, lock installation, commercial locksmith services, and residential locksmith services. Available 24/7 for emergencies. Bonded and insured. Serving Anderson, Greenville, Clemson, Seneca, and Upstate South Carolina.",
+  "description_for_human": "Professional locksmith services in Anderson, SC. Emergency lockouts, rekeying, key replacement, and more.",
+  "api": {
+    "type": "openapi",
+    "url": "https://keykingslocksmithsc.com/openapi.json"
+  },
+  "auth": {
+    "type": "none"
+  },
+  "logo_url": "https://keykingslocksmithsc.com/images/brand/logo-icon.svg",
+  "contact_email": "keykingslocksmithsc@gmail.com",
+  "legal_info_url": "https://keykingslocksmithsc.com/terms-of-service"
+}
