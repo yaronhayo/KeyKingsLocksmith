@@ -112,7 +112,7 @@ export default async function handler(
               ${data.timestamp ? `
               <tr style="background-color: #f8f9fa;">
                 <td style="padding: 8px; border: 1px solid #dee2e6;"><strong>Client Timestamp:</strong></td>
-                <td style="padding: 8px; border: 1px solid #dee2e6;">${data.timestamp}</td>
+                <td style="padding: 8px; border: 1px solid #dee2e6;">${new Date(data.timestamp).toLocaleString('en-US', { timeZone: 'America/New_York', dateStyle: 'full', timeStyle: 'long' })}</td>
               </tr>
               ` : ''}
               ${data.requestId ? `

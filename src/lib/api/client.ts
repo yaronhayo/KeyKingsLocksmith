@@ -323,8 +323,12 @@ export const apiClient = new APIClient();
 export const submitBookingForm = (data: BookingFormData) => apiClient.submitBookingForm(data);
 export const submitContactForm = (data: ContactFormData) => apiClient.submitContactForm(data);
 export const subscribeNewsletter = (email: string) => apiClient.subscribeNewsletter(email);
-export const trackEvent = (eventName: string, properties?: Record<string, any>) => 
-  apiClient.trackEvent(eventName, properties);
+export const trackEvent = (eventName: string, properties?: Record<string, any>) => {
+  // Fire and forget - don't wait for response, catch all errors silently
+  apiClient.trackEvent(eventName, properties).catch(() => {
+    // Silently fail - analytics should never block user experience
+  });
+};
 
 // Form validation utilities for client-side use
 export const validateForm = {

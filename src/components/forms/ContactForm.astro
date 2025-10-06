@@ -353,10 +353,15 @@ const recaptchaSiteKey = import.meta.env.GOOGLE_RECAPTCHA_SITE_KEY || import.met
         });
 
         if (response.success) {
-          successMessage?.classList.remove('hidden');
-          form.reset();
-          trackFormSuccess('contact');
-          successMessage?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          // Track conversion (non-blocking, fire and forget)
+          try {
+            trackFormSuccess('contact');
+          } catch (error) {
+            console.warn('Analytics tracking failed:', error);
+          }
+
+          // Redirect to thank you page
+          window.location.href = '/thank-you';
         } else {
           throw new Error(response.error?.message || 'Submission failed');
         }

@@ -493,10 +493,14 @@ const recaptchaSiteKey = import.meta.env.GOOGLE_RECAPTCHA_SITE_KEY || import.met
         });
 
         if (response.success) {
-          // Track conversion
-          trackFormSuccess('booking');
+          // Track conversion (non-blocking, fire and forget)
+          try {
+            trackFormSuccess('booking');
+          } catch (error) {
+            console.warn('Analytics tracking failed:', error);
+          }
 
-          // Redirect to thank you page
+          // Redirect to thank you page immediately
           window.location.href = '/thank-you';
         } else {
           throw new Error(response.error?.message || 'Submission failed');
