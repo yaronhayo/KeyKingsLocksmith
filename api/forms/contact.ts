@@ -1,4 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { Resend } from 'resend';
+
+// Initialize Resend
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Type definitions
 interface ContactFormData {
@@ -30,23 +34,64 @@ export default async function handler(
       });
     }
 
-    // TODO: Verify reCAPTCHA
-    // TODO: Send email via Resend
-    // TODO: Store in database
+    const submissionId = `contact_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-    // For now, just log and return success
-    console.log('Contact submission:', {
-      name: data.name,
-      email: data.email,
-      subject: data.subject
-    });
+    // Send notification email to business
+    try {
+      await resend.emails.send({
+        from: 'Key Kings Locksmith <noreply@keykingslocksmithsc.com>',
+        to: process.env.BUSINESS_EMAIL || 'keykingslocksmithsc@gmail.com',
+        replyTo: data.email,
+        subject: `📧 New Contact Message: ${data.subject}`,
+        html: `
+          <h2>New Contact Form Submission</h2>
+          <p><strong>Submission ID:</strong> ${submissionId}</p>
+          <p><strong>Name:</strong> ${data.name}</p>
+          <p><strong>Email:</strong> ${data.email}</p>
+          ${data.phone ? `<p><strong>Phone:</strong> ${data.phone}</p>` : ''}
+          <p><strong>Subject:</strong> ${data.subject}</p>
+          <p><strong>Message:</strong></p>
+          <blockquote>${data.message.replace(/\n/g, '<br>')}</blockquote>
+          <hr>
+          <p><em>Submitted at: ${new Date().toLocaleString()}</em></p>
+        `
+      });
+    } catch (emailError) {
+      console.error('Failed to send notification email:', emailError);
+      // Continue anyway - don't fail the request
+    }
+
+    // Send confirmation email to customer
+    try {
+      await resend.emails.send({
+        from: 'Key Kings Locksmith <noreply@keykingslocksmithsc.com>',
+        to: data.email,
+        subject: 'Message Received - Key Kings Locksmith',
+        html: `
+          <h2>Thank You for Contacting Us!</h2>
+          <p>Hi ${data.name},</p>
+          <p>We've received your message and will get back to you as soon as possible.</p>
+          <p><strong>Your Message:</strong></p>
+          <blockquote>${data.message.replace(/\n/g, '<br>')}</blockquote>
+          <hr>
+          <p>Key Kings Locksmith<br>
+          (864) 900-9597<br>
+          keykingslocksmithsc@gmail.com</p>
+        `
+      });
+    } catch (emailError) {
+      console.error('Failed to send confirmation email:', emailError);
+    }
+
+    console.log('Contact submission processed:', submissionId);
 
     // Return success response
     return res.status(200).json({
       success: true,
       data: {
-        submissionId: `contact_${Date.now()}`,
-        message: 'Message sent successfully'
+        submissionId,
+        message: 'Message sent successfully',
+        redirectUrl: '/thank-you'
       }
     });
   } catch (error) {

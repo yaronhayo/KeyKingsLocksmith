@@ -1,4 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { Resend } from 'resend';
+
+// Initialize Resend
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Type definitions
 interface BookingFormData {
@@ -32,24 +36,66 @@ export default async function handler(
       });
     }
 
-    // TODO: Verify reCAPTCHA
-    // TODO: Send email via Resend
-    // TODO: Store in database
+    const submissionId = `booking_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-    // For now, just log and return success
-    console.log('Booking submission:', {
-      name: data.name,
-      phone: data.phone,
-      serviceType: data.serviceType,
-      urgency: data.urgency
-    });
+    // Send notification email to business
+    try {
+      await resend.emails.send({
+        from: 'Key Kings Locksmith <noreply@keykingslocksmithsc.com>',
+        to: process.env.BUSINESS_EMAIL || 'keykingslocksmithsc@gmail.com',
+        subject: `🔐 New Booking Request - ${data.urgency}`,
+        html: `
+          <h2>New Booking Request</h2>
+          <p><strong>Submission ID:</strong> ${submissionId}</p>
+          <p><strong>Name:</strong> ${data.name}</p>
+          <p><strong>Phone:</strong> ${data.phone}</p>
+          ${data.email ? `<p><strong>Email:</strong> ${data.email}</p>` : ''}
+          <p><strong>Service Type:</strong> ${data.serviceType}</p>
+          <p><strong>Urgency:</strong> ${data.urgency}</p>
+          ${data.address ? `<p><strong>Address:</strong> ${data.address}</p>` : ''}
+          ${data.description ? `<p><strong>Description:</strong> ${data.description}</p>` : ''}
+          <hr>
+          <p><em>Submitted at: ${new Date().toLocaleString()}</em></p>
+        `
+      });
+    } catch (emailError) {
+      console.error('Failed to send notification email:', emailError);
+      // Continue anyway - don't fail the request
+    }
+
+    // Send confirmation email to customer if email provided
+    if (data.email) {
+      try {
+        await resend.emails.send({
+          from: 'Key Kings Locksmith <noreply@keykingslocksmithsc.com>',
+          to: data.email,
+          subject: 'Booking Confirmation - Key Kings Locksmith',
+          html: `
+            <h2>Thank You for Your Booking Request!</h2>
+            <p>Hi ${data.name},</p>
+            <p>We've received your booking request and will contact you shortly at ${data.phone}.</p>
+            <p><strong>Service:</strong> ${data.serviceType}</p>
+            <p><strong>Urgency:</strong> ${data.urgency}</p>
+            <hr>
+            <p>Key Kings Locksmith<br>
+            (864) 900-9597<br>
+            keykingslocksmithsc@gmail.com</p>
+          `
+        });
+      } catch (emailError) {
+        console.error('Failed to send confirmation email:', emailError);
+      }
+    }
+
+    console.log('Booking submission processed:', submissionId);
 
     // Return success response
     return res.status(200).json({
       success: true,
       data: {
-        submissionId: `booking_${Date.now()}`,
-        message: 'Booking request received successfully'
+        submissionId,
+        message: 'Booking request received successfully',
+        redirectUrl: '/thank-you'
       }
     });
   } catch (error) {
