@@ -1,27 +1,12 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
-import vercel from '@astrojs/vercel';
 import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://keykingslocksmithsc.com',
-  output: 'server',
-  adapter: vercel({
-    webAnalytics: {
-      enabled: true
-    },
-    speedInsights: {
-      enabled: true
-    },
-    imageService: true,
-    imagesConfig: {
-      sizes: [320, 640, 768, 1024, 1280, 1536],
-      formats: ['image/avif', 'image/webp'],
-      domains: ['keykingslocksmithsc.com']
-    }
-  }),
+  output: 'static',
   integrations: [
     tailwind({
       applyBaseStyles: false
