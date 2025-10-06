@@ -1,5 +1,7 @@
 ---
 import { companyConfig, getPhoneLink, getFormattedPhone } from '../../data/company';
+import { Image } from 'astro:assets';
+import logoImage from '../../assets/images/brand/logo.png';
 ---
 
 <header id="main-header" class="header-default bg-white border-b border-charcoal-100 sticky top-0 z-50 transition-all duration-300">
@@ -8,14 +10,16 @@ import { companyConfig, getPhoneLink, getFormattedPhone } from '../../data/compa
       <!-- Logo -->
       <div class="flex items-center">
         <a href="/" class="flex items-center group">
-          <img
-            src="/images/brand/logo.png"
+          <Image
+            src={logoImage}
             alt="Key Kings Locksmith Logo"
             class="h-16 w-auto transition-transform duration-300 group-hover:scale-105"
-            width="182"
-            height="160"
-            fetchpriority="high"
+            width={182}
+            height={160}
+            loading="eager"
             decoding="async"
+            format="webp"
+            quality={90}
           />
         </a>
       </div>
