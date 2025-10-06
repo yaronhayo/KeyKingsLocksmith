@@ -19,21 +19,25 @@ const {
 <section class={`hero-section relative min-h-[90vh] flex items-center ${className}`}>
   <!-- Background Video with Custom Gradient -->
   <div class="absolute inset-0 z-0">
+    <!-- Gradient overlay -->
     <div class="absolute inset-0 bg-gradient-to-r from-charcoal-900/95 via-charcoal-800/85 to-charcoal-900/75 z-10"></div>
+    <!-- Static background as poster/fallback -->
+    <div class="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-900" id="video-poster"></div>
+    <!-- Lazy-loaded video -->
     <video
+      id="hero-video"
       autoplay
       muted
       loop
       playsinline
-      preload="metadata"
-      class="w-full h-full object-cover"
+      preload="none"
+      class="w-full h-full object-cover opacity-0 transition-opacity duration-1000"
       aria-hidden="true"
+      data-src="https://txnhmskxj6stzyxb.public.blob.vercel-storage.com/bgvid.mp4"
     >
-      <source src="https://txnhmskxj6stzyxb.public.blob.vercel-storage.com/bgvid.mp4" type="video/mp4" />
+      <source data-src="https://txnhmskxj6stzyxb.public.blob.vercel-storage.com/bgvid.mp4" type="video/mp4" />
       <!-- Empty captions track for accessibility compliance (decorative video) -->
       <track kind="captions" src="data:text/vtt," srclang="en" label="No audio" />
-      <!-- Fallback for browsers that don't support video -->
-      <div class="w-full h-full bg-gradient-to-br from-charcoal-900 to-charcoal-800"></div>
     </video>
   </div>
 
@@ -265,3 +269,54 @@ const {
     }
   }
 </style>
+
+<script>
+  // Lazy load hero video using Intersection Observer
+  document.addEventListener('DOMContentLoaded', () => {
+    const video = document.getElementById('hero-video') as HTMLVideoElement;
+    const videoPoster = document.getElementById('video-poster');
+
+    if (!video) return;
+
+    // Use Intersection Observer to load video only when hero section is visible
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Load video source
+            const source = video.querySelector('source');
+            const videoSrc = video.getAttribute('data-src');
+
+            if (source && videoSrc) {
+              source.src = videoSrc;
+              video.load();
+
+              // Wait for video to be ready
+              video.addEventListener('canplay', () => {
+                video.play().then(() => {
+                  // Fade in video, fade out poster
+                  video.classList.remove('opacity-0');
+                  video.classList.add('opacity-100');
+                  if (videoPoster) {
+                    videoPoster.style.opacity = '0';
+                  }
+                }).catch((error) => {
+                  console.log('Video autoplay prevented:', error);
+                });
+              }, { once: true });
+            }
+
+            // Stop observing after loading
+            observer.disconnect();
+          }
+        });
+      },
+      {
+        rootMargin: '50px', // Start loading slightly before visible
+        threshold: 0.1
+      }
+    );
+
+    observer.observe(video);
+  });
+</script>
