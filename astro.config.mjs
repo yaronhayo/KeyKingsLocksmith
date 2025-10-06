@@ -28,8 +28,9 @@ export default defineConfig({
     }),
     sitemap({
       filter: (page) => {
-        // Exclude API routes and trailing slash duplicates
+        // Exclude API routes, thank-you page, and trailing slash duplicates
         if (page.includes('/api/')) return false;
+        if (page.includes('/thank-you')) return false;
         if (page.endsWith('/') && page !== 'https://keykingslocksmithsc.com/') return false;
         return true;
       },
@@ -58,9 +59,6 @@ export default defineConfig({
         'https://keykingslocksmithsc.com/service-areas/anderson-sc',
         'https://keykingslocksmithsc.com/service-areas/greenville-sc',
         'https://keykingslocksmithsc.com/service-areas/clemson-sc',
-
-        // Thank you page (for conversion tracking)
-        'https://keykingslocksmithsc.com/thank-you',
 
         // Legal
         'https://keykingslocksmithsc.com/privacy-policy',
@@ -112,9 +110,6 @@ export default defineConfig({
         } else if (item.url.includes('/privacy-policy') || item.url.includes('/terms-of-service')) {
           item.priority = 0.3;
           item.changefreq = 'yearly';
-        } else if (item.url.includes('/thank-you')) {
-          item.priority = 0.4;
-          item.changefreq = 'monthly';
         }
 
         return item;

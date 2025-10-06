@@ -1,7 +1,23 @@
 ---
+// Enable SSR for this page to protect access
+export const prerender = false;
+
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/ui/Button.astro';
 import { companyConfig, getCurrentBusinessHours } from '../data/company';
+
+// Security: Only allow access from form submissions
+// Check for referrer or redirect if accessed directly
+const referrer = Astro.request.headers.get('referer') || '';
+const isFromValidSource =
+  referrer.includes('/book-service') ||
+  referrer.includes('/contact') ||
+  referrer.includes(Astro.site?.hostname || 'keykingslocksmithsc.com');
+
+// If no valid referrer and not in development, redirect to homepage
+if (!isFromValidSource && import.meta.env.PROD) {
+  return Astro.redirect('/', 302);
+}
 
 const pageTitle = 'Thank You - Key Kings Locksmith';
 const pageDescription = 'Thank you for contacting Key Kings Locksmith. We\'ll be in touch soon.';
