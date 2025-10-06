@@ -12,8 +12,13 @@ interface BookingFormData {
   serviceType: string;
   urgency: string;
   address?: string;
-  description?: string;
+  apartment?: string;
+  gateCode?: string;
+  notes?: string;
+  description?: string;  // Keep for backward compatibility
   recaptchaToken?: string;
+  timestamp?: string;
+  requestId?: string;
 }
 
 export default async function handler(
@@ -38,6 +43,16 @@ export default async function handler(
 
     const submissionId = `booking_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
+    // Build full address with apartment and gate code
+    const fullAddress = [
+      data.address,
+      data.apartment ? `Apt/Unit: ${data.apartment}` : '',
+      data.gateCode ? `Gate Code: ${data.gateCode}` : ''
+    ].filter(Boolean).join(', ');
+
+    // Use notes or description field
+    const customerNotes = data.notes || data.description;
+
     // Send notification email to business
     try {
       await resend.emails.send({
@@ -52,8 +67,8 @@ export default async function handler(
           ${data.email ? `<p><strong>Email:</strong> ${data.email}</p>` : ''}
           <p><strong>Service Type:</strong> ${data.serviceType}</p>
           <p><strong>Urgency:</strong> ${data.urgency}</p>
-          ${data.address ? `<p><strong>Address:</strong> ${data.address}</p>` : ''}
-          ${data.description ? `<p><strong>Description:</strong> ${data.description}</p>` : ''}
+          ${fullAddress ? `<p><strong>Location:</strong> ${fullAddress}</p>` : ''}
+          ${customerNotes ? `<p><strong>Notes:</strong> ${customerNotes}</p>` : ''}
           <hr>
           <p><em>Submitted at: ${new Date().toLocaleString()}</em></p>
         `
