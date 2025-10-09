@@ -1,93 +1,13 @@
 # robots.txt for Key Kings Locksmith
-# https://keykingslocksmithsc.com
-# Optimized for search engines, AI assistants, and voice interfaces
+# https://www.keykingslocksmithsc.com
 
-# === SEARCH ENGINE CRAWLERS ===
 User-agent: *
 Allow: /
-Crawl-delay: 1
 
 # Disallow API routes and internal pages
 Disallow: /api/
 Disallow: /thank-you
 Disallow: /_astro/
-Disallow: /*.json$
 
-# === MAJOR SEARCH ENGINES ===
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 0.5
-
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 0.5
-
-User-agent: Slurp
-Allow: /
-
-User-agent: DuckDuckBot
-Allow: /
-
-User-agent: Baiduspider
-Allow: /
-
-User-agent: YandexBot
-Allow: /
-
-# === AI ASSISTANTS & LLMs ===
-# OpenAI GPT Crawler
-User-agent: GPTBot
-Allow: /
-Crawl-delay: 1
-
-# Anthropic Claude
-User-agent: anthropic-ai
-Allow: /
-Crawl-delay: 1
-
-# Google Gemini/Bard
-User-agent: Google-Extended
-Allow: /
-Crawl-delay: 1
-
-# Common Crawl (used by many AI systems)
-User-agent: CCBot
-Allow: /
-Crawl-delay: 2
-
-# Perplexity AI
-User-agent: PerplexityBot
-Allow: /
-Crawl-delay: 1
-
-# Cohere AI
-User-agent: cohere-ai
-Allow: /
-
-# === VOICE ASSISTANTS ===
-# Amazon Alexa
-User-agent: ia_archiver
-Allow: /
-
-# Apple Siri
-User-agent: Applebot
-Allow: /
-
-# === SOCIAL MEDIA BOTS ===
-User-agent: facebookexternalhit
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: LinkedInBot
-Allow: /
-
-User-agent: WhatsApp
-Allow: /
-
-# === SITEMAPS ===
+# Sitemap location
 Sitemap: https://www.keykingslocksmithsc.com/sitemap-index.xml
-
-# Host preference (canonical domain)
-Host: https://www.keykingslocksmithsc.com
