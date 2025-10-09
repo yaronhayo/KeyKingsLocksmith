@@ -24,9 +24,9 @@ const keywords = area.data.seo?.keywords || [`locksmith ${area.data.city} SC`, `
 
 // Breadcrumb schema
 const breadcrumbData = [
-  { name: 'Home', url: 'https://keykingslocksmithsc.com' },
-  { name: 'Service Areas', url: 'https://keykingslocksmithsc.com/service-areas' },
-  { name: `${area.data.city}, ${area.data.state}`, url: `https://keykingslocksmithsc.com/service-areas/${area.slug}` }
+  { name: 'Home', url: 'https://www.keykingslocksmithsc.com' },
+  { name: 'Service Areas', url: 'https://www.keykingslocksmithsc.com/service-areas' },
+  { name: `${area.data.city}, ${area.data.state}`, url: `https://www.keykingslocksmithsc.com/service-areas/${area.slug}` }
 ];
 
 // Local Business Schema for this service area
@@ -37,8 +37,8 @@ const localBusinessSchema = {
   "description": description,
   "telephone": companyConfig.contact.phone.formatted,
   "priceRange": "$$",
-  "url": `https://keykingslocksmithsc.com/service-areas/${area.slug}`,
-  "image": area.data.image || "https://keykingslocksmithsc.com/images/brand/logo-text.svg",
+  "url": `https://www.keykingslocksmithsc.com/service-areas/${area.slug}`,
+  "image": area.data.image || "https://www.keykingslocksmithsc.com/images/brand/logo-text.svg",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": area.data.city,

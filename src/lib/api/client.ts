@@ -4,7 +4,7 @@ import { ValidationError, RateLimitError, AppError } from '../../types';
 
 // API Configuration
 const API_CONFIG = {
-  baseURL: import.meta.env.SITE_URL || (typeof window !== 'undefined' ? window.location.origin : 'https://keykingslocksmithsc.com'),
+  baseURL: import.meta.env.SITE_URL || (typeof window !== 'undefined' ? window.location.origin : 'https://www.keykingslocksmithsc.com'),
   timeout: 10000,
   retries: 3,
   retryDelay: 1000,

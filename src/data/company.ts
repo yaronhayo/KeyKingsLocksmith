@@ -398,7 +398,7 @@ export const getSchemaOrgData = () => ({
   "@type": "LocalBusiness",
   "name": companyConfig.name,
   "description": companyConfig.description,
-  "url": "https://keykingslocksmithsc.com",
+  "url": "https://www.keykingslocksmithsc.com",
   "telephone": companyConfig.contact.phone.formatted,
   "email": companyConfig.contact.email.primary,
   "address": {
@@ -431,7 +431,7 @@ export const getSchemaOrgData = () => ({
   },
   "priceRange": companyConfig.seo.schema.priceRange,
   "image": [
-    "https://keykingslocksmithsc.com/images/brand/logo.png",
-    "https://keykingslocksmithsc.com/images/og/og-default.jpg"
+    "https://www.keykingslocksmithsc.com/images/brand/logo.png",
+    "https://www.keykingslocksmithsc.com/images/og/og-default.jpg"
   ]
 });

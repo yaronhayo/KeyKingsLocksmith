@@ -87,7 +87,7 @@ User-agent: WhatsApp
 Allow: /
 
 # === SITEMAPS ===
-Sitemap: https://keykingslocksmithsc.com/sitemap.xml
+Sitemap: https://www.keykingslocksmithsc.com/sitemap-index.xml
 
 # Host preference (canonical domain)
-Host: https://keykingslocksmithsc.com
+Host: https://www.keykingslocksmithsc.com
