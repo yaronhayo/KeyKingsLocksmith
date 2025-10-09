@@ -7,6 +7,10 @@ import react from '@astrojs/react';
 export default defineConfig({
   site: 'https://keykingslocksmithsc.com',
   output: 'static',
+  trailingSlash: 'never',
+  build: {
+    format: 'file'
+  },
   integrations: [
     tailwind({
       applyBaseStyles: false

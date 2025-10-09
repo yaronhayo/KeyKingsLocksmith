@@ -1,0 +1,258 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import FinalCTA from '../../components/sections/FinalCTA.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import { companyConfig, getPhoneLink, getFormattedPhone } from '../../data/company';
+
+export async function getStaticPaths() {
+  const serviceAreas = await getCollection('service-areas');
+  return serviceAreas.map((area) => ({
+    params: { slug: area.slug },
+    props: { area },
+  }));
+}
+
+const { area } = Astro.props;
+const { Content } = await area.render();
+
+const title = area.data.seo?.title || `Locksmith in ${area.data.city}, ${area.data.state} | Key Kings`;
+const description = area.data.seo?.description || `Professional locksmith services in ${area.data.city}, SC. Emergency lockouts, key replacement, lock installation. Call ${getFormattedPhone()} now.`;
+const keywords = area.data.seo?.keywords || [`locksmith ${area.data.city} SC`, `${area.data.city} locksmith`, `emergency locksmith ${area.data.city}`];
+
+// Breadcrumb schema
+const breadcrumbData = [
+  { name: 'Home', url: 'https://keykingslocksmithsc.com' },
+  { name: 'Service Areas', url: 'https://keykingslocksmithsc.com/service-areas' },
+  { name: `${area.data.city}, ${area.data.state}`, url: `https://keykingslocksmithsc.com/service-areas/${area.slug}` }
+];
+
+// Local Business Schema for this service area
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "Locksmith",
+  "name": companyConfig.name,
+  "description": description,
+  "telephone": companyConfig.contact.phone.formatted,
+  "priceRange": "$$",
+  "url": `https://keykingslocksmithsc.com/service-areas/${area.slug}`,
+  "image": area.data.image || "https://keykingslocksmithsc.com/images/brand/logo-text.svg",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": area.data.city,
+    "addressRegion": area.data.state,
+    "addressCountry": "US",
+    "postalCode": area.data.zipCodes?.[0] || ""
+  },
+  "geo": area.data.coordinates ? {
+    "@type": "GeoCoordinates",
+    "latitude": area.data.coordinates.lat,
+    "longitude": area.data.coordinates.lng
+  } : undefined,
+  "areaServed": {
+    "@type": "City",
+    "name": area.data.city,
+    "addressRegion": area.data.state
+  },
+  "serviceArea": {
+    "@type": "GeoCircle",
+    "geoMidpoint": {
+      "@type": "GeoCoordinates",
+      "latitude": area.data.coordinates?.lat || 34.5034,
+      "longitude": area.data.coordinates?.lng || -82.6501
+    },
+    "geoRadius": "30000"
+  },
+  "sameAs": [
+    companyConfig.social.facebook || "",
+    companyConfig.social.google || ""
+  ].filter(Boolean)
+};
+
+// Services offered in this area
+const services = [
+  {
+    icon: '<svg class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 8a6 6 0 01-7.743 5.743L10 14l-1 1-1 1H6v2H2v-4l4.257-4.257A6 6 0 1118 8zm-6-4a1 1 0 100 2 2 2 0 012 2 1 1 0 102 0 4 4 0 00-4-4z" clip-rule="evenodd"/></svg>',
+    title: 'Emergency Lockout Service',
+    description: `Locked out in ${area.data.city}? We provide fast, non-destructive entry for homes, cars, and businesses. Available during business hours with rapid response.`
+  },
+  {
+    icon: '<svg class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>',
+    title: 'Residential Locksmith',
+    description: `Complete home security solutions in ${area.data.city}. Lock rekeying, deadbolt installation, smart locks, master key systems, and home security upgrades.`
+  },
+  {
+    icon: '<svg class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20"><path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z"/></svg>',
+    title: 'Commercial Locksmith',
+    description: `Professional business security in ${area.data.city}. Master key systems, access control, panic bars, high-security locks, and code-compliant installations.`
+  },
+  {
+    icon: '<svg class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20"><path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/><path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z"/></svg>',
+    title: 'Automotive Locksmith',
+    description: `Car key services in ${area.data.city}. Lost car keys, key fob programming, ignition repair, transponder keys, and car lockouts for all makes and models.`
+  }
+];
+
+// Trust factors specific to this area
+const localTrustFactors = [
+  {
+    icon: '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>',
+    title: 'Local to Your Area',
+    description: `We know ${area.data.city} and provide mobile service directly to your location. Fast response times throughout all ZIP codes.`
+  },
+  {
+    icon: '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>',
+    title: 'Bonded & Insured',
+    description: 'Fully licensed, bonded, and insured professionals. Your property and security are protected throughout the service.'
+  },
+  {
+    icon: '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>',
+    title: 'Transparent Pricing',
+    description: 'Clear, upfront pricing before work begins. No surprises, no hidden fees. You know the cost before we start.'
+  },
+  {
+    icon: '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>',
+    title: '5,000+ Customers Served',
+    description: 'Trusted by thousands throughout Upstate SC since 2016. Real reviews from real customers in your community.'
+  }
+];
+
+// ZIP codes coverage
+const zipCodesText = area.data.zipCodes?.length > 0
+  ? area.data.zipCodes.join(', ')
+  : 'all areas';
+---
+
+<BaseLayout title={title} description={description} keywords={keywords}>
+  <Header />
+
+  <main>
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-900 text-white py-16 md:py-24">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <!-- Location Badge -->
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-gold-600/20 border border-gold-600/40 rounded-full mb-6">
+            <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+            </svg>
+            <span class="text-sm font-semibold text-gold-300">Serving {area.data.city}, {area.data.state}</span>
+          </div>
+
+          <h1 class="text-4xl md:text-6xl font-bold mb-6">
+            Professional Locksmith in<br />{area.data.city}, South Carolina
+          </h1>
+
+          <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
+            Fast, reliable locksmith services throughout {area.data.city} and surrounding areas. Emergency lockouts, residential, commercial, and automotive services.
+          </p>
+
+          <!-- ZIP Codes Coverage -->
+          <div class="mb-10 text-gray-400">
+            <p class="text-sm">
+              <span class="font-semibold text-white">Service ZIP Codes:</span> {zipCodesText}
+            </p>
+          </div>
+
+          <!-- CTA Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a
+              href={getPhoneLink()}
+              class="inline-flex items-center justify-center gap-3 px-8 py-4 text-lg font-bold rounded-lg transition-all duration-200 bg-gold-600 text-white hover:bg-gold-700 hover:text-white hover:scale-105 shadow-lg hover:shadow-xl w-full sm:w-auto"
+            >
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+              </svg>
+              <span>Call {getFormattedPhone()}</span>
+            </a>
+
+            <a
+              href="/book-service"
+              class="inline-flex items-center justify-center gap-3 px-8 py-4 text-lg font-bold rounded-lg transition-all duration-200 border-2 border-white text-white hover:bg-white hover:text-charcoal-900 hover:scale-105 shadow-lg hover:shadow-xl w-full sm:w-auto"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <span>Book Service Online</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content from Markdown -->
+    <section class="py-16 md:py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto prose prose-lg prose-charcoal">
+          <Content />
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section class="py-16 md:py-20 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-5xl font-bold text-charcoal-900 mb-4">
+              Locksmith Services in {area.data.city}
+            </h2>
+            <p class="text-xl text-charcoal-600 max-w-3xl mx-auto">
+              Comprehensive security solutions for homes, businesses, and vehicles throughout {area.data.city} and Upstate South Carolina.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {services.map((service) => (
+              <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-200">
+                <div class="text-gold-600 mb-4" set:html={service.icon} />
+                <h3 class="text-2xl font-bold text-charcoal-900 mb-3">{service.title}</h3>
+                <p class="text-charcoal-600 leading-relaxed">{service.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Factors -->
+    <section class="py-16 md:py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-5xl font-bold text-charcoal-900 mb-4">
+              Why Choose Key Kings in {area.data.city}?
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {localTrustFactors.map((factor) => (
+              <div class="text-center">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-gold-100 text-gold-600 rounded-full mb-4" set:html={factor.icon} />
+                <h3 class="text-xl font-bold text-charcoal-900 mb-2">{factor.title}</h3>
+                <p class="text-charcoal-600 text-sm">{factor.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <FinalCTA
+      variant="default"
+      showHours={true}
+      showServiceAreas={false}
+      headline={`Ready to Help in ${area.data.city}`}
+      subheadline={`Whether you need emergency lockout service, security upgrades, or key replacement in ${area.data.city}—we're here. Call now or book online for fast, professional service.`}
+    />
+  </main>
+
+  <Footer />
+
+  <!-- Schema Markup -->
+  <SchemaMarkup type="breadcrumb" data={breadcrumbData} />
+  <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
+</BaseLayout>
