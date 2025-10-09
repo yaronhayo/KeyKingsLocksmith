@@ -8,6 +8,8 @@ export interface Props {
   showHours?: boolean;
   showServiceAreas?: boolean;
   class?: string;
+  headline?: string;
+  subheadline?: string;
 }
 
 const {
@@ -15,6 +17,8 @@ const {
   showHours = true,
   showServiceAreas = true,
   class: className = '',
+  headline = 'Ready to Get Started?',
+  subheadline = 'Whether you have questions about our services, need a security consultation, or require immediate help—we\'re here. Licensed, bonded, and insured professionals serving Anderson and Upstate South Carolina.',
 } = Astro.props;
 
 const backgroundStyles = {
@@ -33,12 +37,12 @@ const primaryAreas = companyConfig.serviceAreas.primary.slice(0, 4).join(', ');
     <div class="max-w-4xl mx-auto text-center">
       <!-- Main Headline -->
       <h2 class="text-3xl md:text-5xl font-bold mb-4 md:mb-6">
-        Ready to Get Started?
+        {headline}
       </h2>
 
       <!-- Subheadline -->
       <p class={`text-lg md:text-xl mb-8 md:mb-10 ${variant === 'gradient' || variant === 'compact' ? 'text-charcoal-700' : 'text-white/95'}`}>
-        Whether you have questions about our services, need a security consultation, or require immediate help—we're here. Licensed, bonded, and insured professionals serving Anderson and Upstate South Carolina.
+        {subheadline}
       </p>
 
       <!-- Primary CTA Buttons -->
